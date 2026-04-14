@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 
 <html lang="en">
 <head>
@@ -17,15 +17,15 @@ body::before { content: ''; position: fixed; inset: 0; background-image: linear-
 .topnav-inner { display: flex; align-items: center; justify-content: space-between; padding: 0 20px; height: 56px; gap: 12px; }
 .brand { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 .brand-icon { width: 30px; height: 30px; border-radius: 7px; background: linear-gradient(135deg,#f97316,#c2410c); box-shadow: 0 0 14px rgba(249,115,22,0.5); display: flex; align-items: center; justify-content: center; font-size: 14px; }
-.brand-name { font-family: ‘Syne’, sans-serif; font-size: 14px; font-weight: 800; color: #e8edf5; letter-spacing: -0.3px; }
+.brand-name { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 800; color: #e8edf5; letter-spacing: -0.3px; }
 .nav-scroll { display: flex; align-items: center; gap: 3px; overflow-x: auto; flex: 1; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding: 0 8px; }
 .nav-scroll::-webkit-scrollbar { display: none; }
-.ntab { padding: 6px 11px; border-radius: 7px; cursor: pointer; white-space: nowrap; font-size: 12px; font-weight: 500; color: #8fa3c0; border: 1px solid transparent; background: transparent; font-family: ‘DM Sans’, sans-serif; transition: all 0.15s; flex-shrink: 0; }
+.ntab { padding: 6px 11px; border-radius: 7px; cursor: pointer; white-space: nowrap; font-size: 12px; font-weight: 500; color: #8fa3c0; border: 1px solid transparent; background: transparent; font-family: 'DM Sans', sans-serif; transition: all 0.15s; flex-shrink: 0; }
 .ntab:hover { background: rgba(255,255,255,0.05); color: #e8edf5; }
 .ntab.on { background: rgba(249,115,22,0.14); border-color: rgba(249,115,22,0.35); color: #fb923c; }
 .ntab.live { border-color: rgba(52,211,153,0.3); color: #34d399; background: rgba(52,211,153,0.07); }
 .nav-status { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #34d399; flex-shrink: 0; white-space: nowrap; }
-.nav-status::before { content: ‘’; width: 6px; height: 6px; border-radius: 50%; background: #34d399; box-shadow: 0 0 7px #34d399; animation: pulse 2s ease infinite; }
+.nav-status::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #34d399; box-shadow: 0 0 7px #34d399; animation: pulse 2s ease infinite; }
 
 /* MAIN */
 .main { background: #080c18; min-height: 100vh; position: relative; z-index: 1; }
@@ -34,13 +34,13 @@ body::before { content: ''; position: fixed; inset: 0; background-image: linear-
 
 /* HOME */
 .hero { text-align: center; padding: 14px 0 18px; }
-.hero h1 { font-family: ‘Syne’, sans-serif; font-size: 40px; font-weight: 800; letter-spacing: -1.4px; line-height: 1.1; color: #e8edf5; margin-bottom: 8px; }
+.hero h1 { font-family: 'Syne', sans-serif; font-size: 40px; font-weight: 800; letter-spacing: -1.4px; line-height: 1.1; color: #e8edf5; margin-bottom: 8px; }
 .gtxt { background: linear-gradient(90deg,#fb923c,#fdba74); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .hero-badge { display: inline-flex; align-items: center; gap: 7px; padding: 7px 14px; border-radius: 999px; border: 1px solid rgba(249,115,22,0.35); background: rgba(249,115,22,0.12); color: #fb923c; font-size: 12px; margin-bottom: 18px; }
-.hero-badge::before { content: ‘’; width: 5px; height: 5px; border-radius: 50%; background: #34d399; box-shadow: 0 0 6px #34d399; animation: pulse 2s ease infinite; }
+.hero-badge::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #34d399; box-shadow: 0 0 6px #34d399; animation: pulse 2s ease infinite; }
 .ops-card { background: #0f1623; border: 1px solid rgba(249,115,22,0.28); border-radius: 14px; padding: 18px 20px; margin-bottom: 20px; position: relative; overflow: hidden; }
-.ops-card::before { content: ‘’; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg,transparent,#f97316,transparent); opacity: 0.55; }
-.ops-card h3 { font-family: ‘Syne’, sans-serif; font-size: 16px; font-weight: 700; color: #e8edf5; margin-bottom: 6px; }
+.ops-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg,transparent,#f97316,transparent); opacity: 0.55; }
+.ops-card h3 { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: #e8edf5; margin-bottom: 6px; }
 .ops-card p { color: #8fa3c0; font-size: 13px; line-height: 1.6; }
 
 .grid3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
@@ -48,7 +48,7 @@ body::before { content: ''; position: fixed; inset: 0; background-image: linear-
 .stile:hover { border-color: rgba(249,115,22,0.35); background: #161e30; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(249,115,22,0.1); }
 .stile.live-tile { border-color: rgba(52,211,153,0.28); background: linear-gradient(180deg,rgba(52,211,153,0.06),#0f1623); }
 .stile-icon { font-size: 18px; margin-bottom: 7px; }
-.stile-title { font-family: ‘Syne’, sans-serif; font-size: 12px; font-weight: 700; color: #e8edf5; margin-bottom: 3px; }
+.stile-title { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; color: #e8edf5; margin-bottom: 3px; }
 .stile-desc { font-size: 11px; color: #4a6080; line-height: 1.4; margin-bottom: 8px; }
 .sbadge { display: inline-flex; padding: 2px 7px; border-radius: 999px; font-size: 9px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; }
 .sb-live { color: #34d399; border: 1px solid rgba(52,211,153,0.3); background: rgba(52,211,153,0.1); }
@@ -56,24 +56,24 @@ body::before { content: ''; position: fixed; inset: 0; background-image: linear-
 
 /* SECTION */
 .eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #fb923c; margin-bottom: 7px; }
-.sec-title { font-family: ‘Syne’, sans-serif; font-size: 30px; font-weight: 800; letter-spacing: -0.8px; line-height: 1.1; color: #e8edf5; margin-bottom: 7px; }
+.sec-title { font-family: 'Syne', sans-serif; font-size: 30px; font-weight: 800; letter-spacing: -0.8px; line-height: 1.1; color: #e8edf5; margin-bottom: 7px; }
 .sec-sub { font-size: 13px; color: #8fa3c0; max-width: 540px; line-height: 1.6; margin-bottom: 22px; }
 
 /* CARD */
 .card { background: #0f1623; border: 1px solid rgba(255,255,255,0.07); border-radius: 14px; padding: 24px; margin-bottom: 14px; position: relative; overflow: hidden; }
-.card::before { content: ‘’; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg,transparent,#f97316,transparent); opacity: 0.4; }
+.card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg,transparent,#f97316,transparent); opacity: 0.4; }
 .row2 { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
 .row2 > * { flex: 1; min-width: 160px; }
 .flabel { display: block; font-size: 11px; font-weight: 500; color: #8fa3c0; margin-bottom: 5px; }
-.inp { width: 100%; background: #161e30; border: 1px solid rgba(249,115,22,0.28); border-radius: 9px; padding: 10px 12px; color: #e8edf5; font-family: ‘DM Sans’, sans-serif; font-size: 14px; outline: none; -webkit-appearance: none; }
+.inp { width: 100%; background: #161e30; border: 1px solid rgba(249,115,22,0.28); border-radius: 9px; padding: 10px 12px; color: #e8edf5; font-family: 'DM Sans', sans-serif; font-size: 14px; outline: none; -webkit-appearance: none; }
 .inp:focus { border-color: #f97316; box-shadow: 0 0 0 3px rgba(249,115,22,0.12); }
 .inp::placeholder { color: #4a6080; }
-.sel { width: 100%; background: #161e30; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 9px 11px; color: #e8edf5; font-family: ‘DM Sans’, sans-serif; font-size: 13px; outline: none; cursor: pointer; -webkit-appearance: none; appearance: none; background-image: url(“data:image/svg+xml,%3Csvg xmlns=‘http://www.w3.org/2000/svg’ width=‘10’ height=‘10’ viewBox=‘0 0 12 12’%3E%3Cpath fill=’%238fa3c0’ d=‘M6 8L1 3h10z’/%3E%3C/svg%3E”); background-repeat: no-repeat; background-position: right 10px center; }
+.sel { width: 100%; background: #161e30; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 9px 11px; color: #e8edf5; font-family: 'DM Sans', sans-serif; font-size: 13px; outline: none; cursor: pointer; -webkit-appearance: none; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 12 12'%3E%3Cpath fill='%238fa3c0' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; }
 .sel option { background: #0f1623; }
-.btn-main { width: 100%; margin-top: 14px; padding: 13px; background: linear-gradient(135deg,#f97316,#c2410c); border: none; border-radius: 9px; color: #fff; font-family: ‘Syne’, sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 18px rgba(249,115,22,0.28); display: flex; align-items: center; justify-content: center; gap: 7px; -webkit-appearance: none; transition: opacity 0.2s; }
+.btn-main { width: 100%; margin-top: 14px; padding: 13px; background: linear-gradient(135deg,#f97316,#c2410c); border: none; border-radius: 9px; color: #fff; font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 18px rgba(249,115,22,0.28); display: flex; align-items: center; justify-content: center; gap: 7px; -webkit-appearance: none; transition: opacity 0.2s; }
 .btn-main:hover { opacity: 0.9; }
 .btn-main:disabled { opacity: 0.4; cursor: not-allowed; }
-.bsm { padding: 5px 11px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.08); background: transparent; color: #8fa3c0; font-family: ‘DM Sans’, sans-serif; font-size: 11px; font-weight: 500; cursor: pointer; transition: all 0.15s; -webkit-appearance: none; }
+.bsm { padding: 5px 11px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.08); background: transparent; color: #8fa3c0; font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500; cursor: pointer; transition: all 0.15s; -webkit-appearance: none; }
 .bsm:hover { border-color: rgba(249,115,22,0.35); color: #fb923c; background: rgba(249,115,22,0.09); }
 .bsm.ok { border-color: rgba(52,211,153,0.3); color: #34d399; background: rgba(52,211,153,0.08); }
 .bsm.ora { border-color: rgba(249,115,22,0.35); color: #fb923c; background: rgba(249,115,22,0.09); }
@@ -84,13 +84,13 @@ body::before { content: ''; position: fixed; inset: 0; background-image: linear-
 .ebar { display: none; padding: 11px 16px; background: rgba(239,68,68,0.07); border: 1px solid rgba(239,68,68,0.25); border-radius: 9px; margin-bottom: 12px; font-size: 13px; color: #fca5a5; }
 .svbar { display: none; align-items: center; background: rgba(52,211,153,0.07); border: 1px solid rgba(52,211,153,0.2); border-radius: 12px; padding: 12px 0; margin-bottom: 12px; }
 .svstat { flex: 1; text-align: center; padding: 0 10px; }
-.svnum { font-family: ‘Syne’, sans-serif; font-size: 22px; font-weight: 800; color: #34d399; letter-spacing: -0.5px; }
+.svnum { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; color: #34d399; letter-spacing: -0.5px; }
 .svlbl { font-size: 9px; color: #4a6080; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
 .svdiv { width: 1px; height: 30px; background: rgba(52,211,153,0.18); flex-shrink: 0; }
 .outcard { display: none; background: #0f1623; border: 1px solid rgba(255,255,255,0.07); border-radius: 14px; overflow: hidden; }
 .outhdr { display: flex; align-items: center; justify-content: space-between; padding: 11px 18px; border-bottom: 1px solid rgba(255,255,255,0.07); background: #161e30; flex-wrap: wrap; gap: 8px; }
-.outtitle { font-family: ‘Syne’, sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: #34d399; display: flex; align-items: center; gap: 6px; }
-.outtitle::before { content: ‘’; width: 5px; height: 5px; border-radius: 50%; background: #34d399; box-shadow: 0 0 7px #34d399; animation: pulse 2s ease infinite; }
+.outtitle { font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: #34d399; display: flex; align-items: center; gap: 6px; }
+.outtitle::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #34d399; box-shadow: 0 0 7px #34d399; animation: pulse 2s ease infinite; }
 .outacts { display: flex; gap: 7px; align-items: center; flex-wrap: wrap; }
 .outcnt { font-size: 11px; color: #34d399; font-weight: 600; }
 .outbody { max-height: 580px; overflow-y: auto; overflow-x: auto; }
@@ -113,14 +113,14 @@ body::before { content: ''; position: fixed; inset: 0; background-image: linear-
 
 /* CRM */
 .crm-top { display: flex; align-items: center; justify-content: space-between; padding: 14px 22px; border-bottom: 1px solid rgba(255,255,255,0.07); background: #0f1623; flex-wrap: wrap; gap: 10px; }
-.crm-ttl { font-family: ‘Syne’, sans-serif; font-size: 20px; font-weight: 800; color: #e8edf5; display: flex; align-items: center; gap: 10px; }
+.crm-ttl { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: #e8edf5; display: flex; align-items: center; gap: 10px; }
 .crm-stats { display: flex; gap: 18px; flex-wrap: wrap; }
 .cs { text-align: center; }
-.cs-n { font-family: ‘Syne’, sans-serif; font-size: 18px; font-weight: 800; color: #fb923c; }
+.cs-n { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; color: #fb923c; }
 .cs-l { font-size: 9px; color: #4a6080; text-transform: uppercase; letter-spacing: 0.5px; }
 .crm-acts { display: flex; gap: 7px; }
 .crm-tabs { display: flex; border-bottom: 1px solid rgba(255,255,255,0.07); background: #0f1623; padding: 0 22px; }
-.ctab { padding: 11px 16px; font-size: 12px; font-weight: 500; color: #8fa3c0; cursor: pointer; border-bottom: 2px solid transparent; background: transparent; border-top: none; border-left: none; border-right: none; font-family: ‘DM Sans’, sans-serif; -webkit-appearance: none; transition: all 0.15s; white-space: nowrap; }
+.ctab { padding: 11px 16px; font-size: 12px; font-weight: 500; color: #8fa3c0; cursor: pointer; border-bottom: 2px solid transparent; background: transparent; border-top: none; border-left: none; border-right: none; font-family: 'DM Sans', sans-serif; -webkit-appearance: none; transition: all 0.15s; white-space: nowrap; }
 .ctab:hover { color: #e8edf5; }
 .ctab.on { color: #fb923c; border-bottom-color: #f97316; }
 .tcnt { display: inline-flex; align-items: center; justify-content: center; width: 17px; height: 17px; border-radius: 50%; background: rgba(249,115,22,0.2); color: #fb923c; font-size: 9px; font-weight: 700; margin-left: 5px; }
@@ -128,7 +128,7 @@ body::before { content: ''; position: fixed; inset: 0; background-image: linear-
 .kboard { display: flex; gap: 12px; min-width: max-content; align-items: flex-start; }
 .kcol { width: 270px; flex-shrink: 0; }
 .kcol-hd { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; padding: 0 3px; }
-.kcol-title { font-family: ‘Syne’, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+.kcol-title { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
 .kcol-cnt { font-size: 11px; color: #4a6080; font-weight: 600; }
 .col-new .kcol-title { color: #8fa3c0; }
 .col-emailed .kcol-title { color: #fb923c; }
@@ -145,7 +145,7 @@ body::before { content: ''; position: fixed; inset: 0; background-image: linear-
 .kcard.sp { border-left: 3px solid #fb923c; }
 .kcard.sw { border-left: 3px solid #34d399; }
 .kcard.sx { border-left: 3px solid #4a6080; }
-.kbiz { font-family: ‘Syne’, sans-serif; font-size: 12px; font-weight: 700; color: #e8edf5; margin-bottom: 3px; }
+.kbiz { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; color: #e8edf5; margin-bottom: 3px; }
 .kcon { font-size: 10px; color: #fb923c; margin-bottom: 5px; }
 .ktype { font-size: 10px; color: #4a6080; margin-bottom: 7px; }
 .kmeta { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 7px; }
@@ -154,7 +154,7 @@ body::before { content: ''; position: fixed; inset: 0; background-image: linear-
 .ktag.fu { background: rgba(251,191,36,0.1); color: #fbbf24; border: 1px solid rgba(251,191,36,0.2); }
 .ktag.ov { background: rgba(239,68,68,0.1); color: #fca5a5; border: 1px solid rgba(239,68,68,0.2); }
 .kacts { display: flex; gap: 5px; margin-top: 7px; }
-.kbtn { padding: 3px 9px; border-radius: 4px; font-size: 10px; font-weight: 600; cursor: pointer; border: 1px solid rgba(255,255,255,0.08); background: transparent; color: #8fa3c0; font-family: ‘DM Sans’, sans-serif; -webkit-appearance: none; transition: all 0.12s; }
+.kbtn { padding: 3px 9px; border-radius: 4px; font-size: 10px; font-weight: 600; cursor: pointer; border: 1px solid rgba(255,255,255,0.08); background: transparent; color: #8fa3c0; font-family: 'DM Sans', sans-serif; -webkit-appearance: none; transition: all 0.12s; }
 .kbtn:hover { border-color: rgba(249,115,22,0.35); color: #fb923c; background: rgba(249,115,22,0.09); }
 .kdays { position: absolute; top: 9px; right: 9px; font-size: 9px; color: #4a6080; }
 .kempty { padding: 20px; text-align: center; color: #4a6080; font-size: 12px; border: 1px dashed rgba(255,255,255,0.08); border-radius: 9px; }
@@ -171,7 +171,7 @@ body::before { content: ''; position: fixed; inset: 0; background-image: linear-
 .mcard::-webkit-scrollbar-thumb { background: rgba(249,115,22,0.3); }
 .mclose { position: absolute; top: 12px; right: 12px; width: 26px; height: 26px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.04); color: #8fa3c0; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; -webkit-appearance: none; }
 .mclose:hover { border-color: rgba(249,115,22,0.35); color: #fb923c; }
-.mtitle { font-family: ‘Syne’, sans-serif; font-size: 18px; font-weight: 800; color: #e8edf5; margin-bottom: 5px; }
+.mtitle { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; color: #e8edf5; margin-bottom: 5px; }
 .msub { font-size: 13px; color: #8fa3c0; margin-bottom: 18px; }
 .csi { display: flex; align-items: center; gap: 12px; padding: 12px; background: #161e30; border: 1px solid rgba(255,255,255,0.07); border-radius: 9px; cursor: pointer; transition: all 0.12s; margin-bottom: 8px; }
 .csi:hover { border-color: rgba(249,115,22,0.28); }
@@ -186,7 +186,7 @@ body::before { content: ''; position: fixed; inset: 0; background-image: linear-
 .dfl { font-size: 10px; color: #4a6080; margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
 .dfv { font-size: 12px; color: #e8edf5; font-weight: 500; }
 .stage-row { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 14px; }
-.sbtn { padding: 5px 10px; border-radius: 5px; font-size: 10px; font-weight: 600; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); background: transparent; color: #8fa3c0; font-family: ‘DM Sans’, sans-serif; -webkit-appearance: none; transition: all 0.12s; }
+.sbtn { padding: 5px 10px; border-radius: 5px; font-size: 10px; font-weight: 600; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); background: transparent; color: #8fa3c0; font-family: 'DM Sans', sans-serif; -webkit-appearance: none; transition: all 0.12s; }
 .sbtn:hover { border-color: rgba(249,115,22,0.35); color: #fb923c; background: rgba(249,115,22,0.09); }
 .sbtn.cur { border-color: rgba(249,115,22,0.5); color: #fb923c; background: rgba(249,115,22,0.14); }
 .clist { display: flex; flex-direction: column; gap: 7px; }
@@ -207,19 +207,19 @@ body::before { content: ''; position: fixed; inset: 0; background-image: linear-
 .logform { background: #161e30; border-radius: 9px; padding: 12px; margin-top: 9px; }
 .logrow { display: flex; gap: 7px; margin-bottom: 7px; flex-wrap: wrap; }
 .logrow > * { flex: 1; min-width: 110px; }
-.lgtxt { width: 100%; background: #0f1623; border: 1px solid rgba(255,255,255,0.07); border-radius: 7px; padding: 9px 11px; color: #e8edf5; font-family: ‘DM Sans’, sans-serif; font-size: 12px; outline: none; resize: vertical; min-height: 60px; -webkit-appearance: none; }
+.lgtxt { width: 100%; background: #0f1623; border: 1px solid rgba(255,255,255,0.07); border-radius: 7px; padding: 9px 11px; color: #e8edf5; font-family: 'DM Sans', sans-serif; font-size: 12px; outline: none; resize: vertical; min-height: 60px; -webkit-appearance: none; }
 .lgtxt:focus { border-color: rgba(249,115,22,0.35); }
 
 /* SHELL */
 .shgrid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 16px; }
 .shblock { background: #0f1623; border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 16px; }
-.shblock h4 { font-family: ‘Syne’, sans-serif; font-size: 13px; margin-bottom: 9px; color: #e8edf5; }
+.shblock h4 { font-family: 'Syne', sans-serif; font-size: 13px; margin-bottom: 9px; color: #e8edf5; }
 .shlist { display: grid; gap: 7px; }
 .shlist div { padding: 9px 11px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.07); border-radius: 8px; color: #8fa3c0; font-size: 12px; }
 .pholder { min-height: 240px; display: grid; place-items: center; text-align: center; border: 1px dashed rgba(255,255,255,0.1); border-radius: 11px; color: #4a6080; font-size: 12px; padding: 18px; }
 
 /* DIVIDER */
-.sectdiv { font-family: ‘Syne’, sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #fb923c; margin-bottom: 9px; margin-top: 14px; }
+.sectdiv { font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #fb923c; margin-bottom: 9px; margin-top: 14px; }
 
 @keyframes fadeIn { from{opacity:0;transform:translateY(7px)} to{opacity:1;transform:translateY(0)} }
 @keyframes spin { to{transform:rotate(360deg)} }
@@ -249,19 +249,19 @@ body::before { content: ''; position: fixed; inset: 0; background-image: linear-
       <div class="brand-name">Breakout AI</div>
     </div>
     <div class="nav-scroll">
-      <button class="ntab on" onclick="go('home')" id="nt-home">&#127968; Overview</button>
-      <button class="ntab live" onclick="go('leads')" id="nt-leads">&#127919; Find Leads</button>
-      <button class="ntab live" onclick="go('crm')" id="nt-crm">&#128231; Smart CRM</button>
-      <button class="ntab" onclick="go('seo')" id="nt-seo">&#128269; SEO+AEO</button>
-      <button class="ntab" onclick="go('phone')" id="nt-phone">&#128222; Phone Agent</button>
-      <button class="ntab" onclick="go('proposals')" id="nt-proposals">&#128203; Proposals</button>
-      <button class="ntab" onclick="go('contracts')" id="nt-contracts">&#9997; Contracts</button>
-      <button class="ntab" onclick="go('invoicing')" id="nt-invoicing">&#128176; Invoicing</button>
-      <button class="ntab" onclick="go('followup')" id="nt-followup">&#128172; Follow-Up</button>
-      <button class="ntab" onclick="go('social')" id="nt-social">&#128241; Social</button>
-      <button class="ntab" onclick="go('ads')" id="nt-ads">&#128227; Ads</button>
-      <button class="ntab" onclick="go('newsletter')" id="nt-newsletter">&#9993; Newsletter</button>
-      <button class="ntab" onclick="go('dashboard')" id="nt-dashboard">&#128202; Dashboard</button>
+      <button class="ntab on" data-go="home" id="nt-home">&#127968; Overview</button>
+      <button class="ntab live" data-go="leads" id="nt-leads">&#127919; Find Leads</button>
+      <button class="ntab live" data-go="crm" id="nt-crm">&#128231; Smart CRM</button>
+      <button class="ntab" data-go="seo" id="nt-seo">&#128269; SEO+AEO</button>
+      <button class="ntab" data-go="phone" id="nt-phone">&#128222; Phone Agent</button>
+      <button class="ntab" data-go="proposals" id="nt-proposals">&#128203; Proposals</button>
+      <button class="ntab" data-go="contracts" id="nt-contracts">&#9997; Contracts</button>
+      <button class="ntab" data-go="invoicing" id="nt-invoicing">&#128176; Invoicing</button>
+      <button class="ntab" data-go="followup" id="nt-followup">&#128172; Follow-Up</button>
+      <button class="ntab" data-go="social" id="nt-social">&#128241; Social</button>
+      <button class="ntab" data-go="ads" id="nt-ads">&#128227; Ads</button>
+      <button class="ntab" data-go="newsletter" id="nt-newsletter">&#9993; Newsletter</button>
+      <button class="ntab" data-go="dashboard" id="nt-dashboard">&#128202; Dashboard</button>
     </div>
     <div class="nav-status">AI Online</div>
   </div>
@@ -283,18 +283,18 @@ body::before { content: ''; position: fixed; inset: 0; background-image: linear-
     <p>Find Leads and Smart CRM are live. Scrape leads, import contacts, and manage your pipeline from Lead to Prospect to Account &#8212; all in one place.</p>
   </div>
   <div class="grid3">
-    <div class="stile live-tile" onclick="go('leads')"><div class="stile-icon">&#127919;</div><div class="stile-title">Find Leads</div><div class="stile-desc">Live Google Places scraper &#8212; real businesses, phone, address, rating.</div><span class="sbadge sb-live">LIVE</span></div>
-    <div class="stile live-tile" onclick="go('crm')"><div class="stile-icon">&#128231;</div><div class="stile-title">Smart CRM</div><div class="stile-desc">Lead to Prospect to Account kanban with contacts and activity log.</div><span class="sbadge sb-live">LIVE</span></div>
-    <div class="stile" onclick="go('seo')"><div class="stile-icon">&#128269;</div><div class="stile-title">SEO + AEO</div><div class="stile-desc">Keywords, city pages, answer blocks, metadata.</div><span class="sbadge sb-shell">Shell Ready</span></div>
-    <div class="stile" onclick="go('phone')"><div class="stile-icon">&#128222;</div><div class="stile-title">Phone Agent</div><div class="stile-desc">AI call flows, transfer logic, logging.</div><span class="sbadge sb-shell">Shell Ready</span></div>
-    <div class="stile" onclick="go('proposals')"><div class="stile-icon">&#128203;</div><div class="stile-title">Proposals</div><div class="stile-desc">Notes to scope, pricing, send-ready proposal.</div><span class="sbadge sb-shell">Shell Ready</span></div>
-    <div class="stile" onclick="go('contracts')"><div class="stile-icon">&#9997;</div><div class="stile-title">Contracts</div><div class="stile-desc">Generate contracts, track signatures.</div><span class="sbadge sb-shell">Shell Ready</span></div>
-    <div class="stile" onclick="go('invoicing')"><div class="stile-icon">&#128176;</div><div class="stile-title">Invoicing</div><div class="stile-desc">Invoice creation, reminders, payment view.</div><span class="sbadge sb-shell">Shell Ready</span></div>
-    <div class="stile" onclick="go('followup')"><div class="stile-icon">&#128172;</div><div class="stile-title">Follow-Up SMS</div><div class="stile-desc">Automated text follow-up and deal nudges.</div><span class="sbadge sb-shell">Shell Ready</span></div>
-    <div class="stile" onclick="go('social')"><div class="stile-icon">&#128241;</div><div class="stile-title">Social Media</div><div class="stile-desc">Post drafts, scheduling, approvals.</div><span class="sbadge sb-shell">Shell Ready</span></div>
-    <div class="stile" onclick="go('ads')"><div class="stile-icon">&#128227;</div><div class="stile-title">Ad Campaigns</div><div class="stile-desc">Campaign setup, offers, targeting.</div><span class="sbadge sb-shell">Shell Ready</span></div>
-    <div class="stile" onclick="go('newsletter')"><div class="stile-icon">&#9993;</div><div class="stile-title">Newsletter</div><div class="stile-desc">Newsletter planning, drafting, scheduling.</div><span class="sbadge sb-shell">Shell Ready</span></div>
-    <div class="stile" onclick="go('dashboard')"><div class="stile-icon">&#128202;</div><div class="stile-title">Dashboard</div><div class="stile-desc">Live ops summary and cross-station visibility.</div><span class="sbadge sb-shell">Shell Ready</span></div>
+    <div class="stile live-tile" data-go="leads"><div class="stile-icon">&#127919;</div><div class="stile-title">Find Leads</div><div class="stile-desc">Live Google Places scraper &#8212; real businesses, phone, address, rating.</div><span class="sbadge sb-live">LIVE</span></div>
+    <div class="stile live-tile" data-go="crm"><div class="stile-icon">&#128231;</div><div class="stile-title">Smart CRM</div><div class="stile-desc">Lead to Prospect to Account kanban with contacts and activity log.</div><span class="sbadge sb-live">LIVE</span></div>
+    <div class="stile" data-go="seo"><div class="stile-icon">&#128269;</div><div class="stile-title">SEO + AEO</div><div class="stile-desc">Keywords, city pages, answer blocks, metadata.</div><span class="sbadge sb-shell">Shell Ready</span></div>
+    <div class="stile" data-go="phone"><div class="stile-icon">&#128222;</div><div class="stile-title">Phone Agent</div><div class="stile-desc">AI call flows, transfer logic, logging.</div><span class="sbadge sb-shell">Shell Ready</span></div>
+    <div class="stile" data-go="proposals"><div class="stile-icon">&#128203;</div><div class="stile-title">Proposals</div><div class="stile-desc">Notes to scope, pricing, send-ready proposal.</div><span class="sbadge sb-shell">Shell Ready</span></div>
+    <div class="stile" data-go="contracts"><div class="stile-icon">&#9997;</div><div class="stile-title">Contracts</div><div class="stile-desc">Generate contracts, track signatures.</div><span class="sbadge sb-shell">Shell Ready</span></div>
+    <div class="stile" data-go="invoicing"><div class="stile-icon">&#128176;</div><div class="stile-title">Invoicing</div><div class="stile-desc">Invoice creation, reminders, payment view.</div><span class="sbadge sb-shell">Shell Ready</span></div>
+    <div class="stile" data-go="followup"><div class="stile-icon">&#128172;</div><div class="stile-title">Follow-Up SMS</div><div class="stile-desc">Automated text follow-up and deal nudges.</div><span class="sbadge sb-shell">Shell Ready</span></div>
+    <div class="stile" data-go="social"><div class="stile-icon">&#128241;</div><div class="stile-title">Social Media</div><div class="stile-desc">Post drafts, scheduling, approvals.</div><span class="sbadge sb-shell">Shell Ready</span></div>
+    <div class="stile" data-go="ads"><div class="stile-icon">&#128227;</div><div class="stile-title">Ad Campaigns</div><div class="stile-desc">Campaign setup, offers, targeting.</div><span class="sbadge sb-shell">Shell Ready</span></div>
+    <div class="stile" data-go="newsletter"><div class="stile-icon">&#9993;</div><div class="stile-title">Newsletter</div><div class="stile-desc">Newsletter planning, drafting, scheduling.</div><span class="sbadge sb-shell">Shell Ready</span></div>
+    <div class="stile" data-go="dashboard"><div class="stile-icon">&#128202;</div><div class="stile-title">Dashboard</div><div class="stile-desc">Live ops summary and cross-station visibility.</div><span class="sbadge sb-shell">Shell Ready</span></div>
   </div>
 </div>
 
@@ -364,7 +364,7 @@ body::before { content: ''; position: fixed; inset: 0; background-image: linear-
     </div>
     <div class="crm-acts">
       <button class="bsm ora" onclick="openManual()">+ Add Manual</button>
-      <button class="bsm" onclick="go('leads')">&#8592; Find Leads</button>
+      <button class="bsm" data-go="leads">&#8592; Find Leads</button>
     </div>
   </div>
   <div class="crm-tabs">
@@ -749,32 +749,32 @@ function openDet(id) {
   html += '</div>';
   html += '<div style="margin-bottom:12px"><label class="flabel">Notes</label><textarea class="lgtxt" onchange="updF(\''+id+'\',\'notes\',this.value)" placeholder="Add notes...">'+esc(r.notes)+'</textarea></div>';
 
-html += ‘<div class="sectdiv">Contacts (’+((r.cons||[]).length)+’)</div><div class="clist">’;
+html += '<div class="sectdiv">Contacts ('+((r.cons||[]).length)+')</div><div class="clist">';
 if (r.cons&&r.cons.length) {
 for (var c=0;c<r.cons.length;c++) {
 var con = r.cons[c];
-html += ‘<div class="crow"><div class="cn">’+esc(con.name)+’</div><div class="ct">’+esc(con.title)+’</div><div class="ce">’+esc(con.email)+’</div><div class="ce">’+esc(con.phone)+’</div></div>’;
+html += '<div class="crow"><div class="cn">'+esc(con.name)+'</div><div class="ct">'+esc(con.title)+'</div><div class="ce">'+esc(con.email)+'</div><div class="ce">'+esc(con.phone)+'</div></div>';
 }
-} else { html += ‘<div style="color:#4a6080;font-size:12px;padding:10px">Apollo will enrich when connected.</div>’; }
-html += ‘</div>’;
-html += ‘<div class="sectdiv">Log Activity</div><div class="logform">’;
-html += ‘<div class="logrow"><select class="sel" id="lt-'+id+'" style="font-size:12px"><option value="email">Email</option><option value="call">Call</option><option value="text">Text</option><option value="note">Note</option></select>’;
-html += ‘<select class="sel" id="lo-'+id+'" style="font-size:12px"><option>No Answer</option><option>Left Voicemail</option><option>Spoke to Them</option><option>Not Interested</option><option>Interested</option><option>Meeting Booked</option></select></div>’;
-html += ‘<textarea class="lgtxt" id="ln-'+id+'" placeholder="Notes from this attempt..."></textarea>’;
-html += ‘<button class="bsm ora" style="margin-top:7px;padding:7px 13px" onclick="logAct(\''+id+'\')">+ Log</button></div>’;
+} else { html += '<div style="color:#4a6080;font-size:12px;padding:10px">Apollo will enrich when connected.</div>'; }
+html += '</div>';
+html += '<div class="sectdiv">Log Activity</div><div class="logform">';
+html += '<div class="logrow"><select class="sel" id="lt-'+id+'" style="font-size:12px"><option value="email">Email</option><option value="call">Call</option><option value="text">Text</option><option value="note">Note</option></select>';
+html += '<select class="sel" id="lo-'+id+'" style="font-size:12px"><option>No Answer</option><option>Left Voicemail</option><option>Spoke to Them</option><option>Not Interested</option><option>Interested</option><option>Meeting Booked</option></select></div>';
+html += '<textarea class="lgtxt" id="ln-'+id+'" placeholder="Notes from this attempt..."></textarea>';
+html += '<button class="bsm ora" style="margin-top:7px;padding:7px 13px" onclick="logAct(\''+id+'\')">+ Log</button></div>';
 if (r.acts&&r.acts.length) {
-var icons = {email:’📧’,call:’📞’,text:’💬’,note:’📝’};
-html += ‘<div class="alog" style="margin-top:9px">’;
+var icons = {email:'ð§',call:'ð',text:'ð¬',note:'ð'};
+html += '<div class="alog" style="margin-top:9px">';
 for (var a=0;a<r.acts.length;a++) {
 var ac = r.acts[a];
-html += ‘<div class="aitem"><div class="aico '+(ac.t||'note')+'">’+(icons[ac.t]||’📝’)+’</div><div><div class="atype">’+esc((ac.t||‘note’).toUpperCase())+(ac.o?’ · ‘+esc(ac.o):’’)+’</div><div class="atxt">’+esc(ac.txt)+’</div><div class="atime">’+esc(ac.ts)+’</div></div></div>’;
+html += '<div class="aitem"><div class="aico '+(ac.t||'note')+'">'+(icons[ac.t]||'ð')+'</div><div><div class="atype">'+esc((ac.t||'note').toUpperCase())+(ac.o?' Â· '+esc(ac.o):'')+'</div><div class="atxt">'+esc(ac.txt)+'</div><div class="atime">'+esc(ac.ts)+'</div></div></div>';
 }
-html += ‘</div>’;
+html += '</div>';
 }
-html += ‘<div style="margin-top:16px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.07)">’;
-html += ‘<button class="bsm red" onclick="delR(\''+id+'\')">Delete Record</button></div>’;
-document.getElementById(‘m-detail-body’).innerHTML = html;
-document.getElementById(‘m-detail’).classList.add(‘open’);
+html += '<div style="margin-top:16px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.07)">';
+html += '<button class="bsm red" onclick="delR(\''+id+'\')">Delete Record</button></div>';
+document.getElementById('m-detail-body').innerHTML = html;
+document.getElementById('m-detail').classList.add('open');
 }
 
 function setSt(id, stage) {
@@ -782,76 +782,89 @@ var r = getR(id); if (!r) return;
 r.stage = stage;
 for (var s=0;s<STAGES.length;s++){if(STAGES[s].k===stage){r.status=STAGES[s].st;break;}}
 r.staged = new Date().toISOString();
-r.acts.unshift({t:‘note’,txt:’Stage: ’+stage,ts:new Date().toLocaleString()});
+r.acts.unshift({t:'note',txt:'Stage: '+stage,ts:new Date().toLocaleString()});
 saveC(); drawCRM(); openDet(id);
 }
 
 function updF(id,f,v) { var r=getR(id); if(r){r[f]=v; saveC(); updStats();} }
 
 function logAct(id) {
-var te=document.getElementById(‘lt-’+id), oe=document.getElementById(‘lo-’+id), ne=document.getElementById(‘ln-’+id);
+var te=document.getElementById('lt-'+id), oe=document.getElementById('lo-'+id), ne=document.getElementById('ln-'+id);
 if (!te||!ne) return;
-var note=ne.value.trim(), outcome=oe?oe.value:’’;
+var note=ne.value.trim(), outcome=oe?oe.value:'';
 if (!note&&!outcome) return;
 var r=getR(id); if(!r) return;
 r.acts.unshift({t:te.value,o:outcome,txt:note||outcome,ts:new Date().toLocaleString()});
-saveC(); ne.value=’’; openDet(id); drawCRM();
+saveC(); ne.value=''; openDet(id); drawCRM();
 }
 
 function delR(id) {
-if (!confirm(‘Delete this record?’)) return;
+if (!confirm('Delete this record?')) return;
 crm = crm.filter(function(r){return r.id!==id;});
-saveC(); closeM(‘m-detail’); drawCRM();
+saveC(); closeM('m-detail'); drawCRM();
 if (leads.length) drawLeads(leads);
 }
 
 function checkFU() {
-var today = new Date().toISOString().split(‘T’)[0];
-var due = crm.filter(function(r){return r.fu&&r.fu<=today&&r.status!==‘account’;});
-var el = document.getElementById(‘fu-alerts’); if (!el) return;
-if (!due.length) { el.innerHTML=’’; return; }
-var html=’’;
+var today = new Date().toISOString().split('T')[0];
+var due = crm.filter(function(r){return r.fu&&r.fu<=today&&r.status!=='account';});
+var el = document.getElementById('fu-alerts'); if (!el) return;
+if (!due.length) { el.innerHTML=''; return; }
+var html='';
 for (var i=0;i<Math.min(due.length,3);i++) {
-html+=’<div class="fualert">📅 Follow-up due: <strong>’+esc(due[i].biz)+’</strong> · ‘+esc(due[i].fu)+’<button onclick="openDet(\''+due[i].id+'\')">View →</button></div>’;
+html+='<div class="fualert">ð Follow-up due: <strong>'+esc(due[i].biz)+'</strong> Â· '+esc(due[i].fu)+'<button onclick="openDet(\''+due[i].id+'\')">View â</button></div>';
 }
 el.innerHTML = html;
 }
 
 // MANUAL
-function openManual() { document.getElementById(‘m-manual’).classList.add(‘open’); }
+function openManual() { document.getElementById('m-manual').classList.add('open'); }
 function saveManual() {
-var biz = document.getElementById(‘mn-biz’).value.trim();
-if (!biz) { alert(‘Enter a business name.’); return; }
-var con = document.getElementById(‘mn-con’).value.trim();
+var biz = document.getElementById('mn-biz').value.trim();
+if (!biz) { alert('Enter a business name.'); return; }
+var con = document.getElementById('mn-con').value.trim();
 var record = {
-id:uid(), biz:biz, type:document.getElementById(‘mn-type’).value.trim(),
-city:document.getElementById(‘mn-city’).value.trim(), phone:document.getElementById(‘mn-phone’).value.trim(),
-web:document.getElementById(‘mn-web’).value.trim(), rating:’’, rev:’’,
-deal:document.getElementById(‘mn-deal’).value.trim(), notes:’’,
-fu:document.getElementById(‘mn-fu’).value, stage:‘new’, status:‘lead’,
-cons: con ? [{name:con,title:document.getElementById(‘mn-ttl’).value.trim(),email:document.getElementById(‘mn-email’).value.trim(),phone:document.getElementById(‘mn-phone’).value.trim()}] : [],
+id:uid(), biz:biz, type:document.getElementById('mn-type').value.trim(),
+city:document.getElementById('mn-city').value.trim(), phone:document.getElementById('mn-phone').value.trim(),
+web:document.getElementById('mn-web').value.trim(), rating:'', rev:'',
+deal:document.getElementById('mn-deal').value.trim(), notes:'',
+fu:document.getElementById('mn-fu').value, stage:'new', status:'lead',
+cons: con ? [{name:con,title:document.getElementById('mn-ttl').value.trim(),email:document.getElementById('mn-email').value.trim(),phone:document.getElementById('mn-phone').value.trim()}] : [],
 acts:[], created:new Date().toISOString(), staged:new Date().toISOString()
 };
-crm.push(record); saveC(); closeM(‘m-manual’); drawCRM(); toast(biz+’ added to CRM’);
+crm.push(record); saveC(); closeM('m-manual'); drawCRM(); toast(biz+' added to CRM');
 }
 
 // UTILS
-function closeM(id) { var el=document.getElementById(id); if(el) el.classList.remove(‘open’); }
-function showEl(id) { var el=document.getElementById(id); if(el) el.style.display=‘flex’; }
-function showElFlex(id) { var el=document.getElementById(id); if(el) el.style.display=‘flex’; }
-function hideEl(id) { var el=document.getElementById(id); if(el) el.style.display=‘none’; }
-function showErr(id,msg) { var el=document.getElementById(id); if(el){el.textContent=msg;el.style.display=‘block’;} }
+function closeM(id) { var el=document.getElementById(id); if(el) el.classList.remove('open'); }
+function showEl(id) { var el=document.getElementById(id); if(el) el.style.display='flex'; }
+function showElFlex(id) { var el=document.getElementById(id); if(el) el.style.display='flex'; }
+function hideEl(id) { var el=document.getElementById(id); if(el) el.style.display='none'; }
+function showErr(id,msg) { var el=document.getElementById(id); if(el){el.textContent=msg;el.style.display='block';} }
 function setText(id,val) { var el=document.getElementById(id); if(el) el.textContent=val; }
 function toast(msg) {
-var t=document.createElement(‘div’);
-t.style.cssText=‘position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#0f1623;border:1px solid rgba(249,115,22,0.4);color:#fb923c;padding:11px 18px;border-radius:9px;font-size:13px;z-index:9999;box-shadow:0 7px 22px rgba(0,0,0,0.4);white-space:nowrap’;
+var t=document.createElement('div');
+t.style.cssText='position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#0f1623;border:1px solid rgba(249,115,22,0.4);color:#fb923c;padding:11px 18px;border-radius:9px;font-size:13px;z-index:9999;box-shadow:0 7px 22px rgba(0,0,0,0.4);white-space:nowrap';
 t.textContent=msg; document.body.appendChild(t);
 setTimeout(function(){if(t.parentNode)t.parentNode.removeChild(t);},2400);
 }
 
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  var navTargets = document.querySelectorAll('[data-go]');
+  for (var i = 0; i < navTargets.length; i++) {
+    navTargets[i].addEventListener('click', function (e) {
+      e.preventDefault();
+      var target = this.getAttribute('data-go');
+      if (target) go(target);
+    });
+  }
+});
+
 // INIT
 loadC();
-go(‘home’);
+go('home');
 </script>
 
 </body>
