@@ -95,29 +95,42 @@ body::before { content: ''; position: fixed; inset: 0; background-image: linear-
 .outmeta strong { color: #e8edf5; font-weight: 700; }
 .outacts { display: flex; gap: 7px; align-items: center; flex-wrap: wrap; }
 .outcnt { font-size: 11px; color: #34d399; font-weight: 600; }
-.outbody { max-height: 620px; overflow-y: auto; overflow-x: auto; }
+.outbody { max-height: 620px; overflow-y: auto; overflow-x: auto; background: linear-gradient(180deg, rgba(15,22,35,0.98), rgba(8,12,24,0.98)); }
 .outbody::-webkit-scrollbar { width: 3px; height: 6px; }
 .outbody::-webkit-scrollbar-thumb { background: rgba(249,115,22,0.3); border-radius: 2px; }
 
 /* TABLE */
-.ltbl { width: 100%; min-width: 1280px; border-collapse: collapse; table-layout: auto; }
-.ltbl th { font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: #4a6080; padding: 10px 12px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.07); background: #161e30; white-space: nowrap; }
-.ltbl td { font-size: 12px; color: #8fa3c0; padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: top; }
+.ltbl { width: 100%; min-width: 980px; border-collapse: separate; border-spacing: 0; table-layout: fixed; }
+.ltbl th { font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: #4a6080; padding: 11px 14px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.07); background: #161e30; white-space: nowrap; position: sticky; top: 0; z-index: 2; }
+.ltbl td { font-size: 12px; color: #8fa3c0; padding: 14px; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: top; background: rgba(10,16,28,0.92); }
 .ltbl tr:last-child td { border-bottom: none; }
-.ltbl tr:hover td { background: rgba(255,255,255,0.025); }
-.lname { font-weight: 600; color: #e8edf5; line-height: 1.35; min-width: 180px; }
-.lcity { color: #e8edf5; font-weight: 500; min-width: 115px; }
-.lsub { display: block; margin-top: 3px; font-size: 10px; color: #4a6080; }
-.lphone { color: #fb923c; white-space: nowrap; }
+.ltbl tr:hover td { background: rgba(22,30,48,0.96); }
+.ltbl th:nth-child(1), .ltbl td:nth-child(1) { width: 25%; }
+.ltbl th:nth-child(2), .ltbl td:nth-child(2) { width: 12%; }
+.ltbl th:nth-child(3), .ltbl td:nth-child(3) { width: 18%; }
+.ltbl th:nth-child(4), .ltbl td:nth-child(4) { width: 18%; }
+.ltbl th:nth-child(5), .ltbl td:nth-child(5) { width: 17%; }
+.ltbl th:nth-child(6), .ltbl td:nth-child(6) { width: 10%; }
+.lname { font-weight: 700; color: #e8edf5; line-height: 1.4; display:block; }
+.lcity { color: #e8edf5; font-weight: 600; display:block; }
+.lsub { display: block; margin-top: 4px; font-size: 10px; color: #4a6080; line-height: 1.45; }
+.lphone { color: #fb923c; white-space: nowrap; font-weight: 600; }
 .llink { color: #fb923c; font-size: 11px; text-decoration: none; white-space: nowrap; }
 .llink:hover { text-decoration: underline; }
-.rchip { display: inline-flex; align-items: center; gap: 3px; padding: 2px 7px; border-radius: 8px; font-size: 11px; font-weight: 600; background: rgba(251,191,36,0.1); color: #fbbf24; border: 1px solid rgba(251,191,36,0.2); white-space: nowrap; }
+.rchip { display: inline-flex; align-items: center; gap: 3px; padding: 2px 7px; border-radius: 8px; font-size: 11px; font-weight: 600; background: rgba(251,191,36,0.1); color: #fbbf24; border: 1px solid rgba(251,191,36,0.2); white-space: nowrap; margin-top: 6px; }
 .incrm { display: inline-flex; padding: 2px 7px; border-radius: 5px; font-size: 9px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: #34d399; border: 1px solid rgba(52,211,153,0.3); background: rgba(52,211,153,0.1); }
-.lcontact { color: #e8edf5; font-weight: 500; min-width: 150px; }
-.lemail { min-width: 180px; word-break: break-word; }
-.lmobile { min-width: 120px; }
+.lcontact { color: #e8edf5; font-weight: 600; display:block; }
 .lmuted { color: #4a6080; }
 .lrow-new { animation: rowSlide 0.3s ease both; }
+.cellstack { display:flex; flex-direction:column; gap:6px; }
+.cellline { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.mini-chip { display:inline-flex; align-items:center; padding:2px 6px; border-radius:999px; font-size:10px; font-weight:700; color:#8fa3c0; border:1px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.03); }
+.apollo-pill { color:#34d399; border-color:rgba(52,211,153,0.25); background:rgba(52,211,153,0.08); }
+.emailtxt { word-break: break-word; color:#e8edf5; }
+.actioncell { white-space:nowrap; }
+@media(max-width:768px){
+  .ltbl { min-width: 860px; }
+}
 
 /* CRM */
 .crm-top { display: flex; align-items: center; justify-content: space-between; padding: 14px 22px; border-bottom: 1px solid rgba(255,255,255,0.07); background: #0f1623; flex-wrap: wrap; gap: 10px; }
@@ -347,7 +360,7 @@ body::before { content: ''; position: fixed; inset: 0; background-image: linear-
         <div class="outtitle">Live Results</div>
         <div class="outmeta">
           <span><strong id="ls-cnt">0 results</strong></span>
-          <span id="ls-meta-city">City split live</span>
+          <span id="ls-meta-city">Cleaner company and contact layout ready</span>
           <span id="ls-meta-apollo">Apollo loading ready</span>
         </div>
       </div>
@@ -359,7 +372,7 @@ body::before { content: ''; position: fixed; inset: 0; background-image: linear-
     </div>
     <div class="outbody">
       <table class="ltbl">
-        <thead><tr><th>Business</th><th>City</th><th>Company Phone</th><th>Website</th><th>Rating</th><th>Top Contact</th><th>Title</th><th>Email</th><th>Mobile</th><th>CRM</th></tr></thead>
+        <thead><tr><th>Business</th><th>Location</th><th>Company</th><th>Contact</th><th>Outreach</th><th>CRM</th></tr></thead>
         <tbody id="ls-body"></tbody>
       </table>
     </div>
@@ -590,7 +603,7 @@ function drawLeads(arr) {
   var tb = document.getElementById('ls-body');
   tb.innerHTML = '';
   if (!arr.length) {
-    tb.innerHTML = '<tr><td colspan="10" style="text-align:center;padding:28px;color:#4a6080">No results found.</td></tr>';
+    tb.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:28px;color:#4a6080">No results found.</td></tr>';
   } else {
     for (var i = 0; i < arr.length; i++) {
       var l = arr[i];
@@ -609,17 +622,44 @@ function drawLeads(arr) {
       var tr = document.createElement('tr');
       tr.className = 'lrow-new';
       tr.style.animationDelay = (i * 35) + 'ms';
+      var companyBlock =
+        '<div class="cellstack">' +
+          '<span class="lname">' + esc(nm) + '</span>' +
+          '<span class="lsub">' + esc(ad || 'Address not found') + '</span>' +
+        '</div>';
+
+      var locationBlock =
+        '<div class="cellstack">' +
+          '<span class="lcity">' + esc(cityState.city || 'City not found') + '</span>' +
+          '<span class="lsub">' + esc(cityState.state || 'State not found') + '</span>' +
+        '</div>';
+
+      var companyDetailBlock =
+        '<div class="cellstack">' +
+          '<div class="cellline">' + (ph ? '<span class="lphone">' + esc(ph) + '</span>' : '<span class="lmuted">Phone not found</span>') + '</div>' +
+          '<div class="cellline">' + (wb ? '<a class="llink" href="' + esc(wb) + '" target="_blank" rel="noopener">Website â</a>' : '<span class="lmuted">Website not found</span>') + '</div>' +
+          '<div class="cellline">' + (rt ? '<span class="rchip">â ' + esc(String(rt)) + '</span>' : '<span class="mini-chip">No rating</span>') + (l._apolloLoaded ? '<span class="mini-chip apollo-pill">Apollo ready</span>' : '<span class="mini-chip">Loading Apollo</span>') + '</div>' +
+        '</div>';
+
+      var contactBlock =
+        '<div class="cellstack">' +
+          '<span class="lcontact">' + esc(contactName || 'Contact not found') + '</span>' +
+          '<span class="lsub">' + esc(contactTitle || 'Title not found') + '</span>' +
+        '</div>';
+
+      var outreachBlock =
+        '<div class="cellstack">' +
+          '<span class="emailtxt">' + esc(contactEmail || 'Email not found') + '</span>' +
+          '<span class="lsub">' + esc(contactPhone || 'Mobile not found') + '</span>' +
+        '</div>';
+
       tr.innerHTML =
-        '<td><span class="lname">' + esc(nm) + '</span><span class="lsub">' + esc(ad) + '</span></td>' +
-        '<td><span class="lcity">' + esc(cityState.city || 'â') + '</span><span class="lsub">' + esc(cityState.state || '') + '</span></td>' +
-        '<td>' + (ph ? '<span class="lphone">' + esc(ph) + '</span>' : '<span class="lmuted">â</span>') + '</td>' +
-        '<td>' + (wb ? '<a class="llink" href="' + esc(wb) + '" target="_blank" rel="noopener">Visit â</a>' : '<span class="lmuted">â</span>') + '</td>' +
-        '<td>' + (rt ? '<span class="rchip">â ' + esc(String(rt)) + '</span>' : '<span class="lmuted">â</span>') + '</td>' +
-        '<td>' + (contactName ? '<span class="lcontact">' + esc(contactName) + '</span>' : '<span class="lmuted">â</span>') + '</td>' +
-        '<td>' + (contactTitle ? esc(contactTitle) : '<span class="lmuted">â</span>') + '</td>' +
-        '<td class="lemail">' + (contactEmail ? esc(contactEmail) : '<span class="lmuted">â</span>') + '</td>' +
-        '<td class="lmobile">' + (contactPhone ? '<span class="lphone">' + esc(contactPhone) + '</span>' : '<span class="lmuted">â</span>') + '</td>' +
-        '<td>' + (ic ? '<span class="incrm">In CRM</span>' : '<button class="bsm ora" onclick="openImp(' + i + ')">+ Add</button>') + '</td>';
+        '<td>' + companyBlock + '</td>' +
+        '<td>' + locationBlock + '</td>' +
+        '<td>' + companyDetailBlock + '</td>' +
+        '<td>' + contactBlock + '</td>' +
+        '<td>' + outreachBlock + '</td>' +
+        '<td class="actioncell">' + (ic ? '<span class="incrm">In CRM</span>' : '<button class="bsm ora" onclick="openImp(' + i + ')">Add</button>') + '</td>';
       tb.appendChild(tr);
     }
   }
@@ -635,7 +675,7 @@ function drawLeads(arr) {
   setText('ls-ap', apLoaded);
   showElFlex('ls-sv');
   setText('ls-cnt', arr.length + ' results');
-  setText('ls-meta-city', 'City and state split into separate columns');
+  setText('ls-meta-city', 'Company details and contact details are now grouped cleanly');
   setText('ls-meta-apollo', apLoaded + ' Apollo lookups completed');
   showEl('ls-out');
   try { document.getElementById('ls-out').scrollIntoView({ behavior:'smooth', block:'nearest' }); } catch (e) {}
