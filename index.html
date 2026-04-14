@@ -88,27 +88,35 @@ body::before { content: ''; position: fixed; inset: 0; background-image: linear-
 .svlbl { font-size: 9px; color: #4a6080; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
 .svdiv { width: 1px; height: 30px; background: rgba(52,211,153,0.18); flex-shrink: 0; }
 .outcard { display: none; background: #0f1623; border: 1px solid rgba(255,255,255,0.07); border-radius: 14px; overflow: hidden; }
-.outhdr { display: flex; align-items: center; justify-content: space-between; padding: 11px 18px; border-bottom: 1px solid rgba(255,255,255,0.07); background: #161e30; flex-wrap: wrap; gap: 8px; }
-.outtitle { font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: #34d399; display: flex; align-items: center; gap: 6px; }
+.outhdr { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.07); background: #161e30; flex-wrap: wrap; gap: 10px; }
+.outtitle { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #34d399; display: flex; align-items: center; gap: 6px; }
 .outtitle::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #34d399; box-shadow: 0 0 7px #34d399; animation: pulse 2s ease infinite; }
+.outmeta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; font-size: 11px; color: #8fa3c0; }
+.outmeta strong { color: #e8edf5; font-weight: 700; }
 .outacts { display: flex; gap: 7px; align-items: center; flex-wrap: wrap; }
 .outcnt { font-size: 11px; color: #34d399; font-weight: 600; }
-.outbody { max-height: 580px; overflow-y: auto; overflow-x: auto; }
-.outbody::-webkit-scrollbar { width: 3px; }
+.outbody { max-height: 620px; overflow-y: auto; overflow-x: auto; }
+.outbody::-webkit-scrollbar { width: 3px; height: 6px; }
 .outbody::-webkit-scrollbar-thumb { background: rgba(249,115,22,0.3); border-radius: 2px; }
 
 /* TABLE */
-.ltbl { width: 100%; border-collapse: collapse; }
-.ltbl th { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #4a6080; padding: 9px 14px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.07); background: #161e30; white-space: nowrap; }
-.ltbl td { font-size: 13px; color: #8fa3c0; padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: middle; }
+.ltbl { width: 100%; min-width: 1280px; border-collapse: collapse; table-layout: auto; }
+.ltbl th { font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: #4a6080; padding: 10px 12px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.07); background: #161e30; white-space: nowrap; }
+.ltbl td { font-size: 12px; color: #8fa3c0; padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: top; }
 .ltbl tr:last-child td { border-bottom: none; }
 .ltbl tr:hover td { background: rgba(255,255,255,0.025); }
-.lname { font-weight: 500; color: #e8edf5; }
-.lphone { color: #fb923c; }
-.llink { color: #fb923c; font-size: 11px; text-decoration: none; }
+.lname { font-weight: 600; color: #e8edf5; line-height: 1.35; min-width: 180px; }
+.lcity { color: #e8edf5; font-weight: 500; min-width: 115px; }
+.lsub { display: block; margin-top: 3px; font-size: 10px; color: #4a6080; }
+.lphone { color: #fb923c; white-space: nowrap; }
+.llink { color: #fb923c; font-size: 11px; text-decoration: none; white-space: nowrap; }
 .llink:hover { text-decoration: underline; }
-.rchip { display: inline-flex; align-items: center; gap: 3px; padding: 2px 7px; border-radius: 8px; font-size: 11px; font-weight: 600; background: rgba(251,191,36,0.1); color: #fbbf24; border: 1px solid rgba(251,191,36,0.2); }
+.rchip { display: inline-flex; align-items: center; gap: 3px; padding: 2px 7px; border-radius: 8px; font-size: 11px; font-weight: 600; background: rgba(251,191,36,0.1); color: #fbbf24; border: 1px solid rgba(251,191,36,0.2); white-space: nowrap; }
 .incrm { display: inline-flex; padding: 2px 7px; border-radius: 5px; font-size: 9px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: #34d399; border: 1px solid rgba(52,211,153,0.3); background: rgba(52,211,153,0.1); }
+.lcontact { color: #e8edf5; font-weight: 500; min-width: 150px; }
+.lemail { min-width: 180px; word-break: break-word; }
+.lmobile { min-width: 120px; }
+.lmuted { color: #4a6080; }
 .lrow-new { animation: rowSlide 0.3s ease both; }
 
 /* CRM */
@@ -327,15 +335,23 @@ body::before { content: ''; position: fixed; inset: 0; background-image: linear-
     <div class="svdiv"></div>
     <div class="svstat"><div class="svnum" id="ls-hot">0</div><div class="svlbl">4.5+</div></div>
     <div class="svdiv"></div>
-    <div class="svstat"><div class="svnum" id="ls-ph">0</div><div class="svlbl">Phone</div></div>
+    <div class="svstat"><div class="svnum" id="ls-ph">0</div><div class="svlbl">Company Phone</div></div>
     <div class="svdiv"></div>
-    <div class="svstat"><div class="svnum" id="ls-wb">0</div><div class="svlbl">Website</div></div>
+    <div class="svstat"><div class="svnum" id="ls-em">0</div><div class="svlbl">Emails</div></div>
+    <div class="svdiv"></div>
+    <div class="svstat"><div class="svnum" id="ls-ap">0</div><div class="svlbl">Apollo Loaded</div></div>
   </div>
   <div class="outcard" id="ls-out">
     <div class="outhdr">
-      <div class="outtitle">Live Results</div>
+      <div>
+        <div class="outtitle">Live Results</div>
+        <div class="outmeta">
+          <span><strong id="ls-cnt">0 results</strong></span>
+          <span id="ls-meta-city">City split live</span>
+          <span id="ls-meta-apollo">Apollo loading ready</span>
+        </div>
+      </div>
       <div class="outacts">
-        <span class="outcnt" id="ls-cnt"></span>
         <button class="bsm ok" onclick="bulkAdd()">+ Import All</button>
         <button class="bsm ok" onclick="doCSV()">CSV</button>
         <button class="bsm" onclick="resetSearch()">New Search</button>
@@ -343,7 +359,7 @@ body::before { content: ''; position: fixed; inset: 0; background-image: linear-
     </div>
     <div class="outbody">
       <table class="ltbl">
-        <thead><tr><th>Business</th><th>Address</th><th>Phone</th><th>Website</th><th>Rating</th><th>CRM</th></tr></thead>
+        <thead><tr><th>Business</th><th>City</th><th>Company Phone</th><th>Website</th><th>Rating</th><th>Top Contact</th><th>Title</th><th>Email</th><th>Mobile</th><th>CRM</th></tr></thead>
         <tbody id="ls-body"></tbody>
       </table>
     </div>
@@ -399,7 +415,7 @@ body::before { content: ''; position: fixed; inset: 0; background-image: linear-
   <div class="mcard wide">
     <button class="mclose" onclick="closeM('m-import')">&#215;</button>
     <div class="mtitle" id="imp-title">Import to CRM</div>
-    <div class="msub">Select contacts to import. Apollo will enrich with real data when connected.</div>
+    <div class="msub">Select contacts to import. Apollo data appears here once the lookup finishes.</div>
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
       <span style="font-size:12px;color:#8fa3c0">Choose contacts</span>
       <button class="bsm ora" onclick="selAll()">Select All</button>
@@ -489,7 +505,10 @@ function runSearch() {
   hideEl('ls-eb'); hideEl('ls-out'); hideEl('ls-sv');
   document.getElementById('ls-btn').disabled = true;
   showEl('ls-sb');
-  var msgs = ['Connecting to Google Places...', 'Searching ' + q + ' in ' + c + '...', 'Enriching data...', 'Scoring results...', 'Almost done...'];
+  setText('ls-st', 'Connecting to Google Places...');
+  setText('ls-ap', '0');
+  setText('ls-em', '0');
+  var msgs = ['Connecting to Google Places...', 'Searching ' + q + ' in ' + c + '...', 'Splitting address data...', 'Preparing Apollo lookup...', 'Almost done...'];
   var mi = 0;
   var iv = setInterval(function() { if (mi < msgs.length) { document.getElementById('ls-st').textContent = msgs[mi++]; } }, 700);
   var url = API + '/api/places/search?query=' + encodeURIComponent(q + ' ' + c);
@@ -501,8 +520,14 @@ function runSearch() {
       document.getElementById('ls-btn').disabled = false;
       var results = data.results || data || [];
       if (!Array.isArray(results)) results = [];
-      leads = results;
-      drawLeads(results);
+      leads = results.map(function(item){
+        item._apolloContacts = [];
+        item._apolloLoaded = false;
+        item._apolloError = '';
+        return item;
+      });
+      drawLeads(leads);
+      hydrateLeadsWithApollo(leads);
     })
     .catch(function(err) {
       clearInterval(iv); hideEl('ls-sb');
@@ -513,50 +538,141 @@ function runSearch() {
 
 function inCRM(name) { for (var i = 0; i < crm.length; i++) { if (crm[i].biz === name) return true; } return false; }
 
+function getCityState(address) {
+  var raw = String(address || '').trim();
+  if (!raw) return { city: '', state: '' };
+  var parts = raw.split(',').map(function(x){ return x.trim(); }).filter(Boolean);
+  if (!parts.length) return { city: '', state: '' };
+  var state = '';
+  var city = '';
+  if (parts.length >= 3) {
+    city = parts[parts.length - 3] || '';
+    state = (parts[parts.length - 2] || '').split(' ')[0] || '';
+  } else if (parts.length === 2) {
+    city = parts[0] || '';
+    state = (parts[1] || '').split(' ')[0] || '';
+  } else {
+    city = parts[0] || '';
+  }
+  return { city: city, state: state };
+}
+
+function topApolloContact(lead) {
+  if (!lead || !lead._apolloContacts || !lead._apolloContacts.length) return null;
+  return lead._apolloContacts[0] || null;
+}
+
+function compactPhone(v) {
+  var s = String(v || '').trim();
+  return s || '';
+}
+
+async function hydrateLeadsWithApollo(arr) {
+  if (!Array.isArray(arr) || !arr.length) return;
+  var limit = Math.min(arr.length, 8);
+  var loaded = 0;
+  for (var i = 0; i < limit; i++) {
+    try {
+      var data = await apolloFindContacts(arr[i]);
+      arr[i]._apolloContacts = Array.isArray(data.contacts) ? data.contacts : [];
+      arr[i]._apolloLoaded = true;
+      loaded++;
+      drawLeads(leads);
+    } catch (err) {
+      arr[i]._apolloLoaded = true;
+      arr[i]._apolloError = err && err.message ? err.message : 'Apollo lookup failed';
+      drawLeads(leads);
+    }
+  }
+}
+
 function drawLeads(arr) {
   var tb = document.getElementById('ls-body');
   tb.innerHTML = '';
   if (!arr.length) {
-    tb.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:28px;color:#4a6080">No results found.</td></tr>';
+    tb.innerHTML = '<tr><td colspan="10" style="text-align:center;padding:28px;color:#4a6080">No results found.</td></tr>';
   } else {
     for (var i = 0; i < arr.length; i++) {
       var l = arr[i];
       var nm = l.name || l.displayName || '';
       var ad = l.formatted_address || l.formattedAddress || l.vicinity || '';
-      var ph = l.formatted_phone_number || l.nationalPhoneNumber || l.internationalPhoneNumber || '';
+      var cityState = getCityState(ad);
+      var ph = compactPhone(l.formatted_phone_number || l.nationalPhoneNumber || l.internationalPhoneNumber || l._apolloCompanyPhone || '');
       var wb = l.website || l.websiteUri || '';
       var rt = l.rating || '';
       var ic = inCRM(nm);
+      var top = topApolloContact(l);
+      var contactName = top && top.name ? top.name : (l._apolloLoaded ? '' : 'Loading...');
+      var contactTitle = top && top.title ? top.title : '';
+      var contactEmail = top && top.email ? top.email : '';
+      var contactPhone = top && top.phone ? top.phone : '';
       var tr = document.createElement('tr');
       tr.className = 'lrow-new';
-      tr.style.animationDelay = (i*50)+'ms';
-      tr.innerHTML = '<td><span class="lname">'+esc(nm)+'</span></td><td style="font-size:12px">'+esc(ad)+'</td><td>'+(ph?'<span class="lphone">'+esc(ph)+'</span>':'<span style="color:#4a6080">&#8212;</span>')+'</td><td>'+(wb?'<a class="llink" href="'+esc(wb)+'" target="_blank" rel="noopener">Visit &#8599;</a>':'<span style="color:#4a6080">&#8212;</span>')+'</td><td>'+(rt?'<span class="rchip">&#9733; '+esc(String(rt))+'</span>':'<span style="color:#4a6080">&#8212;</span>')+'</td><td>'+(ic?'<span class="incrm">In CRM</span>':'<button class="bsm ora" onclick="openImp('+i+')">+ Add</button>')+'</td>';
+      tr.style.animationDelay = (i * 35) + 'ms';
+      tr.innerHTML =
+        '<td><span class="lname">' + esc(nm) + '</span><span class="lsub">' + esc(ad) + '</span></td>' +
+        '<td><span class="lcity">' + esc(cityState.city || 'â') + '</span><span class="lsub">' + esc(cityState.state || '') + '</span></td>' +
+        '<td>' + (ph ? '<span class="lphone">' + esc(ph) + '</span>' : '<span class="lmuted">â</span>') + '</td>' +
+        '<td>' + (wb ? '<a class="llink" href="' + esc(wb) + '" target="_blank" rel="noopener">Visit â</a>' : '<span class="lmuted">â</span>') + '</td>' +
+        '<td>' + (rt ? '<span class="rchip">â ' + esc(String(rt)) + '</span>' : '<span class="lmuted">â</span>') + '</td>' +
+        '<td>' + (contactName ? '<span class="lcontact">' + esc(contactName) + '</span>' : '<span class="lmuted">â</span>') + '</td>' +
+        '<td>' + (contactTitle ? esc(contactTitle) : '<span class="lmuted">â</span>') + '</td>' +
+        '<td class="lemail">' + (contactEmail ? esc(contactEmail) : '<span class="lmuted">â</span>') + '</td>' +
+        '<td class="lmobile">' + (contactPhone ? '<span class="lphone">' + esc(contactPhone) + '</span>' : '<span class="lmuted">â</span>') + '</td>' +
+        '<td>' + (ic ? '<span class="incrm">In CRM</span>' : '<button class="bsm ora" onclick="openImp(' + i + ')">+ Add</button>') + '</td>';
       tb.appendChild(tr);
     }
   }
-  var hot = arr.filter(function(x){return (x.rating||0)>=4.5;}).length;
-  var phs = arr.filter(function(x){return x.formatted_phone_number||x.nationalPhoneNumber||x.internationalPhoneNumber;}).length;
-  var wbs = arr.filter(function(x){return x.website||x.websiteUri;}).length;
-  setText('ls-tot', arr.length); setText('ls-hot', hot); setText('ls-ph', phs); setText('ls-wb', wbs);
+
+  var hot = arr.filter(function(x){ return (x.rating || 0) >= 4.5; }).length;
+  var phs = arr.filter(function(x){ return x.formatted_phone_number || x.nationalPhoneNumber || x.internationalPhoneNumber || x._apolloCompanyPhone; }).length;
+  var emails = arr.filter(function(x){ var top = topApolloContact(x); return top && top.email; }).length;
+  var apLoaded = arr.filter(function(x){ return x._apolloLoaded; }).length;
+  setText('ls-tot', arr.length);
+  setText('ls-hot', hot);
+  setText('ls-ph', phs);
+  setText('ls-em', emails);
+  setText('ls-ap', apLoaded);
   showElFlex('ls-sv');
-  setText('ls-cnt', arr.length+' results');
+  setText('ls-cnt', arr.length + ' results');
+  setText('ls-meta-city', 'City and state split into separate columns');
+  setText('ls-meta-apollo', apLoaded + ' Apollo lookups completed');
   showEl('ls-out');
-  try { document.getElementById('ls-out').scrollIntoView({behavior:'smooth',block:'nearest'}); } catch(e) {}
+  try { document.getElementById('ls-out').scrollIntoView({ behavior:'smooth', block:'nearest' }); } catch (e) {}
 }
 
 function resetSearch() { hideEl('ls-out'); hideEl('ls-sv'); hideEl('ls-eb'); leads = []; }
 
 function doCSV() {
   if (!leads.length) return;
-  var rows = [['Name','Address','Phone','Website','Rating']];
+  var rows = [['Name','City','State','Address','Company Phone','Website','Rating','Top Contact','Title','Email','Mobile']];
   for (var i = 0; i < leads.length; i++) {
     var l = leads[i];
-    rows.push([l.name||l.displayName||'', l.formatted_address||l.formattedAddress||l.vicinity||'', l.formatted_phone_number||l.nationalPhoneNumber||l.internationalPhoneNumber||'', l.website||l.websiteUri||'', l.rating||'']);
+    var ad = l.formatted_address || l.formattedAddress || l.vicinity || '';
+    var cityState = getCityState(ad);
+    var top = topApolloContact(l) || {};
+    rows.push([
+      l.name || l.displayName || '',
+      cityState.city || '',
+      cityState.state || '',
+      ad,
+      l.formatted_phone_number || l.nationalPhoneNumber || l.internationalPhoneNumber || '',
+      l.website || l.websiteUri || '',
+      l.rating || '',
+      top.name || '',
+      top.title || '',
+      top.email || '',
+      top.phone || ''
+    ]);
   }
-  var csv = rows.map(function(r){return r.map(function(c){return '"'+String(c).replace(/"/g,'""')+'"';}).join(',');}).join('\n');
-  var blob = new Blob([csv],{type:'text/csv'});
+  var csv = rows.map(function(r){return r.map(function(c){return '"' + String(c).replace(/"/g,'""') + '"';}).join(',');}).join('
+');
+  var blob = new Blob([csv], { type:'text/csv' });
   var url = URL.createObjectURL(blob);
-  var a = document.createElement('a'); a.href=url; a.download='leads.csv'; a.click();
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'leads_enriched.csv';
+  a.click();
   URL.revokeObjectURL(url);
 }
 
@@ -586,22 +702,19 @@ async function apolloFindContacts(lead) {
 function bulkAdd() {
   if (!leads.length) return;
   var n = 0;
-
   for (var i = 0; i < leads.length; i++) {
     var l = leads[i];
     var nm = l.name || l.displayName || '';
     if (inCRM(nm)) continue;
-
+    var top = topApolloContact(l);
     crm.push(mkRecord(l, [{
-      name: 'Pending Apollo Lookup',
-      title: 'Decision Maker Not Loaded',
-      email: '',
-      phone: l.formatted_phone_number || l.nationalPhoneNumber || l.internationalPhoneNumber || ''
+      name: top && top.name ? top.name : 'Pending Apollo Lookup',
+      title: top && top.title ? top.title : 'Decision Maker Not Loaded',
+      email: top && top.email ? top.email : '',
+      phone: top && top.phone ? top.phone : (l.formatted_phone_number || l.nationalPhoneNumber || l.internationalPhoneNumber || '')
     }]));
-
     n++;
   }
-
   saveC();
   drawLeads(leads);
   toast(n + ' leads added to CRM');
@@ -617,8 +730,14 @@ async function openImp(idx) {
   document.getElementById('m-import').classList.add('open');
 
   try {
-    var data = await apolloFindContacts(impLead);
-    impCons = Array.isArray(data.contacts) ? data.contacts : [];
+    if (impLead._apolloContacts && impLead._apolloContacts.length) {
+      impCons = impLead._apolloContacts;
+    } else {
+      var data = await apolloFindContacts(impLead);
+      impCons = Array.isArray(data.contacts) ? data.contacts : [];
+      impLead._apolloContacts = impCons;
+      impLead._apolloLoaded = true;
+    }
 
     if (!impCons.length) {
       var ph = impLead.formatted_phone_number || impLead.nationalPhoneNumber || impLead.internationalPhoneNumber || '';
@@ -638,10 +757,10 @@ async function openImp(idx) {
       html += '<div><div class="ci-name">' + esc(c.name || '') + '</div><div class="ci-title">' + esc(c.title || '') + '</div><div class="ci-info">' + esc(c.email || '') + '</div><div class="ci-info">' + esc(c.phone || '') + '</div></div>';
       html += '</div>';
     }
-
     document.getElementById('imp-list').innerHTML = html || '<div style="color:#4a6080;font-size:12px;padding:10px">No Apollo contacts found.</div>';
+    drawLeads(leads);
   } catch (err) {
-    document.getElementById('imp-list').innerHTML = '<div style="color:#fca5a5;font-size:12px;padding:10px">' + esc(err.message || 'Apollo lookup failed') + '</div>';
+    document.getElementById('imp-list').innerHTML = '<div style="color:#fca5a5;font-size:12px;padding:10px">' + esc(err.message) + '</div>';
   }
 }
 
