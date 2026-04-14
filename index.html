@@ -128,6 +128,7 @@ body::before { content: ''; position: fixed; inset: 0; background-image: linear-
 .apollo-pill { color:#34d399; border-color:rgba(52,211,153,0.25); background:rgba(52,211,153,0.08); }
 .emailtxt { word-break: break-word; color:#e8edf5; }
 .actioncell { white-space:nowrap; }
+.actioncell .cellstack { align-items:flex-start; }
 @media(max-width:768px){
   .ltbl { min-width: 860px; }
 }
@@ -329,6 +330,7 @@ body::before { content: ''; position: fixed; inset: 0; background-image: linear-
     <div class="row2">
       <div><label class="flabel">Business Type</label><input class="inp" id="ls-q" type="text" value="HVAC" placeholder="e.g. HVAC, Plumber" /></div>
       <div><label class="flabel">City</label><input class="inp" id="ls-c" type="text" value="Palm Desert CA" placeholder="e.g. Palm Desert CA" /></div>
+      <div><label class="flabel">Radius</label><input class="inp" id="ls-radius" type="number" min="1" step="1" value="50" placeholder="e.g. 50" /></div>
       <div><label class="flabel">Min Rating</label>
         <select class="sel" id="ls-r">
           <option value="">Any</option><option value="3">3.0+</option><option value="3.5">3.5+</option>
@@ -356,13 +358,10 @@ body::before { content: ''; position: fixed; inset: 0; background-image: linear-
   </div>
   <div class="outcard" id="ls-out">
     <div class="outhdr">
-      <div>
-        <div class="outtitle">Live Results</div>
-        <div class="outmeta">
-          <span><strong id="ls-cnt">0 results</strong></span>
-          <span id="ls-meta-city">City and state will be filled when available</span>
-          <span id="ls-meta-apollo">Website and company enrichment live</span>
-        </div>
+      <div class="outmeta">
+        <span><strong id="ls-cnt">0 results</strong></span>
+        <span id="ls-meta-city">Phone and email enrichment active</span>
+        <span id="ls-meta-apollo">Website and company enrichment live</span>
       </div>
       <div class="outacts">
         <button class="bsm ok" onclick="bulkAdd()">+ Import All</button>
@@ -372,7 +371,7 @@ body::before { content: ''; position: fixed; inset: 0; background-image: linear-
     </div>
     <div class="outbody">
       <table class="ltbl">
-        <thead><tr><th>Business</th><th>Location</th><th>Company</th><th>Industry</th><th>Email</th><th>CRM</th></tr></thead>
+        <thead><tr><th>Business Name</th><th>Location</th><th>Company Phone</th><th>Industry</th><th>Employees</th><th>Email</th><th>Website</th></tr></thead>
         <tbody id="ls-body"></tbody>
       </table>
     </div>
@@ -513,6 +512,7 @@ function loadC() { try { var d = localStorage.getItem('bai_crm'); if (d) crm = J
 function runSearch() {
   var q = document.getElementById('ls-q').value.trim();
   var c = document.getElementById('ls-c').value.trim();
+  var radius = (document.getElementById('ls-radius') || {}).value || '';
   var r = document.getElementById('ls-r').value;
   if (!q || !c) { showErr('ls-eb', 'Enter a business type and city.'); return; }
   hideEl('ls-eb'); hideEl('ls-out'); hideEl('ls-sv');
@@ -531,6 +531,7 @@ function runSearch() {
   var mi = 0;
   var iv = setInterval(function() { if (mi < msgs.length) { document.getElementById('ls-st').textContent = msgs[mi++]; } }, 800);
   var url = API + '/api/leads/search?query=' + encodeURIComponent(q + ' ' + c);
+  if (radius) url += '&radius=' + encodeURIComponent(radius);
   if (r) url += '&minRating=' + r;
   fetch(url)
     .then(function(res) { if (!res.ok) throw new Error('API ' + res.status); return res.json(); })
@@ -681,6 +682,12 @@ function drawLeads(arr) {
       var employeesBlock = employees ? '<span class="lcontact">' + esc(String(employees)) + '</span>' : '<span class="lmuted">&mdash;</span>';
 
       var emailBlock = email ? '<span class="emailtxt">' + esc(email) + '</span>' : '<span class="lmuted">Not found</span>';
+      var website = chooseWebsite(l);
+      var websiteBlock =
+        '<div class="cellstack">' +
+          (website ? '<a class="llink" href="' + esc(website) + '" target="_blank" rel="noopener">Visit site &#8599;</a>' : '<span class="lmuted">Not found</span>') +
+          (ic ? '<span class="incrm">In CRM</span>' : '<button class="bsm ora" onclick="openImp(' + i + ')">Add</button>') +
+        '</div>';
 
       tr.innerHTML =
         '<td>' + nameBlock + '</td>' +
@@ -689,7 +696,7 @@ function drawLeads(arr) {
         '<td>' + industryBlock + '</td>' +
         '<td>' + employeesBlock + '</td>' +
         '<td>' + emailBlock + '</td>' +
-        '<td class="actioncell">' + (ic ? '<span class="incrm">In CRM</span>' : '<button class="bsm ora" onclick="openImp(' + i + ')">Add</button>') + '</td>';
+        '<td class="actioncell">' + websiteBlock + '</td>';
       tb.appendChild(tr);
     }
   }
@@ -717,7 +724,7 @@ function resetSearch() { hideEl('ls-out'); hideEl('ls-sv'); hideEl('ls-eb'); lea
 
 function doCSV() {
   if (!leads.length) return;
-  var rows = [['Business Name','City','State','Company Phone','Industry','Employees','Email']];
+  var rows = [['Business Name','City','State','Company Phone','Industry','Employees','Email','Website']];
   for (var i = 0; i < leads.length; i++) {
     var l = leads[i];
     var company = l._apolloCompany || l.company || {};
@@ -730,7 +737,8 @@ function doCSV() {
       choosePhone(l),
       resolveIndustry(l),
       l.employees || company.employees || '',
-      chooseEmail(l)
+      chooseEmail(l),
+      chooseWebsite(l)
     ]);
   }
 no
