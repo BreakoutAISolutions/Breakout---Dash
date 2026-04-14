@@ -8,63 +8,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background-color: #080c18 !important; color: #e8edf5; font-family: 'DM Sans', sans-serif; min-height: 100vh; overflow-x: hidden; }
+body::before { content: ''; position: fixed; inset: 0; background-image: linear-gradient(rgba(249,115,22,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(249,115,22,0.025) 1px, transparent 1px); background-size: 44px 44px; pointer-events: none; z-index: 0; }
 
-html, body {
-background-color: #080c18 !important;
-color: #e8edf5;
-font-family: ‘DM Sans’, sans-serif;
-min-height: 100vh;
-overflow-x: hidden;
-}
-
-body::before {
-content: ‘’;
-position: fixed; inset: 0;
-background-image:
-linear-gradient(rgba(249,115,22,0.025) 1px, transparent 1px),
-linear-gradient(90deg, rgba(249,115,22,0.025) 1px, transparent 1px);
-background-size: 44px 44px;
-pointer-events: none; z-index: 0;
-}
-
-.topnav {
-position: sticky; top: 0; z-index: 100;
-background-color: rgba(8,12,24,0.96);
-backdrop-filter: blur(16px);
--webkit-backdrop-filter: blur(16px);
-border-bottom: 1px solid rgba(255,255,255,0.07);
-}
-.topnav-main {
-display: flex; align-items: center; justify-content: space-between;
-padding: 0 24px; height: 56px;
-}
+.topnav { position: sticky; top: 0; z-index: 100; background-color: rgba(8,12,24,0.96); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.07); }
+.topnav-main { display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 56px; }
 .brand-row { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
-.brand-icon {
-width: 32px; height: 32px; border-radius: 8px;
-background: linear-gradient(135deg, #f97316, #c2410c);
-box-shadow: 0 0 16px rgba(249,115,22,0.5);
-display: flex; align-items: center; justify-content: center;
-font-size: 16px;
-}
-.brand-name {
-font-family: ‘Syne’, sans-serif;
-font-size: 15px; font-weight: 800; letter-spacing: -0.3px; color: #e8edf5;
-}
-.nav-tabs {
-display: flex; align-items: center; gap: 3px;
-overflow-x: auto; flex: 1; padding: 0 16px;
--webkit-overflow-scrolling: touch; scrollbar-width: none;
-}
+.brand-icon { width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, #f97316, #c2410c); box-shadow: 0 0 16px rgba(249,115,22,0.5); display: flex; align-items: center; justify-content: center; font-size: 16px; }
+.brand-name { font-family: ‘Syne’, sans-serif; font-size: 15px; font-weight: 800; letter-spacing: -0.3px; color: #e8edf5; }
+.nav-tabs { display: flex; align-items: center; gap: 3px; overflow-x: auto; flex: 1; padding: 0 16px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
 .nav-tabs::-webkit-scrollbar { display: none; }
-.nav-tab {
-display: flex; align-items: center; gap: 5px;
-padding: 7px 12px; border-radius: 8px; cursor: pointer;
-white-space: nowrap; font-size: 12px; font-weight: 500;
-color: #8fa3c0; border: 1px solid transparent;
-transition: all 0.18s; flex-shrink: 0;
-background-color: transparent; font-family: ‘DM Sans’, sans-serif;
--webkit-appearance: none; outline: none;
-}
+.nav-tab { display: flex; align-items: center; gap: 5px; padding: 7px 12px; border-radius: 8px; cursor: pointer; white-space: nowrap; font-size: 12px; font-weight: 500; color: #8fa3c0; border: 1px solid transparent; transition: all 0.18s; flex-shrink: 0; background-color: transparent; font-family: ‘DM Sans’, sans-serif; -webkit-appearance: none; outline: none; }
 .nav-tab:hover { background-color: rgba(255,255,255,0.04); color: #e8edf5; }
 .nav-tab.active { background-color: rgba(249,115,22,0.14); border-color: rgba(249,115,22,0.35); color: #fb923c; }
 .nav-tab.live-tab { border-color: rgba(52,211,153,0.3); color: #34d399; background-color: rgba(52,211,153,0.07); }
@@ -73,12 +27,10 @@ background-color: transparent; font-family: ‘DM Sans’, sans-serif;
 .status-pill::before { content: ‘’; width: 6px; height: 6px; border-radius: 50%; background-color: #34d399; box-shadow: 0 0 8px #34d399; animation: pulse 2s ease infinite; }
 
 .main { background-color: #080c18; min-height: 100vh; position: relative; z-index: 1; }
-
 .panel { display: none; padding: 36px 32px 80px; max-width: 960px; margin: 0 auto; animation: fadeIn 0.3s ease both; background-color: #080c18; }
 .panel.active { display: block; }
 .panel.crm-panel { max-width: 100%; padding: 0; }
 
-/* HOME */
 .home-hero { text-align: center; padding: 16px 20px 20px; }
 .home-hero h1 { font-family: ‘Syne’, sans-serif; font-size: 42px; font-weight: 800; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 10px; color: #e8edf5; }
 .gradient-text { background: linear-gradient(90deg, #fb923c, #fdba74); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
@@ -89,6 +41,7 @@ background-color: transparent; font-family: ‘DM Sans’, sans-serif;
 .ops-notes::before { content: ‘’; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, #f97316, transparent); opacity: 0.6; }
 .ops-notes h3 { font-family: ‘Syne’, sans-serif; font-size: 17px; font-weight: 700; color: #e8edf5; margin-bottom: 7px; }
 .ops-notes p { color: #8fa3c0; font-size: 13px; line-height: 1.65; }
+
 .stations-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
 .station-tile { background-color: #0f1623; border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.2s; text-align: left; }
 .station-tile:hover { border-color: rgba(249,115,22,0.35); background-color: #161e30; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(249,115,22,0.12); }
@@ -100,13 +53,11 @@ background-color: transparent; font-family: ‘DM Sans’, sans-serif;
 .badge-live { color: #34d399; border: 1px solid rgba(52,211,153,0.3); background-color: rgba(52,211,153,0.1); }
 .badge-shell { color: #fb923c; border: 1px solid rgba(249,115,22,0.32); background-color: rgba(249,115,22,0.12); }
 
-/* SECTION */
 .section-hero { margin-bottom: 28px; }
 .section-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #fb923c; margin-bottom: 8px; }
 .section-title { font-family: ‘Syne’, sans-serif; font-size: 32px; font-weight: 800; letter-spacing: -0.8px; line-height: 1.1; margin-bottom: 8px; color: #e8edf5; }
 .section-sub { font-size: 14px; color: #8fa3c0; font-weight: 300; max-width: 560px; line-height: 1.6; }
 
-/* CARD */
 .card { background-color: #0f1623; border: 1px solid rgba(255,255,255,0.07); border-radius: 16px; padding: 28px; margin-bottom: 16px; position: relative; overflow: hidden; }
 .card::before { content: ‘’; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, #f97316, transparent); opacity: 0.45; }
 
@@ -122,7 +73,6 @@ background-color: transparent; font-family: ‘DM Sans’, sans-serif;
 .btn-primary { width: 100%; margin-top: 18px; padding: 14px; background: linear-gradient(135deg, #f97316, #c2410c); border: none; border-radius: 10px; color: #fff; font-family: ‘Syne’, sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.3px; cursor: pointer; box-shadow: 0 4px 20px rgba(249,115,22,0.3); display: flex; align-items: center; justify-content: center; gap: 8px; transition: opacity 0.2s; -webkit-appearance: none; }
 .btn-primary:hover { opacity: 0.9; }
 .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
-
 .btn-sm { padding: 5px 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.07); background-color: transparent; color: #8fa3c0; font-family: ‘DM Sans’, sans-serif; font-size: 11px; font-weight: 500; cursor: pointer; transition: all 0.18s; -webkit-appearance: none; }
 .btn-sm:hover { border-color: rgba(249,115,22,0.35); color: #fb923c; background-color: rgba(249,115,22,0.1); }
 .btn-sm.ok { border-color: rgba(52,211,153,0.3); color: #34d399; background-color: rgba(52,211,153,0.08); }
@@ -132,7 +82,6 @@ background-color: transparent; font-family: ‘DM Sans’, sans-serif;
 .status-bar { display: none; align-items: center; gap: 10px; padding: 12px 18px; background-color: rgba(249,115,22,0.12); border: 1px solid rgba(249,115,22,0.32); border-radius: 10px; margin-bottom: 14px; font-size: 13px; color: #fb923c; }
 .spinner { width: 14px; height: 14px; border: 2px solid rgba(249,115,22,0.3); border-top-color: #fb923c; border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
 .error-bar { display: none; padding: 12px 18px; background-color: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.28); border-radius: 10px; margin-bottom: 14px; font-size: 13px; color: #fca5a5; }
-
 .savings-bar { display: none; align-items: center; background-color: rgba(52,211,153,0.07); border: 1px solid rgba(52,211,153,0.22); border-radius: 14px; padding: 14px 0; margin-bottom: 14px; }
 .savings-stat { flex: 1; text-align: center; padding: 0 12px; }
 .savings-num { font-family: ‘Syne’, sans-serif; font-size: 26px; font-weight: 800; color: #34d399; letter-spacing: -0.5px; }
@@ -162,72 +111,43 @@ background-color: transparent; font-family: ‘DM Sans’, sans-serif;
 .lead-row-new { animation: rowSlide 0.35s ease both; }
 .in-crm-badge { display: inline-flex; padding: 2px 7px; border-radius: 6px; font-size: 9px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: #34d399; border: 1px solid rgba(52,211,153,0.3); background-color: rgba(52,211,153,0.1); }
 
-/* ========================
-CRM FULL SCREEN
-======================== */
-.crm-wrap {
-background-color: #080c18;
-min-height: calc(100vh - 56px);
-display: flex; flex-direction: column;
-}
-
-.crm-topbar {
-display: flex; align-items: center; justify-content: space-between;
-padding: 16px 24px; border-bottom: 1px solid rgba(255,255,255,0.07);
-background-color: #0f1623; flex-wrap: wrap; gap: 12px;
-}
-
+.crm-wrap { background-color: #080c18; min-height: calc(100vh - 56px); display: flex; flex-direction: column; }
+.crm-topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; border-bottom: 1px solid rgba(255,255,255,0.07); background-color: #0f1623; flex-wrap: wrap; gap: 12px; }
 .crm-title-row { display: flex; align-items: center; gap: 14px; }
 .crm-main-title { font-family: ‘Syne’, sans-serif; font-size: 22px; font-weight: 800; color: #e8edf5; }
-
 .crm-stats-row { display: flex; gap: 20px; flex-wrap: wrap; }
 .crm-stat { text-align: center; }
 .crm-stat-num { font-family: ‘Syne’, sans-serif; font-size: 20px; font-weight: 800; color: #fb923c; }
 .crm-stat-lbl { font-size: 9px; color: #4a6080; text-transform: uppercase; letter-spacing: 0.5px; }
-
 .crm-actions { display: flex; gap: 8px; }
-
-/* CRM TABS */
 .crm-tabs { display: flex; gap: 0; border-bottom: 1px solid rgba(255,255,255,0.07); padding: 0 24px; background-color: #0f1623; }
 .crm-tab { padding: 12px 20px; font-size: 13px; font-weight: 500; color: #8fa3c0; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.18s; white-space: nowrap; background: transparent; border-top: none; border-left: none; border-right: none; font-family: ‘DM Sans’, sans-serif; -webkit-appearance: none; }
 .crm-tab:hover { color: #e8edf5; }
 .crm-tab.active { color: #fb923c; border-bottom-color: #f97316; }
-.crm-tab .tab-count { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; background-color: rgba(249,115,22,0.2); color: #fb923c; font-size: 10px; font-weight: 700; margin-left: 6px; }
+.tab-count { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; background-color: rgba(249,115,22,0.2); color: #fb923c; font-size: 10px; font-weight: 700; margin-left: 6px; }
 
-/* KANBAN */
 .kanban-wrap { flex: 1; overflow-x: auto; padding: 20px 24px; }
 .kanban-board { display: flex; gap: 14px; min-width: max-content; align-items: flex-start; }
-
 .kanban-col { width: 280px; flex-shrink: 0; }
 .kanban-col-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; padding: 0 4px; }
 .kanban-col-title { font-family: ‘Syne’, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
 .kanban-col-count { font-size: 11px; color: #4a6080; font-weight: 600; }
-
-.kanban-col.col-new .kanban-col-title { color: #8fa3c0; }
-.kanban-col.col-emailed .kanban-col-title { color: #fb923c; }
-.kanban-col.col-contacted .kanban-col-title { color: #fbbf24; }
-.kanban-col.col-demo .kanban-col-title { color: #60a5fa; }
-.kanban-col.col-proposal .kanban-col-title { color: #a78bfa; }
-.kanban-col.col-negotiating .kanban-col-title { color: #f472b6; }
-.kanban-col.col-won .kanban-col-title { color: #34d399; }
-.kanban-col.col-lost .kanban-col-title { color: #4a6080; }
-
+.col-new .kanban-col-title { color: #8fa3c0; }
+.col-emailed .kanban-col-title { color: #fb923c; }
+.col-contacted .kanban-col-title { color: #fbbf24; }
+.col-demo .kanban-col-title { color: #60a5fa; }
+.col-proposal .kanban-col-title { color: #a78bfa; }
+.col-negotiating .kanban-col-title { color: #f472b6; }
+.col-won .kanban-col-title { color: #34d399; }
+.col-lost .kanban-col-title { color: #4a6080; }
 .kanban-cards { display: flex; flex-direction: column; gap: 10px; min-height: 80px; }
 
-/* KANBAN CARD */
-.kanban-card {
-background-color: #0f1623;
-border: 1px solid rgba(255,255,255,0.07);
-border-radius: 12px; padding: 14px;
-cursor: pointer; transition: all 0.18s;
-position: relative;
-}
+.kanban-card { background-color: #0f1623; border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 14px; cursor: pointer; transition: all 0.18s; position: relative; }
 .kanban-card:hover { border-color: rgba(249,115,22,0.3); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
 .kanban-card.status-lead { border-left: 3px solid #8fa3c0; }
 .kanban-card.status-prospect { border-left: 3px solid #fb923c; }
 .kanban-card.status-account-won { border-left: 3px solid #34d399; }
 .kanban-card.status-account-lost { border-left: 3px solid #4a6080; }
-
 .kcard-biz { font-family: ‘Syne’, sans-serif; font-size: 13px; font-weight: 700; color: #e8edf5; margin-bottom: 4px; }
 .kcard-contact { font-size: 11px; color: #fb923c; margin-bottom: 6px; }
 .kcard-type { font-size: 10px; color: #4a6080; margin-bottom: 8px; }
@@ -241,48 +161,23 @@ position: relative;
 .kcard-btn { padding: 4px 10px; border-radius: 5px; font-size: 10px; font-weight: 600; cursor: pointer; border: 1px solid rgba(255,255,255,0.07); background: transparent; color: #8fa3c0; font-family: ‘DM Sans’, sans-serif; transition: all 0.15s; -webkit-appearance: none; }
 .kcard-btn:hover { border-color: rgba(249,115,22,0.35); color: #fb923c; background-color: rgba(249,115,22,0.1); }
 .kcard-days { position: absolute; top: 10px; right: 10px; font-size: 9px; color: #4a6080; }
-
 .kanban-empty { padding: 24px; text-align: center; color: #4a6080; font-size: 12px; border: 1px dashed rgba(255,255,255,0.08); border-radius: 10px; }
 
-/* FOLLOWUP ALERTS */
 .followup-alerts { padding: 12px 24px 0; }
 .alert-bar { display: flex; align-items: center; gap: 10px; padding: 10px 16px; background-color: rgba(251,191,36,0.08); border: 1px solid rgba(251,191,36,0.2); border-radius: 10px; margin-bottom: 8px; font-size: 13px; color: #fbbf24; }
-.alert-bar .alert-close { margin-left: auto; cursor: pointer; color: #4a6080; font-size: 16px; background: none; border: none; }
+.alert-close { margin-left: auto; cursor: pointer; color: #4a6080; font-size: 16px; background: none; border: none; -webkit-appearance: none; }
 
-/* ========================
-MODALS
-======================== */
-.modal-overlay {
-position: fixed; inset: 0; z-index: 500;
-background-color: rgba(8,12,24,0.85);
-backdrop-filter: blur(8px);
--webkit-backdrop-filter: blur(8px);
-display: none; align-items: center; justify-content: center;
-padding: 20px;
-}
+.modal-overlay { position: fixed; inset: 0; z-index: 500; background-color: rgba(8,12,24,0.85); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; padding: 20px; }
 .modal-overlay.open { display: flex; }
-
-.modal-card {
-background-color: #0f1623;
-border: 1px solid rgba(249,115,22,0.25);
-border-radius: 18px; padding: 28px;
-width: 100%; max-width: 640px;
-max-height: 90vh; overflow-y: auto;
-position: relative;
-animation: fadeIn 0.2s ease both;
-}
+.modal-card { background-color: #0f1623; border: 1px solid rgba(249,115,22,0.25); border-radius: 18px; padding: 28px; width: 100%; max-width: 640px; max-height: 90vh; overflow-y: auto; position: relative; animation: fadeIn 0.2s ease both; }
 .modal-card::-webkit-scrollbar { width: 3px; }
 .modal-card::-webkit-scrollbar-thumb { background-color: rgba(249,115,22,0.3); }
-
 .modal-card.wide { max-width: 820px; }
-
 .modal-close { position: absolute; top: 14px; right: 14px; width: 28px; height: 28px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1); background-color: rgba(255,255,255,0.05); color: #8fa3c0; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; -webkit-appearance: none; }
 .modal-close:hover { border-color: rgba(249,115,22,0.35); color: #fb923c; }
-
 .modal-title { font-family: ‘Syne’, sans-serif; font-size: 20px; font-weight: 800; color: #e8edf5; margin-bottom: 6px; }
 .modal-sub { font-size: 13px; color: #8fa3c0; margin-bottom: 20px; }
 
-/* CONTACT SELECTION */
 .contact-select-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
 .contact-select-item { display: flex; align-items: center; gap: 14px; padding: 14px; background-color: #161e30; border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; cursor: pointer; transition: all 0.15s; }
 .contact-select-item:hover { border-color: rgba(249,115,22,0.3); }
@@ -295,28 +190,20 @@ animation: fadeIn 0.2s ease both;
 .contact-info-title { font-size: 11px; color: #fb923c; }
 .contact-info-email { font-size: 11px; color: #8fa3c0; }
 .contact-info-phone { font-size: 11px; color: #8fa3c0; }
-
 .select-all-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
 .select-all-btn { font-size: 12px; color: #fb923c; cursor: pointer; background: none; border: none; font-family: ‘DM Sans’, sans-serif; -webkit-appearance: none; }
 
-/* LEAD DETAIL MODAL */
-.detail-sections { display: flex; flex-direction: column; gap: 18px; }
 .detail-section-title { font-family: ‘Syne’, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #fb923c; margin-bottom: 10px; }
 .detail-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .detail-field { background-color: #161e30; border-radius: 8px; padding: 10px 12px; }
 .detail-field-lbl { font-size: 10px; color: #4a6080; margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
 .detail-field-val { font-size: 13px; color: #e8edf5; font-weight: 500; }
-.detail-field-val.editable { cursor: pointer; border-bottom: 1px dashed rgba(249,115,22,0.3); }
-
-/* CONTACTS TABLE IN DETAIL */
 .contacts-list { display: flex; flex-direction: column; gap: 8px; }
 .contact-row { background-color: #161e30; border-radius: 10px; padding: 12px 14px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .contact-row-name { font-weight: 600; color: #e8edf5; font-size: 13px; flex: 1; min-width: 120px; }
 .contact-row-title { font-size: 11px; color: #fb923c; min-width: 100px; }
 .contact-row-email { font-size: 11px; color: #8fa3c0; min-width: 140px; }
 .contact-row-phone { font-size: 11px; color: #8fa3c0; }
-
-/* ACTIVITY LOG */
 .activity-list { display: flex; flex-direction: column; gap: 8px; }
 .activity-item { background-color: #161e30; border-radius: 8px; padding: 10px 14px; display: flex; gap: 10px; align-items: flex-start; }
 .activity-icon { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
@@ -328,20 +215,16 @@ animation: fadeIn 0.2s ease both;
 .activity-type { font-size: 11px; font-weight: 600; color: #fb923c; margin-bottom: 2px; }
 .activity-text { font-size: 12px; color: #8fa3c0; line-height: 1.5; }
 .activity-time { font-size: 10px; color: #4a6080; margin-top: 3px; }
-
 .log-form { background-color: #161e30; border-radius: 10px; padding: 14px; margin-top: 10px; }
 .log-form-row { display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
 .log-form-row > * { flex: 1; min-width: 120px; }
 .log-textarea { width: 100%; background-color: #0f1623; border: 1px solid rgba(255,255,255,0.07); border-radius: 8px; padding: 10px 12px; color: #e8edf5; font-family: ‘DM Sans’, sans-serif; font-size: 13px; outline: none; resize: vertical; min-height: 70px; -webkit-appearance: none; }
 .log-textarea:focus { border-color: rgba(249,115,22,0.35); }
-
-/* STAGE MOVER */
 .stage-mover { display: flex; gap: 6px; flex-wrap: wrap; }
 .stage-btn { padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); background: transparent; color: #8fa3c0; font-family: ‘DM Sans’, sans-serif; transition: all 0.15s; -webkit-appearance: none; }
 .stage-btn:hover { border-color: rgba(249,115,22,0.35); color: #fb923c; background-color: rgba(249,115,22,0.1); }
 .stage-btn.current-stage { border-color: rgba(249,115,22,0.5); color: #fb923c; background-color: rgba(249,115,22,0.15); }
 
-/* SHELL */
 .shell-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 18px; }
 .shell-block { background-color: #0f1623; border: 1px solid rgba(255,255,255,0.07); border-radius: 14px; padding: 18px; }
 .shell-block h4 { font-family: ‘Syne’, sans-serif; font-size: 14px; margin-bottom: 10px; color: #e8edf5; }
@@ -384,7 +267,7 @@ animation: fadeIn 0.2s ease both;
       <button class="nav-tab" onclick="showPanel('proposals')" data-panel="proposals">&#128203; Proposals</button>
       <button class="nav-tab" onclick="showPanel('contracts')" data-panel="contracts">&#9997; Contracts</button>
       <button class="nav-tab" onclick="showPanel('invoicing')" data-panel="invoicing">&#128176; Invoicing</button>
-      <button class="nav-tab" onclick="showPanel('followup')" data-panel="followup">&#128172; Follow-Up</button>
+      <button class="nav-tab" onclick="showPanel('followup-sms')" data-panel="followup-sms">&#128172; Follow-Up</button>
       <button class="nav-tab" onclick="showPanel('social')" data-panel="social">&#128241; Social</button>
       <button class="nav-tab" onclick="showPanel('ads')" data-panel="ads">&#128227; Ads</button>
       <button class="nav-tab" onclick="showPanel('newsletter')" data-panel="newsletter">&#9993; Newsletter</button>
@@ -413,13 +296,13 @@ animation: fadeIn 0.2s ease both;
   </div>
   <div class="stations-grid">
     <div class="station-tile live-tile" onclick="showPanel('find-leads')"><div class="tile-icon">&#127919;</div><div class="tile-title">Find Leads</div><div class="tile-desc">Live Google Places scraper &#8212; real business data, phone, address, rating.</div><span class="tile-badge badge-live">LIVE</span></div>
-    <div class="station-tile live-tile" onclick="showPanel('smart-crm')"><div class="tile-icon">&#128231;</div><div class="tile-title">Smart CRM</div><div class="tile-desc">Lead &#8594; Prospect &#8594; Account pipeline with kanban, contacts, and activity log.</div><span class="tile-badge badge-live">LIVE</span></div>
+    <div class="station-tile live-tile" onclick="showPanel('smart-crm')"><div class="tile-icon">&#128231;</div><div class="tile-title">Smart CRM</div><div class="tile-desc">Lead to Prospect to Account pipeline with kanban, contacts, and activity log.</div><span class="tile-badge badge-live">LIVE</span></div>
     <div class="station-tile" onclick="showPanel('seo')"><div class="tile-icon">&#128269;</div><div class="tile-title">SEO + AEO</div><div class="tile-desc">Keywords, city pages, answer blocks, and metadata.</div><span class="tile-badge badge-shell">Shell Ready</span></div>
     <div class="station-tile" onclick="showPanel('phone-agent')"><div class="tile-icon">&#128222;</div><div class="tile-title">Phone Agent</div><div class="tile-desc">AI call flows, transfer logic, and logging.</div><span class="tile-badge badge-shell">Shell Ready</span></div>
     <div class="station-tile" onclick="showPanel('proposals')"><div class="tile-icon">&#128203;</div><div class="tile-title">Proposals</div><div class="tile-desc">Notes to scope, pricing, and send-ready proposal.</div><span class="tile-badge badge-shell">Shell Ready</span></div>
     <div class="station-tile" onclick="showPanel('contracts')"><div class="tile-icon">&#9997;</div><div class="tile-title">Contracts</div><div class="tile-desc">Generate contracts and track signatures.</div><span class="tile-badge badge-shell">Shell Ready</span></div>
     <div class="station-tile" onclick="showPanel('invoicing')"><div class="tile-icon">&#128176;</div><div class="tile-title">Invoicing</div><div class="tile-desc">Invoice creation, reminders, and payment view.</div><span class="tile-badge badge-shell">Shell Ready</span></div>
-    <div class="station-tile" onclick="showPanel('followup')"><div class="tile-icon">&#128172;</div><div class="tile-title">Follow-Up SMS</div><div class="tile-desc">Automated text follow-up and deal nudges.</div><span class="tile-badge badge-shell">Shell Ready</span></div>
+    <div class="station-tile" onclick="showPanel('followup-sms')"><div class="tile-icon">&#128172;</div><div class="tile-title">Follow-Up SMS</div><div class="tile-desc">Automated text follow-up and deal nudges.</div><span class="tile-badge badge-shell">Shell Ready</span></div>
     <div class="station-tile" onclick="showPanel('social')"><div class="tile-icon">&#128241;</div><div class="tile-title">Social Media</div><div class="tile-desc">Post drafts, scheduling, and approvals.</div><span class="tile-badge badge-shell">Shell Ready</span></div>
     <div class="station-tile" onclick="showPanel('ads')"><div class="tile-icon">&#128227;</div><div class="tile-title">Ad Campaigns</div><div class="tile-desc">Campaign setup, offers, and targeting logic.</div><span class="tile-badge badge-shell">Shell Ready</span></div>
     <div class="station-tile" onclick="showPanel('newsletter')"><div class="tile-icon">&#9993;</div><div class="tile-title">Newsletter</div><div class="tile-desc">Newsletter planning, drafting, and scheduling.</div><span class="tile-badge badge-shell">Shell Ready</span></div>
@@ -471,7 +354,7 @@ animation: fadeIn 0.2s ease both;
       <div class="out-title">Live Results</div>
       <div class="out-actions">
         <span class="out-count" id="ls-count"></span>
-        <button class="btn-sm ok" onclick="bulkImportAll()">&#43; Import All to CRM</button>
+        <button class="btn-sm ok" onclick="bulkImportAll()">+ Import All to CRM</button>
         <button class="btn-sm ok" onclick="exportCSV()">Export CSV</button>
         <button class="btn-sm" onclick="resetLeads()">New Search</button>
       </div>
@@ -485,66 +368,55 @@ animation: fadeIn 0.2s ease both;
   </div>
 </div>
 
-<!-- SMART CRM FULL SCREEN -->
+<!-- SMART CRM -->
 
 <div class="panel crm-panel" id="panel-smart-crm">
   <div class="crm-wrap">
-
-```
-<!-- FOLLOW-UP ALERTS -->
-<div class="followup-alerts" id="followupAlerts"></div>
-
-<!-- CRM TOP BAR -->
-<div class="crm-topbar">
-  <div class="crm-title-row">
-    <div class="crm-main-title">&#128231; Smart CRM</div>
-    <span class="tile-badge badge-live">LIVE</span>
-  </div>
-  <div class="crm-stats-row" id="crmStatsRow">
-    <div class="crm-stat"><div class="crm-stat-num" id="stat-leads">0</div><div class="crm-stat-lbl">Leads</div></div>
-    <div class="crm-stat"><div class="crm-stat-num" id="stat-prospects">0</div><div class="crm-stat-lbl">Prospects</div></div>
-    <div class="crm-stat"><div class="crm-stat-num" id="stat-accounts">0</div><div class="crm-stat-lbl">Accounts</div></div>
-    <div class="crm-stat"><div class="crm-stat-num" id="stat-pipeline">$0</div><div class="crm-stat-lbl">Pipeline Value</div></div>
-  </div>
-  <div class="crm-actions">
-    <button class="btn-sm orange" onclick="openAddManualModal()">&#43; Add Manual</button>
-    <button class="btn-sm" onclick="showPanel('find-leads')">&#8592; Find Leads</button>
-  </div>
-</div>
-
-<!-- CRM TABS -->
-<div class="crm-tabs">
-  <button class="crm-tab active" onclick="setCrmView('all')" id="crm-tab-all">All <span class="tab-count" id="tab-count-all">0</span></button>
-  <button class="crm-tab" onclick="setCrmView('leads')" id="crm-tab-leads">Leads <span class="tab-count" id="tab-count-leads">0</span></button>
-  <button class="crm-tab" onclick="setCrmView('prospects')" id="crm-tab-prospects">Prospects <span class="tab-count" id="tab-count-prospects">0</span></button>
-  <button class="crm-tab" onclick="setCrmView('accounts')" id="crm-tab-accounts">Accounts <span class="tab-count" id="tab-count-accounts">0</span></button>
-</div>
-
-<!-- KANBAN BOARD -->
-<div class="kanban-wrap">
-  <div class="kanban-board" id="kanbanBoard"></div>
-</div>
-```
-
+    <div class="followup-alerts" id="followupAlerts"></div>
+    <div class="crm-topbar">
+      <div class="crm-title-row">
+        <div class="crm-main-title">&#128231; Smart CRM</div>
+        <span class="tile-badge badge-live">LIVE</span>
+      </div>
+      <div class="crm-stats-row">
+        <div class="crm-stat"><div class="crm-stat-num" id="stat-leads">0</div><div class="crm-stat-lbl">Leads</div></div>
+        <div class="crm-stat"><div class="crm-stat-num" id="stat-prospects">0</div><div class="crm-stat-lbl">Prospects</div></div>
+        <div class="crm-stat"><div class="crm-stat-num" id="stat-accounts">0</div><div class="crm-stat-lbl">Accounts</div></div>
+        <div class="crm-stat"><div class="crm-stat-num" id="stat-pipeline">$0</div><div class="crm-stat-lbl">Pipeline Value</div></div>
+      </div>
+      <div class="crm-actions">
+        <button class="btn-sm orange" onclick="openAddManualModal()">+ Add Manual</button>
+        <button class="btn-sm" onclick="showPanel('find-leads')">&#8592; Find Leads</button>
+      </div>
+    </div>
+    <div class="crm-tabs">
+      <button class="crm-tab active" onclick="setCrmView('all')" id="crm-tab-all">All <span class="tab-count" id="tab-count-all">0</span></button>
+      <button class="crm-tab" onclick="setCrmView('leads')" id="crm-tab-leads">Leads <span class="tab-count" id="tab-count-leads">0</span></button>
+      <button class="crm-tab" onclick="setCrmView('prospects')" id="crm-tab-prospects">Prospects <span class="tab-count" id="tab-count-prospects">0</span></button>
+      <button class="crm-tab" onclick="setCrmView('accounts')" id="crm-tab-accounts">Accounts <span class="tab-count" id="tab-count-accounts">0</span></button>
+    </div>
+    <div class="kanban-wrap">
+      <div class="kanban-board" id="kanbanBoard"></div>
+    </div>
   </div>
 </div>
 
-<!-- SHELLS -->
+<!-- SHELL PANELS -->
 
 <div class="panel" id="panel-seo"><div class="section-hero"><div class="section-eyebrow">Station 2</div><div class="section-title">SEO + AEO <span class="gradient-text">Shell</span></div><div class="section-sub">Keyword research, city pages, and answer engine content builder.</div></div><div class="card"><div class="shell-grid"><div class="shell-block"><h4>Build Areas</h4><div class="shell-list"><div>Service and city inputs</div><div>Keyword clusters</div><div>Meta title and description generator</div><div>FAQ and answer block builder</div></div></div><div class="shell-block"><div class="placeholder-box">SEO workspace goes here</div></div></div></div></div>
 <div class="panel" id="panel-phone-agent"><div class="section-hero"><div class="section-eyebrow">Station 4</div><div class="section-title">Phone Agent <span class="gradient-text">Shell</span></div><div class="section-sub">Voice logic, call scripts, and transfer controls.</div></div><div class="card"><div class="shell-grid"><div class="shell-block"><h4>Build Areas</h4><div class="shell-list"><div>Scenario selector</div><div>Transcript area</div><div>Call controls</div><div>Disposition and CRM handoff</div></div></div><div class="shell-block"><div class="placeholder-box">Phone simulation area goes here</div></div></div></div></div>
 <div class="panel" id="panel-proposals"><div class="section-hero"><div class="section-eyebrow">Station 5</div><div class="section-title">Proposals <span class="gradient-text">Shell</span></div><div class="section-sub">Paste notes and turn them into a send-ready proposal.</div></div><div class="card"><div class="shell-grid"><div class="shell-block"><h4>Build Areas</h4><div class="shell-list"><div>Client and project inputs</div><div>Notes and source text box</div><div>Proposal render area</div><div>Approve and send action row</div></div></div><div class="shell-block"><div class="placeholder-box">Proposal builder goes here</div></div></div></div></div>
 <div class="panel" id="panel-contracts"><div class="section-hero"><div class="section-eyebrow">Station 6</div><div class="section-title">Contracts <span class="gradient-text">Shell</span></div><div class="section-sub">Generate agreements and track signature status.</div></div><div class="card"><div class="shell-grid"><div class="shell-block"><h4>Build Areas</h4><div class="shell-list"><div>Template picker</div><div>Contract render panel</div><div>E-sign delivery state</div><div>Status tracker</div></div></div><div class="shell-block"><div class="placeholder-box">Contract system goes here</div></div></div></div></div>
 <div class="panel" id="panel-invoicing"><div class="section-hero"><div class="section-eyebrow">Station 7</div><div class="section-title">Invoicing <span class="gradient-text">Shell</span></div><div class="section-sub">Send invoices and monitor reminder flow.</div></div><div class="card"><div class="shell-grid"><div class="shell-block"><h4>Build Areas</h4><div class="shell-list"><div>Invoice details form</div><div>Terms and payment method</div><div>Send trigger</div><div>Reminder and paid status timeline</div></div></div><div class="shell-block"><div class="placeholder-box">Invoice workspace goes here</div></div></div></div></div>
-<div class="panel" id="panel-followup"><div class="section-hero"><div class="section-eyebrow">Station 8</div><div class="section-title">Follow-Up SMS <span class="gradient-text">Shell</span></div><div class="section-sub">Quiet lead reactivation and sequence builder.</div></div><div class="card"><div class="shell-grid"><div class="shell-block"><h4>Build Areas</h4><div class="shell-list"><div>Deal stage selector</div><div>Sequence builder</div><div>SMS preview cards</div><div>Send and log actions</div></div></div><div class="shell-block"><div class="placeholder-box">Follow-up builder goes here</div></div></div></div></div>
+<div class="panel" id="panel-followup-sms"><div class="section-hero"><div class="section-eyebrow">Station 8</div><div class="section-title">Follow-Up SMS <span class="gradient-text">Shell</span></div><div class="section-sub">Quiet lead reactivation and sequence builder.</div></div><div class="card"><div class="shell-grid"><div class="shell-block"><h4>Build Areas</h4><div class="shell-list"><div>Deal stage selector</div><div>Sequence builder</div><div>SMS preview cards</div><div>Send and log actions</div></div></div><div class="shell-block"><div class="placeholder-box">Follow-up builder goes here</div></div></div></div></div>
 <div class="panel" id="panel-social"><div class="section-hero"><div class="section-eyebrow">Station 9</div><div class="section-title">Social Media <span class="gradient-text">Shell</span></div><div class="section-sub">Topic to post flow across channels.</div></div><div class="card"><div class="shell-grid"><div class="shell-block"><h4>Build Areas</h4><div class="shell-list"><div>Topic and audience input</div><div>Platform selector</div><div>Post preview cards</div><div>Approval and scheduling row</div></div></div><div class="shell-block"><div class="placeholder-box">Social content workspace goes here</div></div></div></div></div>
 <div class="panel" id="panel-ads"><div class="section-hero"><div class="section-eyebrow">Station 10</div><div class="section-title">Ad Campaigns <span class="gradient-text">Shell</span></div><div class="section-sub">Offer strategy, audience, and creative shell.</div></div><div class="card"><div class="shell-grid"><div class="shell-block"><h4>Build Areas</h4><div class="shell-list"><div>Campaign goal and budget</div><div>Audience builder</div><div>Ad copy generator</div><div>Launch checklist</div></div></div><div class="shell-block"><div class="placeholder-box">Campaign builder goes here</div></div></div></div></div>
 <div class="panel" id="panel-newsletter"><div class="section-hero"><div class="section-eyebrow">Station 11</div><div class="section-title">Newsletter <span class="gradient-text">Shell</span></div><div class="section-sub">Topic to finished newsletter workflow.</div></div><div class="card"><div class="shell-grid"><div class="shell-block"><h4>Build Areas</h4><div class="shell-list"><div>Topic and tone controls</div><div>Newsletter renderer</div><div>Subject and preview line</div><div>Schedule and send actions</div></div></div><div class="shell-block"><div class="placeholder-box">Newsletter system goes here</div></div></div></div></div>
 <div class="panel" id="panel-dashboard"><div class="section-hero"><div class="section-eyebrow">Station 12</div><div class="section-title">Dashboard <span class="gradient-text">Shell</span></div><div class="section-sub">Cross-station command center and live ops summary.</div></div><div class="card"><div class="shell-grid"><div class="shell-block"><h4>Build Areas</h4><div class="shell-list"><div>Station status cards</div><div>Recent activity feed</div><div>Pipeline summary</div><div>Quick action launcher</div></div></div><div class="shell-block"><div class="placeholder-box">Master ops dashboard goes here</div></div></div></div></div>
 
-</div><!-- end .main -->
+</div>
 
-<!-- CONTACT IMPORT MODAL -->
+<!-- IMPORT MODAL -->
 
 <div class="modal-overlay" id="importModal">
   <div class="modal-card wide">
@@ -563,7 +435,7 @@ animation: fadeIn 0.2s ease both;
   </div>
 </div>
 
-<!-- LEAD DETAIL MODAL -->
+<!-- DETAIL MODAL -->
 
 <div class="modal-overlay" id="detailModal">
   <div class="modal-card wide">
@@ -597,27 +469,10 @@ var currentDetailId = null;
 var currentCrmView = 'all';
 var selectedContacts = [];
 
-// ========================
-// STORAGE
-// ========================
-function saveCRM() {
-  try { localStorage.setItem('breakout_crm', JSON.stringify(crmData)); } catch(e) {}
-}
+function saveCRM() { try { localStorage.setItem('breakout_crm', JSON.stringify(crmData)); } catch(e) {} }
+function loadCRM() { try { var d = localStorage.getItem('breakout_crm'); if (d) crmData = JSON.parse(d); } catch(e) { crmData = []; } }
+function genId() { return 'crm_' + Date.now() + '_' + Math.random().toString(36).substr(2,6); }
 
-function loadCRM() {
-  try {
-    var d = localStorage.getItem('breakout_crm');
-    if (d) crmData = JSON.parse(d);
-  } catch(e) { crmData = []; }
-}
-
-function genId() {
-  return 'crm_' + Date.now() + '_' + Math.random().toString(36).substr(2,6);
-}
-
-// ========================
-// NAV
-// ========================
 function showPanel(id) {
   var panels = document.querySelectorAll('.panel');
   var tabs = document.querySelectorAll('.nav-tab');
@@ -637,9 +492,6 @@ function esc(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
-// ========================
-// FIND LEADS
-// ========================
 function runLeadSearch() {
   var query = document.getElementById('ls-query').value.trim();
   var city = document.getElementById('ls-city').value.trim();
@@ -680,9 +532,7 @@ function runLeadSearch() {
 }
 
 function isInCRM(name) {
-  for (var i = 0; i < crmData.length; i++) {
-    if (crmData[i].bizName === name) return true;
-  }
+  for (var i = 0; i < crmData.length; i++) { if (crmData[i].bizName === name) return true; }
   return false;
 }
 
@@ -703,7 +553,6 @@ function renderLeads(results) {
       var tr = document.createElement('tr');
       tr.className = 'lead-row-new';
       tr.style.animationDelay = (i * 55) + 'ms';
-      tr.setAttribute('data-idx', i);
       tr.innerHTML =
         '<td><span class="lead-name">' + esc(name) + '</span></td>' +
         '<td style="font-size:12px">' + esc(address) + '</td>' +
@@ -732,7 +581,6 @@ function resetLeads() {
   document.getElementById('ls-savings').style.display = 'none';
   document.getElementById('ls-error').style.display = 'none';
   leadsData = [];
-  document.getElementById('ls-query').focus();
 }
 
 function exportCSV() {
@@ -749,63 +597,33 @@ function exportCSV() {
   URL.revokeObjectURL(url);
 }
 
-// ========================
-// IMPORT TO CRM
-// ========================
 function openImportModal(idx) {
   currentImportLead = leadsData[idx];
   var l = currentImportLead;
   var name = l.name || l.displayName || 'Unknown Business';
   document.getElementById('importModalTitle').textContent = 'Import: ' + name;
   document.getElementById('importModalSub').textContent = 'Select contacts to import. Apollo enrichment will add more contacts when connected.';
-
-  // Build mock contacts from available data (Apollo will replace this)
-  var contacts = buildMockContacts(l);
+  var contacts = [{ name: 'Business Owner', title: 'Owner / Decision Maker', email: '(Apollo will enrich)', phone: l.formatted_phone_number || l.nationalPhoneNumber || l.internationalPhoneNumber || '(Apollo will enrich)' }];
   selectedContacts = [];
-
+  window._importContacts = contacts;
   var html = '';
   for (var i = 0; i < contacts.length; i++) {
     var c = contacts[i];
-    html += '<div class="contact-select-item" id="csi-' + i + '" onclick="toggleContact(' + i + ',' + JSON.stringify(contacts).replace(/"/g,'&quot;') + ')">' +
+    html += '<div class="contact-select-item" id="csi-' + i + '" onclick="toggleContact(' + i + ')">' +
       '<div class="contact-check" id="cc-' + i + '"></div>' +
-      '<div style="flex:1">' +
-      '<div class="contact-info-name">' + esc(c.name) + '</div>' +
-      '<div class="contact-info-title">' + esc(c.title) + '</div>' +
-      '<div class="contact-info-email">' + esc(c.email) + '</div>' +
-      '<div class="contact-info-phone">' + esc(c.phone) + '</div>' +
-      '</div></div>';
+      '<div style="flex:1"><div class="contact-info-name">' + esc(c.name) + '</div><div class="contact-info-title">' + esc(c.title) + '</div><div class="contact-info-email">' + esc(c.email) + '</div><div class="contact-info-phone">' + esc(c.phone) + '</div></div></div>';
   }
   document.getElementById('contactSelectList').innerHTML = html;
   document.getElementById('importModal').classList.add('open');
-
-  // Store contacts for later
-  window._importContacts = contacts;
 }
 
-function buildMockContacts(lead) {
-  var contacts = [];
-  var name = lead.name || lead.displayName || '';
-  var phone = lead.formatted_phone_number || lead.nationalPhoneNumber || lead.internationalPhoneNumber || '';
-  // Build a primary contact from available data
-  contacts.push({
-    name: 'Business Owner',
-    title: 'Owner / Decision Maker',
-    email: '(Apollo will enrich)',
-    phone: phone || '(Apollo will enrich)'
-  });
-  return contacts;
-}
-
-function toggleContact(idx, contacts) {
+function toggleContact(idx) {
   var item = document.getElementById('csi-' + idx);
-  var check = document.getElementById('cc-' + idx);
-  if (!item || !check) return;
+  if (!item) return;
   var contact = window._importContacts[idx];
-  var alreadySelected = false;
-  for (var i = 0; i < selectedContacts.length; i++) {
-    if (selectedContacts[i]._idx === idx) { alreadySelected = true; break; }
-  }
-  if (alreadySelected) {
+  var found = false;
+  for (var i = 0; i < selectedContacts.length; i++) { if (selectedContacts[i]._idx === idx) { found = true; break; } }
+  if (found) {
     selectedContacts = selectedContacts.filter(function(c) { return c._idx !== idx; });
     item.classList.remove('selected');
   } else {
@@ -816,21 +634,18 @@ function toggleContact(idx, contacts) {
 }
 
 function toggleSelectAll() {
-  selectedContacts = [];
   var items = document.querySelectorAll('.contact-select-item');
-  var allSelected = items.length > 0;
-  for (var i = 0; i < items.length; i++) {
-    if (!items[i].classList.contains('selected')) { allSelected = false; break; }
-  }
-  if (allSelected) {
+  var allSel = true;
+  for (var i = 0; i < items.length; i++) { if (!items[i].classList.contains('selected')) { allSel = false; break; } }
+  selectedContacts = [];
+  if (allSel) {
     for (var j = 0; j < items.length; j++) items[j].classList.remove('selected');
   } else {
     for (var k = 0; k < window._importContacts.length; k++) {
-      var c = window._importContacts[k];
-      c._idx = k;
-      selectedContacts.push(c);
-      var item = document.getElementById('csi-' + k);
-      if (item) item.classList.add('selected');
+      window._importContacts[k]._idx = k;
+      selectedContacts.push(window._importContacts[k]);
+      var el = document.getElementById('csi-' + k);
+      if (el) el.classList.add('selected');
     }
   }
 }
@@ -839,38 +654,23 @@ function confirmImport() {
   if (!currentImportLead) return;
   var l = currentImportLead;
   var name = l.name || l.displayName || 'Unknown Business';
-
-  // Use all contacts if none selected
   var contacts = selectedContacts.length > 0 ? selectedContacts : window._importContacts;
-
   var record = {
-    id: genId(),
-    bizName: name,
+    id: genId(), bizName: name,
     bizType: document.getElementById('ls-query') ? document.getElementById('ls-query').value : '',
     city: l.formatted_address || l.formattedAddress || l.vicinity || '',
     phone: l.formatted_phone_number || l.nationalPhoneNumber || l.internationalPhoneNumber || '',
-    website: l.website || l.websiteUri || '',
-    rating: l.rating || '',
-    annualRevenue: '',
-    dealValue: '',
-    notes: '',
-    followupDate: '',
-    stage: 'new',
-    status: 'lead',
+    website: l.website || l.websiteUri || '', rating: l.rating || '',
+    annualRevenue: '', dealValue: '', notes: '', followupDate: '',
+    stage: 'new', status: 'lead',
     contacts: contacts.map(function(c) { return { name: c.name, title: c.title, email: c.email, phone: c.phone }; }),
-    activity: [],
-    createdAt: new Date().toISOString(),
-    daysInStage: 0,
-    stageChangedAt: new Date().toISOString()
+    activity: [], createdAt: new Date().toISOString(), stageChangedAt: new Date().toISOString()
   };
-
   crmData.push(record);
   saveCRM();
   closeModal('importModal');
-  refreshLeadsTable();
+  renderLeads(leadsData);
   renderCRM();
-
-  // Show success
   showToast(name + ' added to CRM');
 }
 
@@ -881,41 +681,24 @@ function bulkImportAll() {
     var l = leadsData[i];
     var name = l.name || l.displayName || '';
     if (isInCRM(name)) continue;
-    var record = {
-      id: genId(),
-      bizName: name,
+    crmData.push({
+      id: genId(), bizName: name,
       bizType: document.getElementById('ls-query') ? document.getElementById('ls-query').value : '',
       city: l.formatted_address || l.formattedAddress || l.vicinity || '',
       phone: l.formatted_phone_number || l.nationalPhoneNumber || l.internationalPhoneNumber || '',
-      website: l.website || l.websiteUri || '',
-      rating: l.rating || '',
-      annualRevenue: '',
-      dealValue: '',
-      notes: '',
-      followupDate: '',
-      stage: 'new',
-      status: 'lead',
+      website: l.website || l.websiteUri || '', rating: l.rating || '',
+      annualRevenue: '', dealValue: '', notes: '', followupDate: '',
+      stage: 'new', status: 'lead',
       contacts: [{ name: 'Business Owner', title: 'Owner / Decision Maker', email: '(Apollo will enrich)', phone: l.formatted_phone_number || '' }],
-      activity: [],
-      createdAt: new Date().toISOString(),
-      daysInStage: 0,
-      stageChangedAt: new Date().toISOString()
-    };
-    crmData.push(record);
+      activity: [], createdAt: new Date().toISOString(), stageChangedAt: new Date().toISOString()
+    });
     added++;
   }
   saveCRM();
-  refreshLeadsTable();
+  renderLeads(leadsData);
   showToast(added + ' leads imported to CRM');
 }
 
-function refreshLeadsTable() {
-  if (leadsData.length) renderLeads(leadsData);
-}
-
-// ========================
-// CRM RENDER
-// ========================
 var STAGES = [
   { key: 'new', label: 'New Lead', col: 'col-new', status: 'lead' },
   { key: 'emailed', label: 'Emailed', col: 'col-emailed', status: 'lead' },
@@ -927,28 +710,17 @@ var STAGES = [
   { key: 'lost', label: 'Closed Lost', col: 'col-lost', status: 'account' }
 ];
 
-function getFilteredData() {
-  if (currentCrmView === 'all') return crmData;
-  if (currentCrmView === 'leads') return crmData.filter(function(r) { return r.status === 'lead'; });
-  if (currentCrmView === 'prospects') return crmData.filter(function(r) { return r.status === 'prospect'; });
-  if (currentCrmView === 'accounts') return crmData.filter(function(r) { return r.status === 'account'; });
-  return crmData;
-}
-
 function setCrmView(view) {
   currentCrmView = view;
-  var tabs = ['all','leads','prospects','accounts'];
-  for (var i = 0; i < tabs.length; i++) {
-    var tab = document.getElementById('crm-tab-' + tabs[i]);
-    if (tab) tab.classList.toggle('active', tabs[i] === view);
+  var views = ['all','leads','prospects','accounts'];
+  for (var i = 0; i < views.length; i++) {
+    var tab = document.getElementById('crm-tab-' + views[i]);
+    if (tab) tab.classList.toggle('active', views[i] === view);
   }
   renderKanban();
 }
 
-function renderCRM() {
-  updateCrmStats();
-  renderKanban();
-}
+function renderCRM() { updateCrmStats(); renderKanban(); }
 
 function updateCrmStats() {
   var leads = crmData.filter(function(r) { return r.status === 'lead'; }).length;
@@ -959,59 +731,50 @@ function updateCrmStats() {
     var dv = String(crmData[i].dealValue || '').replace(/[^0-9.]/g,'');
     if (dv) pipeline += parseFloat(dv);
   }
-  var el = function(id, val) { var e = document.getElementById(id); if (e) e.textContent = val; };
-  el('stat-leads', leads);
-  el('stat-prospects', prospects);
-  el('stat-accounts', accounts);
-  el('stat-pipeline', '$' + pipeline.toLocaleString());
-  el('tab-count-all', crmData.length);
-  el('tab-count-leads', leads);
-  el('tab-count-prospects', prospects);
-  el('tab-count-accounts', crmData.filter(function(r) { return r.status === 'account'; }).length);
+  var se = function(id, v) { var e = document.getElementById(id); if (e) e.textContent = v; };
+  se('stat-leads', leads); se('stat-prospects', prospects); se('stat-accounts', accounts);
+  se('stat-pipeline', '$' + pipeline.toLocaleString());
+  se('tab-count-all', crmData.length); se('tab-count-leads', leads);
+  se('tab-count-prospects', prospects);
+  se('tab-count-accounts', crmData.filter(function(r) { return r.status === 'account'; }).length);
 }
 
 function renderKanban() {
-  var filtered = getFilteredData();
   var board = document.getElementById('kanbanBoard');
   if (!board) return;
-
-  var stagesToShow = STAGES;
-  if (currentCrmView === 'leads') stagesToShow = STAGES.slice(0,3);
-  else if (currentCrmView === 'prospects') stagesToShow = STAGES.slice(2,6);
-  else if (currentCrmView === 'accounts') stagesToShow = STAGES.slice(6);
-
+  var filtered = currentCrmView === 'leads' ? crmData.filter(function(r) { return r.status === 'lead'; }) :
+    currentCrmView === 'prospects' ? crmData.filter(function(r) { return r.status === 'prospect'; }) :
+    currentCrmView === 'accounts' ? crmData.filter(function(r) { return r.status === 'account'; }) : crmData;
+  var stagesToShow = currentCrmView === 'leads' ? STAGES.slice(0,2) :
+    currentCrmView === 'prospects' ? STAGES.slice(2,6) :
+    currentCrmView === 'accounts' ? STAGES.slice(6) : STAGES;
   var html = '';
   for (var s = 0; s < stagesToShow.length; s++) {
     var stage = stagesToShow[s];
     var cards = filtered.filter(function(r) { return r.stage === stage.key; });
-    html += '<div class="kanban-col ' + stage.col + '">';
-    html += '<div class="kanban-col-head"><span class="kanban-col-title">' + stage.label + '</span><span class="kanban-col-count">' + cards.length + '</span></div>';
-    html += '<div class="kanban-cards">';
+    html += '<div class="kanban-col ' + stage.col + '"><div class="kanban-col-head"><span class="kanban-col-title">' + stage.label + '</span><span class="kanban-col-count">' + cards.length + '</span></div><div class="kanban-cards">';
     if (!cards.length) {
       html += '<div class="kanban-empty">No records</div>';
     } else {
       for (var c = 0; c < cards.length; c++) {
         var r = cards[c];
-        var primaryContact = r.contacts && r.contacts.length ? r.contacts[0] : null;
-        var daysAgo = Math.floor((Date.now() - new Date(r.stageChangedAt).getTime()) / 86400000);
-        var isOverdue = r.followupDate && new Date(r.followupDate) < new Date();
-        html += '<div class="kanban-card status-' + r.status + (r.stage === 'won' ? '-won' : r.stage === 'lost' ? '-lost' : '') + '" onclick="openDetail(\'' + r.id + '\')">';
-        html += '<div class="kcard-days">' + daysAgo + 'd</div>';
+        var pc = r.contacts && r.contacts.length ? r.contacts[0] : null;
+        var days = Math.floor((Date.now() - new Date(r.stageChangedAt).getTime()) / 86400000);
+        var overdue = r.followupDate && new Date(r.followupDate) < new Date();
+        var statusClass = r.status === 'account' ? (r.stage === 'won' ? 'status-account-won' : 'status-account-lost') : 'status-' + r.status;
+        html += '<div class="kanban-card ' + statusClass + '" onclick="openDetail(\'' + r.id + '\')">';
+        html += '<div class="kcard-days">' + days + 'd</div>';
         html += '<div class="kcard-biz">' + esc(r.bizName) + '</div>';
-        if (primaryContact) html += '<div class="kcard-contact">' + esc(primaryContact.name) + (primaryContact.title ? ' &#183; ' + esc(primaryContact.title) : '') + '</div>';
+        if (pc) html += '<div class="kcard-contact">' + esc(pc.name) + (pc.title ? ' &#183; ' + esc(pc.title) : '') + '</div>';
         html += '<div class="kcard-type">' + esc(r.bizType) + (r.city ? ' &#183; ' + esc(r.city.split(',')[0]) : '') + '</div>';
         html += '<div class="kcard-meta">';
         if (r.dealValue) html += '<span class="kcard-tag deal">$' + esc(r.dealValue) + '</span>';
         if (r.contacts && r.contacts.length > 1) html += '<span class="kcard-tag contacts">' + r.contacts.length + ' contacts</span>';
-        if (r.followupDate) {
-          html += '<span class="kcard-tag ' + (isOverdue ? 'overdue' : 'followup') + '">' + (isOverdue ? '&#9888; ' : '&#128197; ') + esc(r.followupDate) + '</span>';
-        }
-        html += '</div>';
-        html += '<div class="kcard-actions" onclick="event.stopPropagation()">';
-        html += '<button class="kcard-btn" onclick="moveStage(\'' + r.id + '\',\'forward\')">&#8594; Move</button>';
+        if (r.followupDate) html += '<span class="kcard-tag ' + (overdue ? 'overdue' : 'followup') + '">' + (overdue ? '&#9888; ' : '&#128197; ') + esc(r.followupDate) + '</span>';
+        html += '</div><div class="kcard-actions" onclick="event.stopPropagation()">';
+        html += '<button class="kcard-btn" onclick="moveStage(\'' + r.id + '\')">&#8594; Move</button>';
         html += '<button class="kcard-btn" onclick="openDetail(\'' + r.id + '\')">View</button>';
-        html += '</div>';
-        html += '</div>';
+        html += '</div></div>';
       }
     }
     html += '</div></div>';
@@ -1019,118 +782,71 @@ function renderKanban() {
   board.innerHTML = html;
 }
 
-function moveStage(id, dir) {
-  var record = null;
-  for (var i = 0; i < crmData.length; i++) { if (crmData[i].id === id) { record = crmData[i]; break; } }
-  if (!record) return;
-  var stageKeys = STAGES.map(function(s) { return s.key; });
-  var idx = stageKeys.indexOf(record.stage);
-  if (dir === 'forward' && idx < stageKeys.length - 1) {
-    record.stage = stageKeys[idx + 1];
-    record.status = STAGES[idx + 1].status;
-    record.stageChangedAt = new Date().toISOString();
-    record.activity.unshift({ type: 'note', text: 'Moved to ' + STAGES[idx+1].label, time: new Date().toLocaleString() });
-    saveCRM();
-    renderCRM();
-    showToast('Moved to ' + STAGES[idx+1].label);
+function moveStage(id) {
+  for (var i = 0; i < crmData.length; i++) {
+    if (crmData[i].id === id) {
+      var keys = STAGES.map(function(s) { return s.key; });
+      var idx = keys.indexOf(crmData[i].stage);
+      if (idx < keys.length - 1) {
+        crmData[i].stage = keys[idx + 1];
+        crmData[i].status = STAGES[idx + 1].status;
+        crmData[i].stageChangedAt = new Date().toISOString();
+        crmData[i].activity.unshift({ type: 'note', text: 'Moved to ' + STAGES[idx+1].label, time: new Date().toLocaleString() });
+        saveCRM(); renderCRM(); showToast('Moved to ' + STAGES[idx+1].label);
+      }
+      break;
+    }
   }
 }
 
-// ========================
-// DETAIL MODAL
-// ========================
 function openDetail(id) {
   var record = null;
   for (var i = 0; i < crmData.length; i++) { if (crmData[i].id === id) { record = crmData[i]; break; } }
   if (!record) return;
   currentDetailId = id;
-
-  var stageKeys = STAGES.map(function(s) { return s.key; });
-  var stageLabels = STAGES.map(function(s) { return s.label; });
-
-  var html = '';
-  html += '<div class="modal-title">' + esc(record.bizName) + '</div>';
-  html += '<div class="modal-sub" style="margin-bottom:16px">';
-  html += '<span style="color:#fb923c;font-weight:600;text-transform:uppercase;font-size:10px;letter-spacing:1px">' + record.status.toUpperCase() + '</span>';
-  html += ' &nbsp;&#183;&nbsp; ' + esc(record.bizType) + ' &nbsp;&#183;&nbsp; ' + esc(record.city.split(',')[0]);
-  html += '</div>';
-
-  // Stage mover
-  html += '<div style="margin-bottom:18px"><div class="detail-section-title">Pipeline Stage</div>';
-  html += '<div class="stage-mover">';
+  var html = '<div class="modal-title">' + esc(record.bizName) + '</div>';
+  html += '<div class="modal-sub" style="margin-bottom:16px"><span style="color:#fb923c;font-weight:600;text-transform:uppercase;font-size:10px;letter-spacing:1px">' + record.status.toUpperCase() + '</span> &nbsp;&#183;&nbsp; ' + esc(record.bizType) + ' &nbsp;&#183;&nbsp; ' + esc((record.city||'').split(',')[0]) + '</div>';
+  html += '<div style="margin-bottom:18px"><div class="detail-section-title">Pipeline Stage</div><div class="stage-mover">';
   for (var s = 0; s < STAGES.length; s++) {
     html += '<button class="stage-btn ' + (record.stage === STAGES[s].key ? 'current-stage' : '') + '" onclick="setStage(\'' + id + '\',\'' + STAGES[s].key + '\')">' + STAGES[s].label + '</button>';
   }
   html += '</div></div>';
-
-  // Business details
-  html += '<div class="detail-sections">';
-  html += '<div><div class="detail-section-title">Business Info</div><div class="detail-fields">';
-  html += '<div class="detail-field"><div class="detail-field-lbl">Phone</div><div class="detail-field-val">' + esc(record.phone || '—') + '</div></div>';
-  html += '<div class="detail-field"><div class="detail-field-lbl">Website</div><div class="detail-field-val">' + (record.website ? '<a href="' + esc(record.website) + '" target="_blank" class="lead-link">Visit &#8599;</a>' : '—') + '</div></div>';
+  html += '<div class="detail-section-title">Business Info</div><div class="detail-fields">';
+  html += '<div class="detail-field"><div class="detail-field-lbl">Phone</div><div class="detail-field-val">' + esc(record.phone || '&#8212;') + '</div></div>';
+  html += '<div class="detail-field"><div class="detail-field-lbl">Website</div><div class="detail-field-val">' + (record.website ? '<a href="' + esc(record.website) + '" target="_blank" class="lead-link">Visit &#8599;</a>' : '&#8212;') + '</div></div>';
   html += '<div class="detail-field"><div class="detail-field-lbl">Deal Value</div><div class="detail-field-val"><input class="inp" style="padding:6px 10px;font-size:12px" value="' + esc(record.dealValue) + '" onchange="updateField(\'' + id + '\',\'dealValue\',this.value)" placeholder="e.g. $3,500" /></div></div>';
   html += '<div class="detail-field"><div class="detail-field-lbl">Follow-up Date</div><div class="detail-field-val"><input class="inp" type="date" style="padding:6px 10px;font-size:12px" value="' + esc(record.followupDate) + '" onchange="updateField(\'' + id + '\',\'followupDate\',this.value)" /></div></div>';
   html += '<div class="detail-field"><div class="detail-field-lbl">Annual Revenue</div><div class="detail-field-val"><input class="inp" style="padding:6px 10px;font-size:12px" value="' + esc(record.annualRevenue) + '" onchange="updateField(\'' + id + '\',\'annualRevenue\',this.value)" placeholder="e.g. $2M" /></div></div>';
-  html += '<div class="detail-field"><div class="detail-field-lbl">Rating</div><div class="detail-field-val">&#9733; ' + esc(String(record.rating || '—')) + '</div></div>';
+  html += '<div class="detail-field"><div class="detail-field-lbl">Rating</div><div class="detail-field-val">&#9733; ' + esc(String(record.rating || '&#8212;')) + '</div></div>';
   html += '</div>';
+  html += '<div style="margin-top:12px"><label style="font-size:10px;color:#4a6080;font-weight:700;letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:6px">Notes</label><textarea class="log-textarea" onchange="updateField(\'' + id + '\',\'notes\',this.value)" placeholder="Add notes...">' + esc(record.notes) + '</textarea></div>';
 
-  // Notes
-  html += '<div style="margin-top:10px"><div class="field"><label style="font-size:10px;color:#4a6080;font-weight:700;letter-spacing:1px;text-transform:uppercase">Notes</label><textarea class="log-textarea" style="margin-top:6px" onchange="updateField(\'' + id + '\',\'notes\',this.value)" placeholder="Add notes about this lead...">' + esc(record.notes) + '</textarea></div></div>';
-
-html += ‘</div>’;
-
-// Contacts
-html += ‘<div><div class="detail-section-title" style="margin-top:16px">Contacts (’ + (record.contacts ? record.contacts.length : 0) + ‘)</div>’;
-html += ‘<div class="contacts-list">’;
+html += ‘<div style="margin-top:16px"><div class="detail-section-title">Contacts (’ + (record.contacts ? record.contacts.length : 0) + ‘)</div><div class="contacts-list">’;
 if (record.contacts && record.contacts.length) {
 for (var c = 0; c < record.contacts.length; c++) {
 var con = record.contacts[c];
-html += ‘<div class="contact-row">’;
-html += ‘<div class="contact-row-name">’ + esc(con.name) + ‘</div>’;
-html += ‘<div class="contact-row-title">’ + esc(con.title) + ‘</div>’;
-html += ‘<div class="contact-row-email">’ + esc(con.email) + ‘</div>’;
-html += ‘<div class="contact-row-phone">’ + esc(con.phone) + ‘</div>’;
-html += ‘</div>’;
+html += ‘<div class="contact-row"><div class="contact-row-name">’ + esc(con.name) + ‘</div><div class="contact-row-title">’ + esc(con.title) + ‘</div><div class="contact-row-email">’ + esc(con.email) + ‘</div><div class="contact-row-phone">’ + esc(con.phone) + ‘</div></div>’;
 }
 } else {
 html += ‘<div style="color:#4a6080;font-size:13px;padding:12px">No contacts yet. Apollo will enrich when connected.</div>’;
 }
 html += ‘</div></div>’;
-
-// Activity Log
-html += ‘<div style="margin-top:16px"><div class="detail-section-title">Activity Log</div>’;
-html += ‘<div class="log-form">’;
-html += ‘<div class="log-form-row">’;
-html += ‘<select class="sel" id="log-type-' + id + '" style="font-size:12px"><option value="email">Email</option><option value="call">Call</option><option value="text">Text</option><option value="note">Note</option></select>’;
-html += ‘<select class="sel" id="log-outcome-' + id + '" style="font-size:12px"><option value="No answer">No Answer</option><option value="Left voicemail">Left Voicemail</option><option value="Spoke to them">Spoke to Them</option><option value="Not interested">Not Interested</option><option value="Interested">Interested</option><option value="Meeting booked">Meeting Booked</option></select>’;
-html += ‘</div>’;
+html += ‘<div style="margin-top:16px"><div class="detail-section-title">Activity Log</div><div class="log-form">’;
+html += ‘<div class="log-form-row"><select class="sel" id="log-type-' + id + '" style="font-size:12px"><option value="email">Email</option><option value="call">Call</option><option value="text">Text</option><option value="note">Note</option></select>’;
+html += ‘<select class="sel" id="log-outcome-' + id + '" style="font-size:12px"><option value="No answer">No Answer</option><option value="Left voicemail">Left Voicemail</option><option value="Spoke to them">Spoke to Them</option><option value="Not interested">Not Interested</option><option value="Interested">Interested</option><option value="Meeting booked">Meeting Booked</option></select></div>’;
 html += ‘<textarea class="log-textarea" id="log-note-' + id + '" placeholder="Notes from this contact attempt..."></textarea>’;
-html += ‘<button class="btn-sm orange" style="margin-top:8px;padding:8px 14px" onclick="logActivity(\'' + id + '\')">+ Log Activity</button>’;
-html += ‘</div>’;
-
+html += ‘<button class="btn-sm orange" style="margin-top:8px;padding:8px 14px" onclick="logActivity(\'' + id + '\')">+ Log Activity</button></div>’;
 if (record.activity && record.activity.length) {
 html += ‘<div class="activity-list" style="margin-top:10px">’;
+var icons = { email: ‘📧’, call: ‘📞’, text: ‘💬’, note: ‘📝’ };
 for (var a = 0; a < record.activity.length; a++) {
 var act = record.activity[a];
-var icons = { email: ‘📧’, call: ‘📞’, text: ‘💬’, note: ‘📝’ };
-html += ‘<div class="activity-item">’;
-html += ‘<div class="activity-icon ' + (act.type||'note') + '">’ + (icons[act.type] || ‘📝’) + ‘</div>’;
-html += ‘<div class="activity-body"><div class="activity-type">’ + esc((act.type||‘note’).toUpperCase()) + (act.outcome ? ’ · ’ + esc(act.outcome) : ‘’) + ‘</div>’;
-html += ‘<div class="activity-text">’ + esc(act.text) + ‘</div>’;
-html += ‘<div class="activity-time">’ + esc(act.time) + ‘</div></div>’;
-html += ‘</div>’;
+html += ‘<div class="activity-item"><div class="activity-icon ' + (act.type||'note') + '">’ + (icons[act.type]||’📝’) + ‘</div><div class="activity-body"><div class="activity-type">’ + esc((act.type||‘note’).toUpperCase()) + (act.outcome ? ’ · ’ + esc(act.outcome) : ‘’) + ‘</div><div class="activity-text">’ + esc(act.text) + ‘</div><div class="activity-time">’ + esc(act.time) + ‘</div></div></div>’;
 }
 html += ‘</div>’;
 }
 html += ‘</div>’;
-
-// Delete button
-html += ‘<div style="margin-top:20px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.07)">’;
-html += ‘<button class="btn-sm danger" onclick="deleteRecord(\'' + id + '\')">Delete Record</button>’;
-html += ‘</div>’;
-
-html += ‘</div>’; // end detail-sections
-
+html += ‘<div style="margin-top:20px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.07)"><button class="btn-sm danger" onclick="deleteRecord(\'' + id + '\')">Delete Record</button></div>’;
 document.getElementById(‘detailModalContent’).innerHTML = html;
 document.getElementById(‘detailModal’).classList.add(‘open’);
 }
@@ -1139,115 +855,72 @@ function setStage(id, stage) {
 for (var i = 0; i < crmData.length; i++) {
 if (crmData[i].id === id) {
 crmData[i].stage = stage;
-for (var s = 0; s < STAGES.length; s++) {
-if (STAGES[s].key === stage) { crmData[i].status = STAGES[s].status; break; }
-}
+for (var s = 0; s < STAGES.length; s++) { if (STAGES[s].key === stage) { crmData[i].status = STAGES[s].status; break; } }
 crmData[i].stageChangedAt = new Date().toISOString();
 crmData[i].activity.unshift({ type: ‘note’, text: ’Stage changed to ’ + stage, time: new Date().toLocaleString() });
 break;
 }
 }
-saveCRM();
-renderCRM();
-openDetail(id);
+saveCRM(); renderCRM(); openDetail(id);
 }
 
 function updateField(id, field, value) {
-for (var i = 0; i < crmData.length; i++) {
-if (crmData[i].id === id) { crmData[i][field] = value; break; }
-}
-saveCRM();
-updateCrmStats();
+for (var i = 0; i < crmData.length; i++) { if (crmData[i].id === id) { crmData[i][field] = value; break; } }
+saveCRM(); updateCrmStats();
 }
 
 function logActivity(id) {
-var typeEl = document.getElementById(‘log-type-’ + id);
-var outcomeEl = document.getElementById(‘log-outcome-’ + id);
-var noteEl = document.getElementById(‘log-note-’ + id);
-if (!typeEl || !noteEl) return;
-var type = typeEl.value;
-var outcome = outcomeEl ? outcomeEl.value : ‘’;
-var note = noteEl.value.trim();
+var te = document.getElementById(‘log-type-’ + id);
+var oe = document.getElementById(‘log-outcome-’ + id);
+var ne = document.getElementById(‘log-note-’ + id);
+if (!te || !ne) return;
+var note = ne.value.trim();
+var outcome = oe ? oe.value : ‘’;
 if (!note && !outcome) return;
 for (var i = 0; i < crmData.length; i++) {
 if (crmData[i].id === id) {
-crmData[i].activity.unshift({ type: type, outcome: outcome, text: note || outcome, time: new Date().toLocaleString() });
+crmData[i].activity.unshift({ type: te.value, outcome: outcome, text: note || outcome, time: new Date().toLocaleString() });
 break;
 }
 }
-saveCRM();
-noteEl.value = ‘’;
-openDetail(id);
-renderCRM();
+saveCRM(); ne.value = ‘’; openDetail(id); renderCRM();
 }
 
 function deleteRecord(id) {
 if (!confirm(‘Delete this record? This cannot be undone.’)) return;
 crmData = crmData.filter(function(r) { return r.id !== id; });
-saveCRM();
-closeModal(‘detailModal’);
-renderCRM();
-refreshLeadsTable();
+saveCRM(); closeModal(‘detailModal’); renderCRM();
+if (leadsData.length) renderLeads(leadsData);
 }
 
-// ========================
-// ADD MANUAL
-// ========================
-function openAddManualModal() {
-document.getElementById(‘addManualModal’).classList.add(‘open’);
-}
+function openAddManualModal() { document.getElementById(‘addManualModal’).classList.add(‘open’); }
 
 function saveManualLead() {
 var biz = document.getElementById(‘man-biz’).value.trim();
 if (!biz) { alert(‘Please enter a business name.’); return; }
 var record = {
-id: genId(),
-bizName: biz,
+id: genId(), bizName: biz,
 bizType: document.getElementById(‘man-type’).value.trim(),
 city: document.getElementById(‘man-city’).value.trim(),
 phone: document.getElementById(‘man-phone’).value.trim(),
 website: document.getElementById(‘man-web’).value.trim(),
-rating: ‘’,
-annualRevenue: ‘’,
+rating: ‘’, annualRevenue: ‘’,
 dealValue: document.getElementById(‘man-deal’).value.trim(),
-notes: ‘’,
-followupDate: document.getElementById(‘man-followup’).value,
-stage: ‘new’,
-status: ‘lead’,
-contacts: [],
-activity: [],
-createdAt: new Date().toISOString(),
-daysInStage: 0,
-stageChangedAt: new Date().toISOString()
+notes: ‘’, followupDate: document.getElementById(‘man-followup’).value,
+stage: ‘new’, status: ‘lead’, contacts: [], activity: [],
+createdAt: new Date().toISOString(), stageChangedAt: new Date().toISOString()
 };
 var cname = document.getElementById(‘man-contact’).value.trim();
 if (cname) {
-record.contacts.push({
-name: cname,
-title: document.getElementById(‘man-title’).value.trim(),
-email: document.getElementById(‘man-email’).value.trim(),
-phone: document.getElementById(‘man-phone’).value.trim()
-});
+record.contacts.push({ name: cname, title: document.getElementById(‘man-title’).value.trim(), email: document.getElementById(‘man-email’).value.trim(), phone: document.getElementById(‘man-phone’).value.trim() });
 }
-crmData.push(record);
-saveCRM();
-closeModal(‘addManualModal’);
-renderCRM();
+crmData.push(record); saveCRM(); closeModal(‘addManualModal’); renderCRM();
 showToast(biz + ’ added to CRM’);
 }
 
-// ========================
-// FOLLOW-UP ALERTS
-// ========================
 function checkFollowups() {
 var today = new Date().toISOString().split(‘T’)[0];
-var alerts = [];
-for (var i = 0; i < crmData.length; i++) {
-var r = crmData[i];
-if (r.followupDate && r.followupDate <= today && r.status !== ‘account’) {
-alerts.push(r);
-}
-}
+var alerts = crmData.filter(function(r) { return r.followupDate && r.followupDate <= today && r.status !== ‘account’; });
 var container = document.getElementById(‘followupAlerts’);
 if (!container) return;
 if (!alerts.length) { container.innerHTML = ‘’; return; }
@@ -1258,28 +931,16 @@ html += ‘<div class="alert-bar">📅 Follow-up due: <strong>’ + esc(alerts[a
 container.innerHTML = html;
 }
 
-// ========================
-// MODALS
-// ========================
-function closeModal(id) {
-var el = document.getElementById(id);
-if (el) el.classList.remove(‘open’);
-}
+function closeModal(id) { var el = document.getElementById(id); if (el) el.classList.remove(‘open’); }
 
-// ========================
-// TOAST
-// ========================
 function showToast(msg) {
 var toast = document.createElement(‘div’);
-toast.style.cssText = ‘position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#0f1623;border:1px solid rgba(249,115,22,0.4);color:#fb923c;padding:12px 20px;border-radius:10px;font-size:13px;z-index:9999;animation:fadeIn 0.2s ease both;box-shadow:0 8px 24px rgba(0,0,0,0.4)’;
+toast.style.cssText = ‘position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#0f1623;border:1px solid rgba(249,115,22,0.4);color:#fb923c;padding:12px 20px;border-radius:10px;font-size:13px;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,0.4)’;
 toast.textContent = msg;
 document.body.appendChild(toast);
 setTimeout(function() { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 2500);
 }
 
-// ========================
-// INIT
-// ========================
 loadCRM();
 showPanel(‘home’);
 </script>
