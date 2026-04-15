@@ -675,7 +675,7 @@
     @keyframes spin { to { transform: rotate(360deg); } }
     @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-    @media (max-width: 1150px) {
+    @media (max-width: 900px) {
       .results-grid { grid-template-columns: 1fr; }
       .result-card { grid-template-columns: 1fr; }
     }
@@ -1119,13 +1119,14 @@
                 '<div class="company-name">' + esc(r.name || 'Unknown Company') + '</div>' +
                 '<div class="meta-line">' + esc(r.address || '') + '</div>' +
               '</div>' +
-              '<div class="meta-line"><strong>City</strong> ' + esc(r.city || 'â') + '</div>' +
-              '<div class="meta-line"><strong>State</strong> ' + esc(r.state || 'â') + '</div>' +
+              '<div class="meta-line"><strong>City</strong> ' + esc(r.city || 'Ã¢ÂÂ') + '</div>' +
+              '<div class="meta-line"><strong>State</strong> ' + esc(r.state || 'Ã¢ÂÂ') + '</div>' +
               '<div class="meta-line"><strong>Phone</strong> ' + (r.phone && r.phone !== 'N/A' ? esc(r.phone) : '<span class="muted">No phone</span>') + '</div>' +
+              '<div class="meta-line"><strong>Email</strong> ' + (r.email ? esc(r.email) : '<span class="muted">No email found</span>') + '</div>' +
               '<div class="meta-line"><strong>Website</strong> ' + (r.website && r.website !== 'N/A' ? ('<a class="llink" href="' + esc(r.website) + '" target="_blank" rel="noopener">Website</a>') : '<span class="muted">No website</span>') + '</div>' +
             '</div>' +
             '<div class="card-right">' +
-              '<div class="meta-line"><strong>Business</strong> ' + esc(r.name || 'â') + '</div>' +
+              '<div class="meta-line"><strong>Business</strong> ' + esc(r.name || 'Ã¢ÂÂ') + '</div>' +
               '<div class="meta-line"><strong>Employee Count</strong> ' + (r.employeeCount ? esc(r.employeeCount) : '<span class="muted">Not available</span>') + '</div>' +
               '<div class="meta-line"><strong>Source</strong> <span class="source-badge">' + esc(r.source || 'google') + '</span></div>' +
               '<div class="meta-line"><strong>Rating</strong> ' + ((r.rating || r.rating === 0) ? ('<span class="rating-badge">&#9733; ' + esc(String(r.rating)) + '</span>') : '<span class="muted">No rating</span>') + '</div>' +
@@ -1163,6 +1164,7 @@
         'State',
         'Phone',
         'Website',
+        'Email',
         'Rating',
         'Source',
         'Employee Count'
@@ -1177,6 +1179,7 @@
           r.state || '',
           r.phone || '',
           r.website || '',
+          r.email || '',
           r.rating || '',
           r.source || '',
           r.employeeCount || ''
@@ -1202,7 +1205,7 @@
       return [{
         name: l.name || 'Primary Contact',
         title: 'Business Contact',
-        email: '',
+        email: l.email || '',
         phone: l.phone || ''
       }];
     }
@@ -1358,14 +1361,14 @@
               '<button class="bsm red" onclick="removeCRM(\'' + esc(r.id) + '\')">Delete</button>' +
             '</div>' +
             '<div class="crm-grid">' +
-              '<div class="crm-field"><div class="lbl">Location</div><div class="val">' + esc(r.city || 'â') + '</div></div>' +
-              '<div class="crm-field"><div class="lbl">Website</div><div class="val">' + (r.website ? '<a class="llink" href="' + esc(r.website) + '" target="_blank" rel="noopener">' + esc(normalizeDomain(r.website)) + '</a>' : 'â') + '</div></div>' +
-              '<div class="crm-field"><div class="lbl">Company Phone</div><div class="val">' + esc(r.companyPhone || 'â') + '</div></div>' +
-              '<div class="crm-field"><div class="lbl">Rating</div><div class="val">' + esc(r.rating || 'â') + '</div></div>' +
-              '<div class="crm-field"><div class="lbl">Top Contact</div><div class="val">' + esc(c.name || 'â') + '</div></div>' +
-              '<div class="crm-field"><div class="lbl">Title</div><div class="val">' + esc(c.title || 'â') + '</div></div>' +
-              '<div class="crm-field"><div class="lbl">Email</div><div class="val">' + esc(c.email || 'â') + '</div></div>' +
-              '<div class="crm-field"><div class="lbl">Mobile</div><div class="val">' + esc(c.phone || 'â') + '</div></div>' +
+              '<div class="crm-field"><div class="lbl">Location</div><div class="val">' + esc(r.city || 'Ã¢ÂÂ') + '</div></div>' +
+              '<div class="crm-field"><div class="lbl">Website</div><div class="val">' + (r.website ? '<a class="llink" href="' + esc(r.website) + '" target="_blank" rel="noopener">' + esc(normalizeDomain(r.website)) + '</a>' : 'Ã¢ÂÂ') + '</div></div>' +
+              '<div class="crm-field"><div class="lbl">Company Phone</div><div class="val">' + esc(r.companyPhone || 'Ã¢ÂÂ') + '</div></div>' +
+              '<div class="crm-field"><div class="lbl">Rating</div><div class="val">' + esc(r.rating || 'Ã¢ÂÂ') + '</div></div>' +
+              '<div class="crm-field"><div class="lbl">Top Contact</div><div class="val">' + esc(c.name || 'Ã¢ÂÂ') + '</div></div>' +
+              '<div class="crm-field"><div class="lbl">Title</div><div class="val">' + esc(c.title || 'Ã¢ÂÂ') + '</div></div>' +
+              '<div class="crm-field"><div class="lbl">Email</div><div class="val">' + esc(c.email || 'Ã¢ÂÂ') + '</div></div>' +
+              '<div class="crm-field"><div class="lbl">Mobile</div><div class="val">' + esc(c.phone || 'Ã¢ÂÂ') + '</div></div>' +
             '</div>' +
           '</div>';
       }
