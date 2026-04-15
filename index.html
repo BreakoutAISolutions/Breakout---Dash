@@ -495,6 +495,18 @@
       border: 1px solid rgba(52,211,153,0.3);
       background: rgba(52,211,153,0.08);
     }
+    .count-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 700;
+      color: #60a5fa;
+      border: 1px solid rgba(96,165,250,0.3);
+      background: rgba(96,165,250,0.08);
+    }
     .llink {
       color: #fb923c;
       text-decoration: none;
@@ -800,7 +812,7 @@
     <div class="pnl" id="p-leads" style="display:none">
       <div class="eyebrow">Station 1</div>
       <div class="sec-title">Find Leads <span class="gtxt">Expanded Search</span></div>
-      <div class="sec-sub">Search any business type in any city. Results use the improved Google backend fields directly and fill the tiles more evenly left to right for faster review on iPad.</div>
+      <div class="sec-sub">Search any business type in any city. Results use the improved Google backend fields directly, including scraped primary contact details when available.</div>
 
       <div class="card">
         <div class="row2">
@@ -1110,6 +1122,7 @@
           var r = arr[i];
           var crmKey = r.dedupeKey || normalizeDomain(r.website) || (String(r.name || '').toLowerCase() + '|' + String(r.city || '').toLowerCase());
           var isIn = inCRM(crmKey);
+          var contactCount = Array.isArray(r.contacts) ? r.contacts.length : 0;
 
           var card = document.createElement('div');
           card.className = 'result-card';
@@ -1119,18 +1132,20 @@
                 '<div class="company-name">' + esc(r.name || 'Unknown Company') + '</div>' +
                 '<div class="meta-line">' + esc(r.address || '') + '</div>' +
               '</div>' +
-              '<div class="meta-line"><strong>City</strong> ' + esc(r.city || 'Ã¢ÂÂ') + '</div>' +
-              '<div class="meta-line"><strong>State</strong> ' + esc(r.state || 'Ã¢ÂÂ') + '</div>' +
+              '<div class="meta-line"><strong>City</strong> ' + esc(r.city || 'â') + '</div>' +
+              '<div class="meta-line"><strong>State</strong> ' + esc(r.state || 'â') + '</div>' +
               '<div class="meta-line"><strong>Phone</strong> ' + (r.phone && r.phone !== 'N/A' ? esc(r.phone) : '<span class="muted">No phone</span>') + '</div>' +
-              '<div class="meta-line"><strong>Email</strong> ' + (r.email ? esc(r.email) : '<span class="muted">No email found</span>') + '</div>' +
-              '<div class="meta-line"><strong>Website</strong> ' + (r.website && r.website !== 'N/A' ? ('<a class="llink" href="' + esc(r.website) + '" target="_blank" rel="noopener">Website</a>') : '<span class="muted">No website</span>') + '</div>' +
+              '<div class="meta-line"><strong>Email</strong> ' + (r.primaryContactEmail ? esc(r.primaryContactEmail) : '<span class="muted">No email found</span>') + '</div>' +
             '</div>' +
             '<div class="card-right">' +
-              '<div class="meta-line"><strong>Business</strong> ' + esc(r.name || 'Ã¢ÂÂ') + '</div>' +
-              '<div class="meta-line"><strong>Employee Count</strong> ' + (r.employeeCount ? esc(r.employeeCount) : '<span class="muted">Not available</span>') + '</div>' +
-              '<div class="meta-line"><strong>Source</strong> <span class="source-badge">' + esc(r.source || 'google') + '</span></div>' +
+              '<div class="meta-line"><strong>Primary Contact</strong> ' + (r.primaryContactName ? esc(r.primaryContactName) : '<span class="muted">Not found</span>') + '</div>' +
+              '<div class="meta-line"><strong>Title</strong> ' + (r.primaryContactTitle ? esc(r.primaryContactTitle) : '<span class="muted">Not found</span>') + '</div>' +
+              '<div class="meta-line"><strong>Direct Phone</strong> ' + (r.primaryContactPhone ? esc(r.primaryContactPhone) : '<span class="muted">Not found</span>') + '</div>' +
+              '<div class="meta-line"><strong>Website</strong> ' + (r.website && r.website !== 'N/A' ? ('<a class="llink" href="' + esc(r.website) + '" target="_blank" rel="noopener">Website</a>') : '<span class="muted">No website</span>') + '</div>' +
               '<div class="meta-line"><strong>Rating</strong> ' + ((r.rating || r.rating === 0) ? ('<span class="rating-badge">&#9733; ' + esc(String(r.rating)) + '</span>') : '<span class="muted">No rating</span>') + '</div>' +
               '<div class="card-actions">' +
+                '<span class="source-badge">' + esc(r.source || 'google') + '</span>' +
+                '<span class="count-badge">' + esc(String(contactCount)) + ' contact' + (contactCount === 1 ? '' : 's') + '</span>' +
                 (isIn ? '<div class="crm-ok">In CRM</div>' : '<button class="bsm ora" onclick="openImp(' + i + ')">Add</button>') +
               '</div>' +
             '</div>';
@@ -1164,9 +1179,13 @@
         'State',
         'Phone',
         'Website',
-        'Email',
+        'Primary Contact',
+        'Primary Title',
+        'Primary Email',
+        'Primary Phone',
         'Rating',
         'Source',
+        'Contacts Found',
         'Employee Count'
       ]];
 
@@ -1179,9 +1198,13 @@
           r.state || '',
           r.phone || '',
           r.website || '',
-          r.email || '',
+          r.primaryContactName || '',
+          r.primaryContactTitle || '',
+          r.primaryContactEmail || '',
+          r.primaryContactPhone || '',
           r.rating || '',
           r.source || '',
+          Array.isArray(r.contacts) ? r.contacts.length : '',
           r.employeeCount || ''
         ]);
       }
@@ -1202,12 +1225,24 @@
     }
 
     function buildContactsForLead(l) {
+      if (Array.isArray(l.contacts) && l.contacts.length) {
+        return l.contacts.map(function(c) {
+          return {
+            name: c.name || l.primaryContactName || 'Primary Contact',
+            title: c.title || l.primaryContactTitle || 'Business Contact',
+            email: c.email || '',
+            phone: c.phone || l.primaryContactPhone || l.phone || ''
+          };
+        });
+      }
+
       return [{
-        name: l.name || 'Primary Contact',
-        title: 'Business Contact',
-        email: l.email || '',
-        phone: l.phone || ''
+        name: l.primaryContactName || l.name || 'Primary Contact',
+        title: l.primaryContactTitle || 'Business Contact',
+        email: l.primaryContactEmail || '',
+        phone: l.primaryContactPhone || l.phone || ''
       }];
+    }];
     }
 
     function openImp(idx) {
