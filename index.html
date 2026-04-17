@@ -1,132 +1,831 @@
-\<!DOCTYPE html>
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Breakout AI Solutions</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { background: #080c18; }
-body { background: #080c18 !important; color: #e8edf5; font-family: 'DM Sans', sans-serif; min-height: 100vh; overflow-x: hidden; }
-body::before { content: ''; position: fixed; inset: 0; background-image: linear-gradient(rgba(249,115,22,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(249,115,22,0.025) 1px, transparent 1px); background-size: 44px 44px; pointer-events: none; z-index: 0; }
+body {
+  background: #080c18 !important;
+  color: #e8edf5;
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(249,115,22,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(249,115,22,0.025) 1px, transparent 1px);
+  background-size: 44px 44px;
+  pointer-events: none;
+  z-index: 0;
+}
 
-/* NAV */
-.topnav { position: sticky; top: 0; z-index: 100; background: rgba(8,12,24,0.96); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.07); }
-.topnav-inner { display: flex; align-items: center; justify-content: space-between; padding: 0 20px; height: 56px; gap: 12px; }
-.brand { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-.brand-icon { width: 30px; height: 30px; border-radius: 7px; background: linear-gradient(135deg,#f97316,#c2410c); box-shadow: 0 0 14px rgba(249,115,22,0.5); display: flex; align-items: center; justify-content: center; font-size: 14px; }
-.brand-name { font-family: ‘Syne’, sans-serif; font-size: 14px; font-weight: 800; color: #e8edf5; letter-spacing: -0.3px; }
-.nav-scroll { display: flex; align-items: center; gap: 3px; overflow-x: auto; flex: 1; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding: 0 8px; }
+.topnav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(8,12,24,0.96);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.topnav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: max(8px, env(safe-area-inset-top)) 16px 8px;
+  min-height: 56px;
+  gap: 10px;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.brand-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  background: linear-gradient(135deg,#f97316,#c2410c);
+  box-shadow: 0 0 14px rgba(249,115,22,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+.brand-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  color: #e8edf5;
+  letter-spacing: -0.3px;
+}
+.nav-scroll {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  overflow-x: auto;
+  flex: 1;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 0 6px;
+  touch-action: pan-x;
+}
 .nav-scroll::-webkit-scrollbar { display: none; }
-.ntab { padding: 6px 11px; border-radius: 7px; cursor: pointer; white-space: nowrap; font-size: 12px; font-weight: 500; color: #8fa3c0; border: 1px solid transparent; background: transparent; font-family: ‘DM Sans’, sans-serif; transition: all 0.15s; flex-shrink: 0; }
-.ntab:hover { background: rgba(255,255,255,0.05); color: #e8edf5; }
-.ntab.on { background: rgba(249,115,22,0.14); border-color: rgba(249,115,22,0.35); color: #fb923c; }
-.ntab.live { border-color: rgba(52,211,153,0.3); color: #34d399; background: rgba(52,211,153,0.07); }
-.nav-status { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #34d399; flex-shrink: 0; white-space: nowrap; }
-.nav-status::before { content: ‘’; width: 6px; height: 6px; border-radius: 50%; background: #34d399; box-shadow: 0 0 7px #34d399; animation: pulse 2s ease infinite; }
+.ntab {
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 500;
+  color: #8fa3c0;
+  border: 1px solid transparent;
+  background: transparent;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.15s;
+  flex-shrink: 0;
+  min-height: 40px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.ntab:hover, .ntab:active {
+  background: rgba(255,255,255,0.05);
+  color: #e8edf5;
+}
+.ntab.on {
+  background: rgba(249,115,22,0.14);
+  border-color: rgba(249,115,22,0.35);
+  color: #fb923c;
+}
+.ntab.live {
+  border-color: rgba(52,211,153,0.3);
+  color: #34d399;
+  background: rgba(52,211,153,0.07);
+}
+.nav-status {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: #34d399;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.nav-status::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #34d399;
+  box-shadow: 0 0 7px #34d399;
+  animation: pulse 2s ease infinite;
+}
 
-/* MAIN */
-.main { background: #080c18; min-height: 100vh; position: relative; z-index: 1; }
-.pnl { padding: 32px 28px 80px; max-width: 960px; margin: 0 auto; background: #080c18; }
-.pnl-full { background: #080c18; min-height: calc(100vh - 56px); }
+.main {
+  background: #080c18;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+.pnl {
+  padding: 26px 18px 84px;
+  max-width: 1240px;
+  margin: 0 auto;
+  background: #080c18;
+}
+.pnl-full {
+  background: #080c18;
+  min-height: calc(100vh - 56px);
+}
 
-/* HOME */
-.hero { text-align: center; padding: 14px 0 18px; }
-.hero h1 { font-family: ‘Syne’, sans-serif; font-size: 40px; font-weight: 800; letter-spacing: -1.4px; line-height: 1.1; color: #e8edf5; margin-bottom: 8px; }
-.gtxt { background: linear-gradient(90deg,#fb923c,#fdba74); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.hero-badge { display: inline-flex; align-items: center; gap: 7px; padding: 7px 14px; border-radius: 999px; border: 1px solid rgba(249,115,22,0.35); background: rgba(249,115,22,0.12); color: #fb923c; font-size: 12px; margin-bottom: 18px; }
-.hero-badge::before { content: ‘’; width: 5px; height: 5px; border-radius: 50%; background: #34d399; box-shadow: 0 0 6px #34d399; animation: pulse 2s ease infinite; }
-.ops-card { background: #0f1623; border: 1px solid rgba(249,115,22,0.28); border-radius: 14px; padding: 18px 20px; margin-bottom: 20px; position: relative; overflow: hidden; }
-.ops-card::before { content: ‘’; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg,transparent,#f97316,transparent); opacity: 0.55; }
-.ops-card h3 { font-family: ‘Syne’, sans-serif; font-size: 16px; font-weight: 700; color: #e8edf5; margin-bottom: 6px; }
-.ops-card p { color: #8fa3c0; font-size: 13px; line-height: 1.6; }
-.grid3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
-.stile { background: #0f1623; border: 1px solid rgba(255,255,255,0.07); border-radius: 11px; padding: 14px; cursor: pointer; transition: all 0.18s; }
-.stile:hover { border-color: rgba(249,115,22,0.35); background: #161e30; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(249,115,22,0.1); }
-.stile.live-tile { border-color: rgba(52,211,153,0.28); background: linear-gradient(180deg,rgba(52,211,153,0.06),#0f1623); }
-.stile-icon { font-size: 18px; margin-bottom: 7px; }
-.stile-title { font-family: ‘Syne’, sans-serif; font-size: 12px; font-weight: 700; color: #e8edf5; margin-bottom: 3px; }
-.stile-desc { font-size: 11px; color: #4a6080; line-height: 1.4; margin-bottom: 8px; }
-.sbadge { display: inline-flex; padding: 2px 7px; border-radius: 999px; font-size: 9px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; }
-.sb-live { color: #34d399; border: 1px solid rgba(52,211,153,0.3); background: rgba(52,211,153,0.1); }
-.sb-shell { color: #fb923c; border: 1px solid rgba(249,115,22,0.32); background: rgba(249,115,22,0.12); }
+.hero {
+  text-align: center;
+  padding: 14px 0 18px;
+}
+.hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: 42px;
+  font-weight: 800;
+  letter-spacing: -1.4px;
+  line-height: 1.08;
+  color: #e8edf5;
+  margin-bottom: 8px;
+}
+.gtxt {
+  background: linear-gradient(90deg,#fb923c,#fdba74);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(249,115,22,0.35);
+  background: rgba(249,115,22,0.12);
+  color: #fb923c;
+  font-size: 12px;
+  margin-bottom: 18px;
+}
+.hero-badge::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #34d399;
+  box-shadow: 0 0 6px #34d399;
+  animation: pulse 2s ease infinite;
+}
+.ops-card {
+  background: #0f1623;
+  border: 1px solid rgba(249,115,22,0.28);
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.ops-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,transparent,#f97316,transparent);
+  opacity: 0.55;
+}
+.ops-card h3 {
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #e8edf5;
+  margin-bottom: 6px;
+}
+.ops-card p {
+  color: #8fa3c0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.grid3 {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 10px;
+}
+.stile {
+  background: #0f1623;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 11px;
+  padding: 14px;
+  cursor: pointer;
+  transition: all 0.18s;
+  min-height: 124px;
+  -webkit-tap-highlight-color: transparent;
+}
+.stile:hover, .stile:active {
+  border-color: rgba(249,115,22,0.35);
+  background: #161e30;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(249,115,22,0.1);
+}
+.stile.live-tile {
+  border-color: rgba(52,211,153,0.28);
+  background: linear-gradient(180deg,rgba(52,211,153,0.06),#0f1623);
+}
+.stile-icon {
+  font-size: 18px;
+  margin-bottom: 7px;
+}
+.stile-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: #e8edf5;
+  margin-bottom: 3px;
+}
+.stile-desc {
+  font-size: 11px;
+  color: #4a6080;
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+.sbadge {
+  display: inline-flex;
+  padding: 2px 7px;
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+.sb-live {
+  color: #34d399;
+  border: 1px solid rgba(52,211,153,0.3);
+  background: rgba(52,211,153,0.1);
+}
+.sb-shell {
+  color: #fb923c;
+  border: 1px solid rgba(249,115,22,0.32);
+  background: rgba(249,115,22,0.12);
+}
 
-/* SECTION */
-.eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #fb923c; margin-bottom: 7px; }
-.sec-title { font-family: ‘Syne’, sans-serif; font-size: 30px; font-weight: 800; letter-spacing: -0.8px; line-height: 1.1; color: #e8edf5; margin-bottom: 7px; }
-.sec-sub { font-size: 13px; color: #8fa3c0; max-width: 540px; line-height: 1.6; margin-bottom: 22px; }
-
-/* CARD */
-.card { background: #0f1623; border: 1px solid rgba(255,255,255,0.07); border-radius: 14px; padding: 24px; margin-bottom: 14px; position: relative; overflow: hidden; }
-.card::before { content: ‘’; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg,transparent,#f97316,transparent); opacity: 0.4; }
-.row2 { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
-.row2 > * { flex: 1; min-width: 160px; }
-.flabel { display: block; font-size: 11px; font-weight: 500; color: #8fa3c0; margin-bottom: 5px; }
-.inp { width: 100%; background: #161e30; border: 1px solid rgba(249,115,22,0.28); border-radius: 9px; padding: 10px 12px; color: #e8edf5; font-family: ‘DM Sans’, sans-serif; font-size: 14px; outline: none; -webkit-appearance: none; }
-.inp:focus { border-color: #f97316; box-shadow: 0 0 0 3px rgba(249,115,22,0.12); }
-.inp::placeholder { color: #4a6080; }
-.sel { width: 100%; background: #161e30; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 9px 11px; color: #e8edf5; font-family: ‘DM Sans’, sans-serif; font-size: 13px; outline: none; cursor: pointer; -webkit-appearance: none; appearance: none; background-image: url(“data:image/svg+xml,%3Csvg xmlns=‘http://www.w3.org/2000/svg’ width=‘10’ height=‘10’ viewBox=‘0 0 12 12’%3E%3Cpath fill=’%238fa3c0’ d=‘M6 8L1 3h10z’/%3E%3C/svg%3E”); background-repeat: no-repeat; background-position: right 10px center; }
+.eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #fb923c;
+  margin-bottom: 7px;
+}
+.sec-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.8px;
+  line-height: 1.08;
+  color: #e8edf5;
+  margin-bottom: 7px;
+}
+.sec-sub {
+  font-size: 13px;
+  color: #8fa3c0;
+  max-width: 760px;
+  line-height: 1.6;
+  margin-bottom: 22px;
+}
+.card {
+  background: #0f1623;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 14px;
+  position: relative;
+  overflow: hidden;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,transparent,#f97316,transparent);
+  opacity: 0.4;
+}
+.row2 {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+.row2 > * {
+  flex: 1;
+  min-width: 150px;
+}
+.flabel {
+  display: block;
+  font-size: 11px;
+  font-weight: 500;
+  color: #8fa3c0;
+  margin-bottom: 5px;
+}
+.inp, .sel {
+  width: 100%;
+  background: #161e30;
+  border: 1px solid rgba(249,115,22,0.28);
+  border-radius: 10px;
+  padding: 12px 12px;
+  color: #e8edf5;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  min-height: 44px;
+}
 .sel option { background: #0f1623; }
-.btn-main { width: 100%; margin-top: 14px; padding: 13px; background: linear-gradient(135deg,#f97316,#c2410c); border: none; border-radius: 9px; color: #fff; font-family: ‘Syne’, sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 18px rgba(249,115,22,0.28); display: flex; align-items: center; justify-content: center; gap: 7px; -webkit-appearance: none; transition: opacity 0.2s; }
-.btn-main:hover { opacity: 0.9; }
-.btn-main:disabled { opacity: 0.4; cursor: not-allowed; }
-.bsm { padding: 5px 11px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.08); background: transparent; color: #8fa3c0; font-family: ‘DM Sans’, sans-serif; font-size: 11px; font-weight: 500; cursor: pointer; transition: all 0.15s; -webkit-appearance: none; }
-.bsm:hover { border-color: rgba(249,115,22,0.35); color: #fb923c; background: rgba(249,115,22,0.09); }
-.bsm.ok { border-color: rgba(52,211,153,0.3); color: #34d399; background: rgba(52,211,153,0.08); }
-.bsm.ora { border-color: rgba(249,115,22,0.35); color: #fb923c; background: rgba(249,115,22,0.09); }
-.bsm.red { border-color: rgba(239,68,68,0.3); color: #fca5a5; background: rgba(239,68,68,0.07); }
+.inp:focus, .sel:focus {
+  border-color: #f97316;
+  box-shadow: 0 0 0 3px rgba(249,115,22,0.12);
+}
+.inp::placeholder { color: #4a6080; }
+.btn-main, .bsm, .kbtn {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-main {
+  width: 100%;
+  margin-top: 14px;
+  padding: 14px;
+  background: linear-gradient(135deg,#f97316,#c2410c);
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-family: 'Syne', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(249,115,22,0.28);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 46px;
+}
+.btn-main:hover, .btn-main:active { opacity: 0.92; }
+.btn-main:disabled { opacity: 0.45; cursor: not-allowed; }
 
-.sbar { display: none; align-items: center; gap: 9px; padding: 11px 16px; background: rgba(249,115,22,0.1); border: 1px solid rgba(249,115,22,0.3); border-radius: 9px; margin-bottom: 12px; font-size: 13px; color: #fb923c; }
-.spin { width: 13px; height: 13px; border: 2px solid rgba(249,115,22,0.3); border-top-color: #fb923c; border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
-.ebar { display: none; padding: 11px 16px; background: rgba(239,68,68,0.07); border: 1px solid rgba(239,68,68,0.25); border-radius: 9px; margin-bottom: 12px; font-size: 13px; color: #fca5a5; }
-.svbar { display: none; align-items: center; background: rgba(52,211,153,0.07); border: 1px solid rgba(52,211,153,0.2); border-radius: 12px; padding: 12px 0; margin-bottom: 12px; }
-.svstat { flex: 1; text-align: center; padding: 0 10px; }
-.svnum { font-family: ‘Syne’, sans-serif; font-size: 22px; font-weight: 800; color: #34d399; letter-spacing: -0.5px; }
-.svlbl { font-size: 9px; color: #4a6080; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
-.svdiv { width: 1px; height: 30px; background: rgba(52,211,153,0.18); flex-shrink: 0; }
-.outcard { display: none; background: #0f1623; border: 1px solid rgba(255,255,255,0.07); border-radius: 14px; overflow: hidden; }
-.outhdr { display: flex; align-items: center; justify-content: space-between; padding: 11px 18px; border-bottom: 1px solid rgba(255,255,255,0.07); background: #161e30; flex-wrap: wrap; gap: 8px; }
-.outtitle { font-family: ‘Syne’, sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: #34d399; display: flex; align-items: center; gap: 6px; }
-.outtitle::before { content: ‘’; width: 5px; height: 5px; border-radius: 50%; background: #34d399; box-shadow: 0 0 7px #34d399; animation: pulse 2s ease infinite; }
-.outacts { display: flex; gap: 7px; align-items: center; flex-wrap: wrap; }
-.outcnt { font-size: 11px; color: #34d399; font-weight: 600; }
+.bsm {
+  padding: 9px 12px;
+  min-height: 40px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: transparent;
+  color: #8fa3c0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.bsm:hover, .bsm:active {
+  border-color: rgba(249,115,22,0.35);
+  color: #fb923c;
+  background: rgba(249,115,22,0.09);
+}
+.bsm.ok {
+  border-color: rgba(52,211,153,0.3);
+  color: #34d399;
+  background: rgba(52,211,153,0.08);
+}
+.bsm.ora {
+  border-color: rgba(249,115,22,0.35);
+  color: #fb923c;
+  background: rgba(249,115,22,0.09);
+}
+.bsm.red {
+  border-color: rgba(239,68,68,0.3);
+  color: #fca5a5;
+  background: rgba(239,68,68,0.07);
+}
 
-/* DUAL CARD LEAD LAYOUT */
-.lead-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; padding: 16px; }
-.lead-card { background: #111a2c; border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; animation: rowSlide 0.3s ease both; position: relative; overflow: hidden; }
-.lead-card::before { content: ‘’; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg,#f97316,transparent); opacity: 0.5; }
-.lc-name { font-family: ‘Syne’, sans-serif; font-size: 14px; font-weight: 800; color: #e8edf5; line-height: 1.2; }
-.lc-addr { font-size: 11px; color: #4a6080; line-height: 1.4; }
-.lc-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-.lc-phone { font-size: 12px; color: #fb923c; font-weight: 600; }
-.lc-web { font-size: 11px; color: #fb923c; text-decoration: none; }
-.lc-web:hover { text-decoration: underline; }
-.lc-bottom { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
-.lc-rating { display: inline-flex; align-items: center; gap: 3px; padding: 2px 8px; border-radius: 8px; font-size: 11px; font-weight: 600; background: rgba(251,191,36,0.1); color: #fbbf24; border: 1px solid rgba(251,191,36,0.2); }
-.lc-nodata { font-size: 11px; color: #4a6080; }
-.incrm-badge { display: inline-flex; padding: 2px 8px; border-radius: 5px; font-size: 9px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: #34d399; border: 1px solid rgba(52,211,153,0.3); background: rgba(52,211,153,0.1); }
+.sbar {
+  display: none;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 16px;
+  background: rgba(249,115,22,0.1);
+  border: 1px solid rgba(249,115,22,0.3);
+  border-radius: 9px;
+  margin-bottom: 12px;
+  font-size: 13px;
+  color: #fb923c;
+}
+.spin {
+  width: 13px;
+  height: 13px;
+  border: 2px solid rgba(249,115,22,0.3);
+  border-top-color: #fb923c;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+.ebar {
+  display: none;
+  padding: 11px 16px;
+  background: rgba(239,68,68,0.07);
+  border: 1px solid rgba(239,68,68,0.25);
+  border-radius: 9px;
+  margin-bottom: 12px;
+  font-size: 13px;
+  color: #fca5a5;
+  line-height: 1.5;
+}
+.svbar {
+  display: none;
+  align-items: center;
+  background: rgba(52,211,153,0.07);
+  border: 1px solid rgba(52,211,153,0.2);
+  border-radius: 12px;
+  padding: 12px 0;
+  margin-bottom: 12px;
+  overflow-x: auto;
+}
+.svstat {
+  flex: 1;
+  text-align: center;
+  padding: 0 10px;
+  min-width: 92px;
+}
+.svnum {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: #34d399;
+  letter-spacing: -0.5px;
+}
+.svlbl {
+  font-size: 9px;
+  color: #4a6080;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 2px;
+}
+.svdiv {
+  width: 1px;
+  height: 30px;
+  background: rgba(52,211,153,0.18);
+  flex-shrink: 0;
+}
+.outcard {
+  display: none;
+  background: #0f1623;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.outhdr {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  background: #161e30;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.outtitle {
+  font-family: 'Syne', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #34d399;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.outtitle::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #34d399;
+  box-shadow: 0 0 7px #34d399;
+  animation: pulse 2s ease infinite;
+}
+.outacts {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.outcnt {
+  font-size: 11px;
+  color: #34d399;
+  font-weight: 600;
+}
 
-/* CRM */
-.crm-top { display: flex; align-items: center; justify-content: space-between; padding: 14px 22px; border-bottom: 1px solid rgba(255,255,255,0.07); background: #0f1623; flex-wrap: wrap; gap: 10px; }
-.crm-ttl { font-family: ‘Syne’, sans-serif; font-size: 20px; font-weight: 800; color: #e8edf5; display: flex; align-items: center; gap: 10px; }
-.crm-stats { display: flex; gap: 18px; flex-wrap: wrap; }
+.lead-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  padding: 14px;
+}
+.lead-card {
+  background: #111a2c;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: rowSlide 0.3s ease both;
+  position: relative;
+  overflow: hidden;
+  min-height: 460px;
+}
+.lead-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg,#f97316,transparent);
+  opacity: 0.6;
+}
+.lc-top {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.lc-logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: #161e30;
+  border: 1px solid rgba(255,255,255,0.08);
+  overflow: hidden;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  color: #fb923c;
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+}
+.lc-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.lc-head {
+  min-width: 0;
+  flex: 1;
+}
+.lc-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  color: #e8edf5;
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+.lc-addr {
+  font-size: 11px;
+  color: #8fa3c0;
+  line-height: 1.45;
+}
+.lc-chiprow {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+.lc-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 600;
+  border: 1px solid rgba(255,255,255,0.08);
+  color: #d7deeb;
+  background: rgba(255,255,255,0.03);
+}
+.lc-chip.rating {
+  color: #fbbf24;
+  border-color: rgba(251,191,36,0.18);
+  background: rgba(251,191,36,0.1);
+}
+.lc-chip.good {
+  color: #34d399;
+  border-color: rgba(52,211,153,0.18);
+  background: rgba(52,211,153,0.08);
+}
+.lc-chip.warn {
+  color: #fb923c;
+  border-color: rgba(249,115,22,0.18);
+  background: rgba(249,115,22,0.08);
+}
+.lc-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.lc-box {
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px;
+  padding: 9px 10px;
+  min-height: 58px;
+}
+.lc-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #4a6080;
+  margin-bottom: 4px;
+}
+.lc-value {
+  font-size: 12px;
+  color: #e8edf5;
+  line-height: 1.35;
+  word-break: break-word;
+}
+.lc-value.small { font-size: 11px; }
+.lc-link {
+  color: #fb923c;
+  text-decoration: none;
+}
+.lc-link:hover, .lc-link:active {
+  text-decoration: underline;
+}
+.lc-contacts {
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px;
+  padding: 10px;
+}
+.lc-contacts-title {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #4a6080;
+  margin-bottom: 7px;
+}
+.lc-contactline {
+  font-size: 11px;
+  color: #dfe6f2;
+  line-height: 1.45;
+}
+.lc-contactline span { color: #8fa3c0; }
+.lc-actions {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  margin-top: auto;
+}
+.incrm-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 10px;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #34d399;
+  border: 1px solid rgba(52,211,153,0.3);
+  background: rgba(52,211,153,0.1);
+}
+.lc-note {
+  font-size: 10px;
+  color: #4a6080;
+  line-height: 1.4;
+}
+
+.crm-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  background: #0f1623;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.crm-ttl {
+  font-family: 'Syne', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  color: #e8edf5;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.crm-stats {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
 .cs { text-align: center; }
-.cs-n { font-family: ‘Syne’, sans-serif; font-size: 18px; font-weight: 800; color: #fb923c; }
-.cs-l { font-size: 9px; color: #4a6080; text-transform: uppercase; letter-spacing: 0.5px; }
-.crm-acts { display: flex; gap: 7px; }
-.crm-tabs { display: flex; border-bottom: 1px solid rgba(255,255,255,0.07); background: #0f1623; padding: 0 22px; }
-.ctab { padding: 11px 16px; font-size: 12px; font-weight: 500; color: #8fa3c0; cursor: pointer; border-bottom: 2px solid transparent; background: transparent; border-top: none; border-left: none; border-right: none; font-family: ‘DM Sans’, sans-serif; -webkit-appearance: none; transition: all 0.15s; white-space: nowrap; }
-.ctab:hover { color: #e8edf5; }
-.ctab.on { color: #fb923c; border-bottom-color: #f97316; }
-.tcnt { display: inline-flex; align-items: center; justify-content: center; width: 17px; height: 17px; border-radius: 50%; background: rgba(249,115,22,0.2); color: #fb923c; font-size: 9px; font-weight: 700; margin-left: 5px; }
-.kboard-wrap { overflow-x: auto; padding: 18px 22px; }
-.kboard { display: flex; gap: 12px; min-width: max-content; align-items: flex-start; }
-.kcol { width: 270px; flex-shrink: 0; }
-.kcol-hd { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; padding: 0 3px; }
-.kcol-title { font-family: ‘Syne’, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
-.kcol-cnt { font-size: 11px; color: #4a6080; font-weight: 600; }
+.cs-n {
+  font-family: 'Syne', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  color: #fb923c;
+}
+.cs-l {
+  font-size: 9px;
+  color: #4a6080;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.crm-acts { display: flex; gap: 7px; flex-wrap: wrap; }
+.crm-tabs {
+  display: flex;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  background: #0f1623;
+  padding: 0 18px;
+  overflow-x: auto;
+}
+.ctab {
+  padding: 11px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #8fa3c0;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  font-family: 'DM Sans', sans-serif;
+  white-space: nowrap;
+}
+.ctab:hover, .ctab:active { color: #e8edf5; }
+.ctab.on {
+  color: #fb923c;
+  border-bottom-color: #f97316;
+}
+.tcnt {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: rgba(249,115,22,0.2);
+  color: #fb923c;
+  font-size: 9px;
+  font-weight: 700;
+  margin-left: 5px;
+}
+.kboard-wrap {
+  overflow-x: auto;
+  padding: 18px;
+}
+.kboard {
+  display: flex;
+  gap: 12px;
+  min-width: max-content;
+  align-items: flex-start;
+}
+.kcol {
+  width: 280px;
+  flex-shrink: 0;
+}
+.kcol-hd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding: 0 3px;
+}
+.kcol-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.kcol-cnt {
+  font-size: 11px;
+  color: #4a6080;
+  font-weight: 600;
+}
 .col-new .kcol-title { color: #8fa3c0; }
 .col-emailed .kcol-title { color: #fb923c; }
 .col-contacted .kcol-title { color: #fbbf24; }
@@ -135,107 +834,193 @@ body::before { content: ''; position: fixed; inset: 0; background-image: linear-
 .col-negotiating .kcol-title { color: #f472b6; }
 .col-won .kcol-title { color: #34d399; }
 .col-lost .kcol-title { color: #4a6080; }
-.kcards { display: flex; flex-direction: column; gap: 9px; min-height: 60px; }
-.kcard { background: #0f1623; border: 1px solid rgba(255,255,255,0.07); border-radius: 11px; padding: 13px; cursor: pointer; transition: all 0.15s; position: relative; }
-.kcard:hover { border-color: rgba(249,115,22,0.28); transform: translateY(-1px); box-shadow: 0 5px 18px rgba(0,0,0,0.28); }
+.kcards {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  min-height: 60px;
+}
+.kcard {
+  background: #0f1623;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 11px;
+  padding: 13px;
+  transition: all 0.15s;
+  position: relative;
+}
+.kcard:hover, .kcard:active {
+  border-color: rgba(249,115,22,0.28);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 18px rgba(0,0,0,0.28);
+}
 .kcard.sl { border-left: 3px solid #8fa3c0; }
 .kcard.sp { border-left: 3px solid #fb923c; }
 .kcard.sw { border-left: 3px solid #34d399; }
 .kcard.sx { border-left: 3px solid #4a6080; }
-.kbiz { font-family: ‘Syne’, sans-serif; font-size: 12px; font-weight: 700; color: #e8edf5; margin-bottom: 3px; }
-.kcon { font-size: 10px; color: #fb923c; margin-bottom: 5px; }
-.ktype { font-size: 10px; color: #4a6080; margin-bottom: 7px; }
-.kmeta { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 7px; }
-.ktag { font-size: 9px; padding: 2px 6px; border-radius: 4px; }
-.ktag.deal { background: rgba(52,211,153,0.1); color: #34d399; border: 1px solid rgba(52,211,153,0.2); }
-.ktag.fu { background: rgba(251,191,36,0.1); color: #fbbf24; border: 1px solid rgba(251,191,36,0.2); }
-.ktag.ov { background: rgba(239,68,68,0.1); color: #fca5a5; border: 1px solid rgba(239,68,68,0.2); }
-.kacts { display: flex; gap: 5px; margin-top: 7px; }
-.kbtn { padding: 3px 9px; border-radius: 4px; font-size: 10px; font-weight: 600; cursor: pointer; border: 1px solid rgba(255,255,255,0.08); background: transparent; color: #8fa3c0; font-family: ‘DM Sans’, sans-serif; -webkit-appearance: none; transition: all 0.12s; }
-.kbtn:hover { border-color: rgba(249,115,22,0.35); color: #fb923c; background: rgba(249,115,22,0.09); }
-.kdays { position: absolute; top: 9px; right: 9px; font-size: 9px; color: #4a6080; }
-.kempty { padding: 20px; text-align: center; color: #4a6080; font-size: 12px; border: 1px dashed rgba(255,255,255,0.08); border-radius: 9px; }
-.fu-alerts { padding: 10px 22px 0; }
-.fualert { display: flex; align-items: center; gap: 9px; padding: 9px 14px; background: rgba(251,191,36,0.07); border: 1px solid rgba(251,191,36,0.18); border-radius: 9px; margin-bottom: 7px; font-size: 12px; color: #fbbf24; }
-.fualert button { margin-left: auto; cursor: pointer; color: #4a6080; font-size: 14px; background: none; border: none; -webkit-appearance: none; }
+.kbiz {
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: #e8edf5;
+  margin-bottom: 3px;
+}
+.kcon {
+  font-size: 10px;
+  color: #fb923c;
+  margin-bottom: 5px;
+}
+.ktype {
+  font-size: 10px;
+  color: #4a6080;
+  margin-bottom: 7px;
+}
+.kmeta {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 7px;
+}
+.ktag {
+  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.ktag.deal {
+  background: rgba(52,211,153,0.1);
+  color: #34d399;
+  border: 1px solid rgba(52,211,153,0.2);
+}
+.ktag.fu {
+  background: rgba(251,191,36,0.1);
+  color: #fbbf24;
+  border: 1px solid rgba(251,191,36,0.2);
+}
+.kacts {
+  display: flex;
+  gap: 5px;
+  margin-top: 7px;
+  flex-wrap: wrap;
+}
+.kbtn {
+  padding: 8px 10px;
+  border-radius: 7px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: transparent;
+  color: #8fa3c0;
+  font-family: 'DM Sans', sans-serif;
+}
+.kbtn:hover, .kbtn:active {
+  border-color: rgba(249,115,22,0.35);
+  color: #fb923c;
+  background: rgba(249,115,22,0.09);
+}
+.kempty {
+  padding: 20px;
+  text-align: center;
+  color: #4a6080;
+  font-size: 12px;
+  border: 1px dashed rgba(255,255,255,0.08);
+  border-radius: 9px;
+}
 
-/* MODALS */
-.moverlay { position: fixed; inset: 0; z-index: 500; background: rgba(8,12,24,0.87); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; padding: 16px; }
-.moverlay.open { display: flex; }
-.mcard { background: #0f1623; border: 1px solid rgba(249,115,22,0.22); border-radius: 16px; padding: 24px; width: 100%; max-width: 620px; max-height: 90vh; overflow-y: auto; position: relative; }
-.mcard.wide { max-width: 780px; }
-.mcard::-webkit-scrollbar { width: 3px; }
-.mcard::-webkit-scrollbar-thumb { background: rgba(249,115,22,0.3); }
-.mclose { position: absolute; top: 12px; right: 12px; width: 26px; height: 26px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.04); color: #8fa3c0; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; -webkit-appearance: none; }
-.mclose:hover { border-color: rgba(249,115,22,0.35); color: #fb923c; }
-.mtitle { font-family: ‘Syne’, sans-serif; font-size: 18px; font-weight: 800; color: #e8edf5; margin-bottom: 5px; }
-.msub { font-size: 13px; color: #8fa3c0; margin-bottom: 18px; }
-.csi { display: flex; align-items: center; gap: 12px; padding: 12px; background: #161e30; border: 1px solid rgba(255,255,255,0.07); border-radius: 9px; cursor: pointer; transition: all 0.12s; margin-bottom: 8px; }
-.csi:hover { border-color: rgba(249,115,22,0.28); }
-.csi.sel { border-color: rgba(249,115,22,0.45); background: rgba(249,115,22,0.07); }
-.cchk { width: 17px; height: 17px; border-radius: 4px; border: 2px solid rgba(255,255,255,0.2); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.12s; font-size: 10px; color: transparent; }
-.csi.sel .cchk { background: #f97316; border-color: #f97316; color: #fff; }
-.ci-name { font-weight: 600; color: #e8edf5; font-size: 13px; }
-.ci-title { font-size: 11px; color: #fb923c; }
-.ci-info { font-size: 11px; color: #8fa3c0; }
-.df { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-bottom: 12px; }
-.dfield { background: #161e30; border-radius: 7px; padding: 9px 11px; }
-.dfl { font-size: 10px; color: #4a6080; margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
-.dfv { font-size: 12px; color: #e8edf5; font-weight: 500; }
-.stage-row { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 14px; }
-.sbtn { padding: 5px 10px; border-radius: 5px; font-size: 10px; font-weight: 600; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); background: transparent; color: #8fa3c0; font-family: ‘DM Sans’, sans-serif; -webkit-appearance: none; transition: all 0.12s; }
-.sbtn:hover { border-color: rgba(249,115,22,0.35); color: #fb923c; background: rgba(249,115,22,0.09); }
-.sbtn.cur { border-color: rgba(249,115,22,0.5); color: #fb923c; background: rgba(249,115,22,0.14); }
-.clist { display: flex; flex-direction: column; gap: 7px; }
-.crow { background: #161e30; border-radius: 9px; padding: 10px 12px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.cn { font-weight: 600; color: #e8edf5; font-size: 12px; flex: 1; min-width: 100px; }
-.ct { font-size: 11px; color: #fb923c; min-width: 90px; }
-.ce { font-size: 11px; color: #8fa3c0; }
-.alog { display: flex; flex-direction: column; gap: 7px; }
-.aitem { background: #161e30; border-radius: 7px; padding: 9px 12px; display: flex; gap: 9px; }
-.aico { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; }
-.aico.email { background: rgba(249,115,22,0.14); }
-.aico.call { background: rgba(52,211,153,0.14); }
-.aico.text { background: rgba(96,165,250,0.14); }
-.aico.note { background: rgba(167,139,250,0.14); }
-.atype { font-size: 10px; font-weight: 600; color: #fb923c; margin-bottom: 2px; }
-.atxt { font-size: 12px; color: #8fa3c0; }
-.atime { font-size: 10px; color: #4a6080; margin-top: 2px; }
-.logform { background: #161e30; border-radius: 9px; padding: 12px; margin-top: 9px; }
-.logrow { display: flex; gap: 7px; margin-bottom: 7px; flex-wrap: wrap; }
-.logrow > * { flex: 1; min-width: 110px; }
-.lgtxt { width: 100%; background: #0f1623; border: 1px solid rgba(255,255,255,0.07); border-radius: 7px; padding: 9px 11px; color: #e8edf5; font-family: ‘DM Sans’, sans-serif; font-size: 12px; outline: none; resize: vertical; min-height: 60px; -webkit-appearance: none; }
-.lgtxt:focus { border-color: rgba(249,115,22,0.35); }
-
-/* SHELL */
-.shgrid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 16px; }
-.shblock { background: #0f1623; border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 16px; }
-.shblock h4 { font-family: ‘Syne’, sans-serif; font-size: 13px; margin-bottom: 9px; color: #e8edf5; }
+.shgrid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 16px;
+}
+.shblock {
+  background: #0f1623;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 12px;
+  padding: 16px;
+}
+.shblock h4 {
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  margin-bottom: 9px;
+  color: #e8edf5;
+}
 .shlist { display: grid; gap: 7px; }
-.shlist div { padding: 9px 11px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.07); border-radius: 8px; color: #8fa3c0; font-size: 12px; }
-.pholder { min-height: 240px; display: grid; place-items: center; text-align: center; border: 1px dashed rgba(255,255,255,0.1); border-radius: 11px; color: #4a6080; font-size: 12px; padding: 18px; }
-.sectdiv { font-family: ‘Syne’, sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #fb923c; margin-bottom: 9px; margin-top: 14px; }
+.shlist div {
+  padding: 9px 11px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 8px;
+  color: #8fa3c0;
+  font-size: 12px;
+}
+.pholder {
+  min-height: 240px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  border: 1px dashed rgba(255,255,255,0.1);
+  border-radius: 11px;
+  color: #4a6080;
+  font-size: 12px;
+  padding: 18px;
+}
 
-@keyframes fadeIn { from{opacity:0;transform:translateY(7px)} to{opacity:1;transform:translateY(0)} }
-@keyframes spin { to{transform:rotate(360deg)} }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
-@keyframes rowSlide { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+.toast {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 999;
+  background: #161e30;
+  border: 1px solid rgba(52,211,153,0.28);
+  color: #dfe6f2;
+  border-radius: 12px;
+  padding: 12px 14px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+  display: none;
+  max-width: 340px;
+  line-height: 1.45;
+}
+.toast.show {
+  display: block;
+  animation: fadeIn .2s ease;
+}
 
-@media(max-width:768px){
-.pnl{padding:18px 14px 60px}
-.grid3{grid-template-columns:repeat(2,1fr)}
-.shgrid{grid-template-columns:1fr}
-.hero h1{font-size:30px}
-.sec-title{font-size:24px}
-.df{grid-template-columns:1fr}
-.kcol{width:230px}
-.lead-grid{grid-template-columns:1fr}
+@keyframes fadeIn {
+  from { opacity:0; transform:translateY(7px); }
+  to { opacity:1; transform:translateY(0); }
+}
+@keyframes spin {
+  to { transform:rotate(360deg); }
+}
+@keyframes pulse {
+  0%,100% { opacity:1; }
+  50% { opacity:0.3; }
+}
+@keyframes rowSlide {
+  from { opacity:0; transform:translateY(8px); }
+  to { opacity:1; transform:translateY(0); }
+}
+
+@media (max-width: 1024px) {
+  .grid3 { grid-template-columns: repeat(2,1fr); }
+}
+@media (max-width: 900px) {
+  .lead-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .pnl { padding: 18px 14px 64px; }
+  .hero h1 { font-size: 30px; }
+  .sec-title { font-size: 24px; }
+  .grid3 { grid-template-columns: 1fr 1fr; }
+  .shgrid { grid-template-columns: 1fr; }
+  .lc-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .grid3 { grid-template-columns: 1fr; }
+  .brand-name { display: none; }
 }
 </style>
-
 </head>
 <body>
-
 <div class="topnav">
   <div class="topnav-inner">
     <div class="brand">
@@ -243,606 +1028,966 @@ body::before { content: ''; position: fixed; inset: 0; background-image: linear-
       <div class="brand-name">Breakout AI</div>
     </div>
     <div class="nav-scroll">
-      <button class="ntab on" onclick="go('home')" id="nt-home">&#127968; Overview</button>
-      <button class="ntab live" onclick="go('leads')" id="nt-leads">&#127919; Find Leads</button>
-      <button class="ntab live" onclick="go('crm')" id="nt-crm">&#128231; Smart CRM</button>
-      <button class="ntab" onclick="go('seo')" id="nt-seo">&#128269; SEO+AEO</button>
-      <button class="ntab" onclick="go('phone')" id="nt-phone">&#128222; Phone Agent</button>
-      <button class="ntab" onclick="go('proposals')" id="nt-proposals">&#128203; Proposals</button>
-      <button class="ntab" onclick="go('contracts')" id="nt-contracts">&#9997; Contracts</button>
-      <button class="ntab" onclick="go('invoicing')" id="nt-invoicing">&#128176; Invoicing</button>
-      <button class="ntab" onclick="go('followup')" id="nt-followup">&#128172; Follow-Up</button>
-      <button class="ntab" onclick="go('social')" id="nt-social">&#128241; Social</button>
-      <button class="ntab" onclick="go('ads')" id="nt-ads">&#128227; Ads</button>
-      <button class="ntab" onclick="go('newsletter')" id="nt-newsletter">&#9993; Newsletter</button>
-      <button class="ntab" onclick="go('dashboard')" id="nt-dashboard">&#128202; Dashboard</button>
+      <button class="ntab on" onclick="go('home')" id="nt-home">Overview</button>
+      <button class="ntab live" onclick="go('leads')" id="nt-leads">Find Leads</button>
+      <button class="ntab live" onclick="go('crm')" id="nt-crm">Smart CRM</button>
+      <button class="ntab" onclick="go('seo')" id="nt-seo">SEO+AEO</button>
+      <button class="ntab" onclick="go('phone')" id="nt-phone">Phone Agent</button>
+      <button class="ntab" onclick="go('proposals')" id="nt-proposals">Proposals</button>
+      <button class="ntab" onclick="go('contracts')" id="nt-contracts">Contracts</button>
+      <button class="ntab" onclick="go('invoicing')" id="nt-invoicing">Invoicing</button>
+      <button class="ntab" onclick="go('followup')" id="nt-followup">Follow Up</button>
+      <button class="ntab" onclick="go('social')" id="nt-social">Social</button>
+      <button class="ntab" onclick="go('ads')" id="nt-ads">Ads</button>
+      <button class="ntab" onclick="go('newsletter')" id="nt-newsletter">Newsletter</button>
+      <button class="ntab" onclick="go('dashboard')" id="nt-dashboard">Dashboard</button>
     </div>
     <div class="nav-status">AI Online</div>
   </div>
 </div>
 
-<div class="main" id="mainWrap">
-
-<!-- HOME -->
-
-<div class="pnl" id="p-home">
-  <div class="hero">
-    <h1>Your Business Runs on<br><span class="gtxt">Autopilot.</span></h1>
+<div class="main">
+  <div class="pnl" id="p-home">
+    <div class="hero">
+      <h1>Your Business Runs on<br><span class="gtxt">Autopilot.</span></h1>
+    </div>
+    <div style="text-align:center;margin-bottom:18px">
+      <div class="hero-badge">Breakout AI Internal Ops</div>
+    </div>
+    <div class="ops-card">
+      <h3>Operations Center</h3>
+      <p>Station 1 uses Google Places as the geographic discovery layer, then enriches records with Apollo and optional website scraping so each company stays on one rich card. Station 2 stays active. All 12 stations remain visible and clickable so the entry points do not break.</p>
+    </div>
+    <div class="grid3">
+      <div class="stile live-tile" onclick="go('leads')">
+        <div class="stile-icon">1</div>
+        <div class="stile-title">Find Leads</div>
+        <div class="stile-desc">Radius based Google search plus Apollo enrichment, revenue, employees, contacts, logos, and website scrape data.</div>
+        <span class="sbadge sb-live">Live</span>
+      </div>
+      <div class="stile live-tile" onclick="go('crm')">
+        <div class="stile-icon">2</div>
+        <div class="stile-title">Smart CRM</div>
+        <div class="stile-desc">Import leads into a clean kanban pipeline for follow up, demos, proposals, and wins.</div>
+        <span class="sbadge sb-live">Live</span>
+      </div>
+      <div class="stile" onclick="go('seo')"><div class="stile-icon">3</div><div class="stile-title">SEO + AEO</div><div class="stile-desc">Keyword research, city pages, answer engine content builder.</div><span class="sbadge sb-shell">Shell Ready</span></div>
+      <div class="stile" onclick="go('phone')"><div class="stile-icon">4</div><div class="stile-title">Phone Agent</div><div class="stile-desc">Voice logic, call scripts, transfer controls, and call outcome routing.</div><span class="sbadge sb-shell">Shell Ready</span></div>
+      <div class="stile" onclick="go('proposals')"><div class="stile-icon">5</div><div class="stile-title">Proposals</div><div class="stile-desc">Paste scope notes and turn them into send ready proposal drafts.</div><span class="sbadge sb-shell">Shell Ready</span></div>
+      <div class="stile" onclick="go('contracts')"><div class="stile-icon">6</div><div class="stile-title">Contracts</div><div class="stile-desc">Generate agreements and track signature status.</div><span class="sbadge sb-shell">Shell Ready</span></div>
+      <div class="stile" onclick="go('invoicing')"><div class="stile-icon">7</div><div class="stile-title">Invoicing</div><div class="stile-desc">Invoice creation, reminders, and payment visibility.</div><span class="sbadge sb-shell">Shell Ready</span></div>
+      <div class="stile" onclick="go('followup')"><div class="stile-icon">8</div><div class="stile-title">Follow Up SMS</div><div class="stile-desc">Quiet lead reactivation and sequence builder.</div><span class="sbadge sb-shell">Shell Ready</span></div>
+      <div class="stile" onclick="go('social')"><div class="stile-icon">9</div><div class="stile-title">Social</div><div class="stile-desc">Topic to post flow across channels.</div><span class="sbadge sb-shell">Shell Ready</span></div>
+      <div class="stile" onclick="go('ads')"><div class="stile-icon">10</div><div class="stile-title">Ads</div><div class="stile-desc">Audience, offer, and campaign setup shell.</div><span class="sbadge sb-shell">Shell Ready</span></div>
+      <div class="stile" onclick="go('newsletter')"><div class="stile-icon">11</div><div class="stile-title">Newsletter</div><div class="stile-desc">Topic to newsletter workflow.</div><span class="sbadge sb-shell">Shell Ready</span></div>
+      <div class="stile" onclick="go('dashboard')"><div class="stile-icon">12</div><div class="stile-title">Dashboard</div><div class="stile-desc">Master command center and cross station visibility.</div><span class="sbadge sb-shell">Shell Ready</span></div>
+    </div>
   </div>
-  <div style="text-align:center;margin-bottom:18px">
-    <div class="hero-badge">Breakout AI &#8212; Internal Ops</div>
-  </div>
-  <div class="ops-card">
-    <h3>Operations Center</h3>
-    <p>Find Leads and Smart CRM are live. Scrape leads, import contacts, and manage your pipeline from Lead to Prospect to Account &#8212; all in one place.</p>
-  </div>
-  <div class="grid3">
-    <div class="stile live-tile" onclick="go('leads')"><div class="stile-icon">&#127919;</div><div class="stile-title">Find Leads</div><div class="stile-desc">Live Google Places scraper &#8212; real businesses, phone, address, rating.</div><span class="sbadge sb-live">LIVE</span></div>
-    <div class="stile live-tile" onclick="go('crm')"><div class="stile-icon">&#128231;</div><div class="stile-title">Smart CRM</div><div class="stile-desc">Lead to Prospect to Account kanban with contacts and activity log.</div><span class="sbadge sb-live">LIVE</span></div>
-    <div class="stile" onclick="go('seo')"><div class="stile-icon">&#128269;</div><div class="stile-title">SEO + AEO</div><div class="stile-desc">Keywords, city pages, answer blocks, metadata.</div><span class="sbadge sb-shell">Shell Ready</span></div>
-    <div class="stile" onclick="go('phone')"><div class="stile-icon">&#128222;</div><div class="stile-title">Phone Agent</div><div class="stile-desc">AI call flows, transfer logic, logging.</div><span class="sbadge sb-shell">Shell Ready</span></div>
-    <div class="stile" onclick="go('proposals')"><div class="stile-icon">&#128203;</div><div class="stile-title">Proposals</div><div class="stile-desc">Notes to scope, pricing, send-ready proposal.</div><span class="sbadge sb-shell">Shell Ready</span></div>
-    <div class="stile" onclick="go('contracts')"><div class="stile-icon">&#9997;</div><div class="stile-title">Contracts</div><div class="stile-desc">Generate contracts, track signatures.</div><span class="sbadge sb-shell">Shell Ready</span></div>
-    <div class="stile" onclick="go('invoicing')"><div class="stile-icon">&#128176;</div><div class="stile-title">Invoicing</div><div class="stile-desc">Invoice creation, reminders, payment view.</div><span class="sbadge sb-shell">Shell Ready</span></div>
-    <div class="stile" onclick="go('followup')"><div class="stile-icon">&#128172;</div><div class="stile-title">Follow-Up SMS</div><div class="stile-desc">Automated text follow-up and deal nudges.</div><span class="sbadge sb-shell">Shell Ready</span></div>
-    <div class="stile" onclick="go('social')"><div class="stile-icon">&#128241;</div><div class="stile-title">Social Media</div><div class="stile-desc">Post drafts, scheduling, approvals.</div><span class="sbadge sb-shell">Shell Ready</span></div>
-    <div class="stile" onclick="go('ads')"><div class="stile-icon">&#128227;</div><div class="stile-title">Ad Campaigns</div><div class="stile-desc">Campaign setup, offers, targeting.</div><span class="sbadge sb-shell">Shell Ready</span></div>
-    <div class="stile" onclick="go('newsletter')"><div class="stile-icon">&#9993;</div><div class="stile-title">Newsletter</div><div class="stile-desc">Newsletter planning, drafting, scheduling.</div><span class="sbadge sb-shell">Shell Ready</span></div>
-    <div class="stile" onclick="go('dashboard')"><div class="stile-icon">&#128202;</div><div class="stile-title">Dashboard</div><div class="stile-desc">Live ops summary and cross-station visibility.</div><span class="sbadge sb-shell">Shell Ready</span></div>
-  </div>
-</div>
 
-<!-- FIND LEADS -->
+  <div class="pnl" id="p-leads" style="display:none">
+    <div class="eyebrow">Station 1 Live</div>
+    <div class="sec-title">Find Leads <span class="gtxt">Geo + Enrichment</span></div>
+    <div class="sec-sub">Google Places handles the area search. The backend should chunk wider searches when needed, then match and enrich with Apollo and optional website scraping. The front end keeps one company per card and two cards per row on iPad and desktop.</div>
 
-<div class="pnl" id="p-leads" style="display:none">
-  <div class="eyebrow">Station 1 &#183; Live</div>
-  <div class="sec-title">Find Leads &#8212; <span class="gtxt">Real Data</span></div>
-  <div class="sec-sub">Search any business type in any city. Results display as dual cards. Import to Smart CRM one by one or all at once.</div>
-  <div class="card">
-    <div class="row2">
-      <div><label class="flabel">Business Type</label><input class="inp" id="ls-q" type="text" value="HVAC" placeholder="e.g. HVAC, Plumber" /></div>
-      <div><label class="flabel">City</label><input class="inp" id="ls-c" type="text" value="Palm Desert CA" placeholder="e.g. Palm Desert CA" /></div>
-      <div><label class="flabel">Min Rating</label>
-        <select class="sel" id="ls-r">
-          <option value="">Any</option><option value="3">3.0+</option><option value="3.5">3.5+</option>
-          <option value="4" selected>4.0+</option><option value="4.5">4.5+</option><option value="5">5.0 Only</option>
-        </select>
+    <div class="card">
+      <div class="row2">
+        <div>
+          <label class="flabel">Business Type</label>
+          <input class="inp" id="ls-q" type="text" value="HVAC" placeholder="HVAC, Roofer, Plumber">
+        </div>
+        <div>
+          <label class="flabel">Center City or ZIP</label>
+          <input class="inp" id="ls-c" type="text" value="Palm Desert CA" placeholder="Palm Desert CA or 92260">
+        </div>
+        <div>
+          <label class="flabel">Radius Miles</label>
+          <select class="sel" id="ls-radius">
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="31">31</option>
+            <option value="40">40</option>
+            <option value="50" selected>50</option>
+          </select>
+        </div>
+        <div>
+          <label class="flabel">Min Rating</label>
+          <select class="sel" id="ls-r">
+            <option value="">Any</option>
+            <option value="3">3.0+</option>
+            <option value="3.5">3.5+</option>
+            <option value="4" selected>4.0+</option>
+            <option value="4.5">4.5+</option>
+            <option value="5">5.0 Only</option>
+          </select>
+        </div>
+      </div>
+      <div class="row2">
+        <div>
+          <label class="flabel">Google Discovery</label>
+          <select class="sel" id="ls-google">
+            <option value="true" selected>On</option>
+            <option value="false">Off</option>
+          </select>
+        </div>
+        <div>
+          <label class="flabel">Apollo Enrichment</label>
+          <select class="sel" id="ls-apollo">
+            <option value="true" selected>On</option>
+            <option value="false">Off</option>
+          </select>
+        </div>
+        <div>
+          <label class="flabel">Website Scrape</label>
+          <select class="sel" id="ls-scrape">
+            <option value="true" selected>On</option>
+            <option value="false">Off</option>
+          </select>
+        </div>
+        <div>
+          <label class="flabel">Max Results</label>
+          <select class="sel" id="ls-limit">
+            <option value="20">20</option>
+            <option value="40" selected>40</option>
+            <option value="60">60</option>
+            <option value="100">100</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="btn-main" id="ls-btn" onclick="runSearch()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><path d="M21 21l-4.35-4.35"></path></svg>
+        Search for Leads
+      </button>
+    </div>
+
+    <div class="sbar" id="ls-sb"><div class="spin"></div><span id="ls-st">Connecting...</span></div>
+    <div class="ebar" id="ls-eb"></div>
+
+    <div class="svbar" id="ls-sv">
+      <div class="svstat"><div class="svnum" id="ls-tot">0</div><div class="svlbl">Found</div></div>
+      <div class="svdiv"></div>
+      <div class="svstat"><div class="svnum" id="ls-hot">0</div><div class="svlbl">4.5+</div></div>
+      <div class="svdiv"></div>
+      <div class="svstat"><div class="svnum" id="ls-ph">0</div><div class="svlbl">Phone</div></div>
+      <div class="svdiv"></div>
+      <div class="svstat"><div class="svnum" id="ls-wb">0</div><div class="svlbl">Website</div></div>
+      <div class="svdiv"></div>
+      <div class="svstat"><div class="svnum" id="ls-em">0</div><div class="svlbl">Employees</div></div>
+      <div class="svdiv"></div>
+      <div class="svstat"><div class="svnum" id="ls-rev">0</div><div class="svlbl">Revenue</div></div>
+    </div>
+
+    <div class="outcard" id="ls-out">
+      <div class="outhdr">
+        <div class="outtitle">Live Results</div>
+        <div class="outacts">
+          <span class="outcnt" id="ls-cnt">0 results</span>
+          <button class="bsm ok" onclick="bulkAdd()">Import All</button>
+          <button class="bsm ok" onclick="downloadCSV()">CSV</button>
+          <button class="bsm" onclick="resetSearch()">New Search</button>
+        </div>
+      </div>
+      <div class="lead-grid" id="ls-body"></div>
+    </div>
+  </div>
+
+  <div class="pnl-full" id="p-crm" style="display:none">
+    <div class="crm-top">
+      <div class="crm-ttl">Smart CRM <span class="sbadge sb-live">Live</span></div>
+      <div class="crm-stats">
+        <div class="cs"><div class="cs-n" id="cs-leads">0</div><div class="cs-l">Leads</div></div>
+        <div class="cs"><div class="cs-n" id="cs-prospects">0</div><div class="cs-l">Prospects</div></div>
+        <div class="cs"><div class="cs-n" id="cs-accounts">0</div><div class="cs-l">Accounts</div></div>
+        <div class="cs"><div class="cs-n" id="cs-pipe">$0</div><div class="cs-l">Pipeline</div></div>
+      </div>
+      <div class="crm-acts">
+        <button class="bsm" onclick="go('leads')">Back to Leads</button>
       </div>
     </div>
-    <button class="btn-main" id="ls-btn" onclick="runSearch()">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-      Search for Leads
-    </button>
-  </div>
-  <div class="sbar" id="ls-sb" style="display:none"><div class="spin"></div><span id="ls-st">Connecting...</span></div>
-  <div class="ebar" id="ls-eb" style="display:none"></div>
-  <div class="svbar" id="ls-sv" style="display:none">
-    <div class="svstat"><div class="svnum" id="ls-tot">0</div><div class="svlbl">Found</div></div>
-    <div class="svdiv"></div>
-    <div class="svstat"><div class="svnum" id="ls-hot">0</div><div class="svlbl">4.5+</div></div>
-    <div class="svdiv"></div>
-    <div class="svstat"><div class="svnum" id="ls-ph">0</div><div class="svlbl">Phone</div></div>
-    <div class="svdiv"></div>
-    <div class="svstat"><div class="svnum" id="ls-wb">0</div><div class="svlbl">Website</div></div>
-  </div>
-  <div class="outcard" id="ls-out" style="display:none">
-    <div class="outhdr">
-      <div class="outtitle">Live Results</div>
-      <div class="outacts">
-        <span class="outcnt" id="ls-cnt"></span>
-        <button class="bsm ok" onclick="bulkAdd()">+ Import All</button>
-        <button class="bsm ok" onclick="doCSV()">CSV</button>
-        <button class="bsm" onclick="resetSearch()">New Search</button>
-      </div>
+    <div class="crm-tabs">
+      <button class="ctab on" onclick="setCrmView('all')" id="ct-all">All <span class="tcnt" id="cc-all">0</span></button>
+      <button class="ctab" onclick="setCrmView('lead')" id="ct-lead">Leads <span class="tcnt" id="cc-lead">0</span></button>
+      <button class="ctab" onclick="setCrmView('prospect')" id="ct-prospect">Prospects <span class="tcnt" id="cc-prospect">0</span></button>
+      <button class="ctab" onclick="setCrmView('account')" id="ct-account">Accounts <span class="tcnt" id="cc-account">0</span></button>
     </div>
-    <div class="lead-grid" id="ls-body"></div>
-  </div>
-</div>
-
-<!-- SMART CRM -->
-
-<div class="pnl-full" id="p-crm" style="display:none">
-  <div class="fu-alerts" id="fu-alerts"></div>
-  <div class="crm-top">
-    <div class="crm-ttl">&#128231; Smart CRM <span class="sbadge sb-live">LIVE</span></div>
-    <div class="crm-stats">
-      <div class="cs"><div class="cs-n" id="cs-leads">0</div><div class="cs-l">Leads</div></div>
-      <div class="cs"><div class="cs-n" id="cs-prospects">0</div><div class="cs-l">Prospects</div></div>
-      <div class="cs"><div class="cs-n" id="cs-accounts">0</div><div class="cs-l">Accounts</div></div>
-      <div class="cs"><div class="cs-n" id="cs-pipe">$0</div><div class="cs-l">Pipeline</div></div>
-    </div>
-    <div class="crm-acts">
-      <button class="bsm ora" onclick="openManual()">+ Add Manual</button>
-      <button class="bsm" onclick="go('leads')">&#8592; Find Leads</button>
+    <div class="kboard-wrap">
+      <div class="kboard" id="kboard"></div>
     </div>
   </div>
-  <div class="crm-tabs">
-    <button class="ctab on" onclick="cview('all')" id="ct-all">All <span class="tcnt" id="cc-all">0</span></button>
-    <button class="ctab" onclick="cview('leads')" id="ct-leads">Leads <span class="tcnt" id="cc-leads">0</span></button>
-    <button class="ctab" onclick="cview('prospects')" id="ct-prospects">Prospects <span class="tcnt" id="cc-prospects">0</span></button>
-    <button class="ctab" onclick="cview('accounts')" id="ct-accounts">Accounts <span class="tcnt" id="cc-accounts">0</span></button>
-  </div>
-  <div class="kboard-wrap">
-    <div class="kboard" id="kboard"></div>
-  </div>
+
+  <div class="pnl" id="p-seo" style="display:none"><div class="eyebrow">Station 3</div><div class="sec-title">SEO + AEO <span class="gtxt">Shell</span></div><div class="sec-sub">Keyword research, city pages, answer blocks, and metadata generation.</div><div class="card"><div class="shgrid"><div class="shblock"><h4>Build Areas</h4><div class="shlist"><div>Service and city inputs</div><div>Keyword clusters</div><div>Meta generator</div><div>FAQ blocks</div></div></div><div class="shblock"><div class="pholder">SEO workspace goes here</div></div></div></div></div>
+  <div class="pnl" id="p-phone" style="display:none"><div class="eyebrow">Station 4</div><div class="sec-title">Phone Agent <span class="gtxt">Shell</span></div><div class="sec-sub">Voice logic, routing, and transcript controls.</div><div class="card"><div class="shgrid"><div class="shblock"><h4>Build Areas</h4><div class="shlist"><div>Scenario selector</div><div>Transcript area</div><div>Transfer controls</div><div>CRM handoff</div></div></div><div class="shblock"><div class="pholder">Phone simulation area goes here</div></div></div></div></div>
+  <div class="pnl" id="p-proposals" style="display:none"><div class="eyebrow">Station 5</div><div class="sec-title">Proposals <span class="gtxt">Shell</span></div><div class="sec-sub">Scope notes to send ready proposal workflow.</div><div class="card"><div class="shgrid"><div class="shblock"><h4>Build Areas</h4><div class="shlist"><div>Client inputs</div><div>Notes box</div><div>Proposal render area</div><div>Approve and send</div></div></div><div class="shblock"><div class="pholder">Proposal builder goes here</div></div></div></div></div>
+  <div class="pnl" id="p-contracts" style="display:none"><div class="eyebrow">Station 6</div><div class="sec-title">Contracts <span class="gtxt">Shell</span></div><div class="sec-sub">Generate agreements and track signature status.</div><div class="card"><div class="shgrid"><div class="shblock"><h4>Build Areas</h4><div class="shlist"><div>Template picker</div><div>Contract render panel</div><div>E sign delivery</div><div>Status tracker</div></div></div><div class="shblock"><div class="pholder">Contract system goes here</div></div></div></div></div>
+  <div class="pnl" id="p-invoicing" style="display:none"><div class="eyebrow">Station 7</div><div class="sec-title">Invoicing <span class="gtxt">Shell</span></div><div class="sec-sub">Send invoices and monitor reminders.</div><div class="card"><div class="shgrid"><div class="shblock"><h4>Build Areas</h4><div class="shlist"><div>Invoice details form</div><div>Terms and payment method</div><div>Send trigger</div><div>Reminder timeline</div></div></div><div class="shblock"><div class="pholder">Invoice workspace goes here</div></div></div></div></div>
+  <div class="pnl" id="p-followup" style="display:none"><div class="eyebrow">Station 8</div><div class="sec-title">Follow Up SMS <span class="gtxt">Shell</span></div><div class="sec-sub">Reactivation and quiet sequence builder.</div><div class="card"><div class="shgrid"><div class="shblock"><h4>Build Areas</h4><div class="shlist"><div>Stage selector</div><div>Sequence builder</div><div>SMS previews</div><div>Send and log</div></div></div><div class="shblock"><div class="pholder">Follow up builder goes here</div></div></div></div></div>
+  <div class="pnl" id="p-social" style="display:none"><div class="eyebrow">Station 9</div><div class="sec-title">Social <span class="gtxt">Shell</span></div><div class="sec-sub">Topic to posts workflow.</div><div class="card"><div class="shgrid"><div class="shblock"><h4>Build Areas</h4><div class="shlist"><div>Topic input</div><div>Platform selector</div><div>Preview cards</div><div>Approval row</div></div></div><div class="shblock"><div class="pholder">Social workspace goes here</div></div></div></div></div>
+  <div class="pnl" id="p-ads" style="display:none"><div class="eyebrow">Station 10</div><div class="sec-title">Ads <span class="gtxt">Shell</span></div><div class="sec-sub">Audience, offers, and creative workflow.</div><div class="card"><div class="shgrid"><div class="shblock"><h4>Build Areas</h4><div class="shlist"><div>Campaign goal</div><div>Audience builder</div><div>Ad copy generator</div><div>Launch checklist</div></div></div><div class="shblock"><div class="pholder">Ad builder goes here</div></div></div></div></div>
+  <div class="pnl" id="p-newsletter" style="display:none"><div class="eyebrow">Station 11</div><div class="sec-title">Newsletter <span class="gtxt">Shell</span></div><div class="sec-sub">Topic to newsletter workflow.</div><div class="card"><div class="shgrid"><div class="shblock"><h4>Build Areas</h4><div class="shlist"><div>Topic and tone controls</div><div>Newsletter render area</div><div>Subject line builder</div><div>Schedule and send</div></div></div><div class="shblock"><div class="pholder">Newsletter system goes here</div></div></div></div></div>
+  <div class="pnl" id="p-dashboard" style="display:none"><div class="eyebrow">Station 12</div><div class="sec-title">Dashboard <span class="gtxt">Shell</span></div><div class="sec-sub">Cross station visibility and quick actions.</div><div class="card"><div class="shgrid"><div class="shblock"><h4>Build Areas</h4><div class="shlist"><div>Station status cards</div><div>Recent activity feed</div><div>Pipeline summary</div><div>Quick action launcher</div></div></div><div class="shblock"><div class="pholder">Master dashboard goes here</div></div></div></div></div>
 </div>
 
-<!-- SHELLS -->
-
-<div class="pnl" id="p-seo" style="display:none"><div class="eyebrow">Station 2</div><div class="sec-title">SEO + AEO <span class="gtxt">Shell</span></div><div class="sec-sub">Keyword research, city pages, answer engine content builder.</div><div class="card"><div class="shgrid"><div class="shblock"><h4>Build Areas</h4><div class="shlist"><div>Service and city inputs</div><div>Keyword clusters</div><div>Meta title and description generator</div><div>FAQ and answer block builder</div></div></div><div class="shblock"><div class="pholder">SEO workspace goes here</div></div></div></div></div>
-<div class="pnl" id="p-phone" style="display:none"><div class="eyebrow">Station 4</div><div class="sec-title">Phone Agent <span class="gtxt">Shell</span></div><div class="sec-sub">Voice logic, call scripts, and transfer controls.</div><div class="card"><div class="shgrid"><div class="shblock"><h4>Build Areas</h4><div class="shlist"><div>Scenario selector</div><div>Transcript area</div><div>Call controls</div><div>Disposition and CRM handoff</div></div></div><div class="shblock"><div class="pholder">Phone simulation area goes here</div></div></div></div></div>
-<div class="pnl" id="p-proposals" style="display:none"><div class="eyebrow">Station 5</div><div class="sec-title">Proposals <span class="gtxt">Shell</span></div><div class="sec-sub">Paste notes and turn them into a send-ready proposal.</div><div class="card"><div class="shgrid"><div class="shblock"><h4>Build Areas</h4><div class="shlist"><div>Client and project inputs</div><div>Notes and source text box</div><div>Proposal render area</div><div>Approve and send action row</div></div></div><div class="shblock"><div class="pholder">Proposal builder goes here</div></div></div></div></div>
-<div class="pnl" id="p-contracts" style="display:none"><div class="eyebrow">Station 6</div><div class="sec-title">Contracts <span class="gtxt">Shell</span></div><div class="sec-sub">Generate agreements and track signature status.</div><div class="card"><div class="shgrid"><div class="shblock"><h4>Build Areas</h4><div class="shlist"><div>Template picker</div><div>Contract render panel</div><div>E-sign delivery state</div><div>Status tracker</div></div></div><div class="shblock"><div class="pholder">Contract system goes here</div></div></div></div></div>
-<div class="pnl" id="p-invoicing" style="display:none"><div class="eyebrow">Station 7</div><div class="sec-title">Invoicing <span class="gtxt">Shell</span></div><div class="sec-sub">Send invoices and monitor reminder flow.</div><div class="card"><div class="shgrid"><div class="shblock"><h4>Build Areas</h4><div class="shlist"><div>Invoice details form</div><div>Terms and payment method</div><div>Send trigger</div><div>Reminder timeline</div></div></div><div class="shblock"><div class="pholder">Invoice workspace goes here</div></div></div></div></div>
-<div class="pnl" id="p-followup" style="display:none"><div class="eyebrow">Station 8</div><div class="sec-title">Follow-Up SMS <span class="gtxt">Shell</span></div><div class="sec-sub">Quiet lead reactivation and sequence builder.</div><div class="card"><div class="shgrid"><div class="shblock"><h4>Build Areas</h4><div class="shlist"><div>Deal stage selector</div><div>Sequence builder</div><div>SMS preview cards</div><div>Send and log actions</div></div></div><div class="shblock"><div class="pholder">Follow-up builder goes here</div></div></div></div></div>
-<div class="pnl" id="p-social" style="display:none"><div class="eyebrow">Station 9</div><div class="sec-title">Social Media <span class="gtxt">Shell</span></div><div class="sec-sub">Topic to post flow across channels.</div><div class="card"><div class="shgrid"><div class="shblock"><h4>Build Areas</h4><div class="shlist"><div>Topic and audience input</div><div>Platform selector</div><div>Post preview cards</div><div>Approval and scheduling row</div></div></div><div class="shblock"><div class="pholder">Social workspace goes here</div></div></div></div></div>
-<div class="pnl" id="p-ads" style="display:none"><div class="eyebrow">Station 10</div><div class="sec-title">Ad Campaigns <span class="gtxt">Shell</span></div><div class="sec-sub">Offer strategy, audience, and creative shell.</div><div class="card"><div class="shgrid"><div class="shblock"><h4>Build Areas</h4><div class="shlist"><div>Campaign goal and budget</div><div>Audience builder</div><div>Ad copy generator</div><div>Launch checklist</div></div></div><div class="shblock"><div class="pholder">Campaign builder goes here</div></div></div></div></div>
-<div class="pnl" id="p-newsletter" style="display:none"><div class="eyebrow">Station 11</div><div class="sec-title">Newsletter <span class="gtxt">Shell</span></div><div class="sec-sub">Topic to finished newsletter workflow.</div><div class="card"><div class="shgrid"><div class="shblock"><h4>Build Areas</h4><div class="shlist"><div>Topic and tone controls</div><div>Newsletter renderer</div><div>Subject and preview line</div><div>Schedule and send actions</div></div></div><div class="shblock"><div class="pholder">Newsletter system goes here</div></div></div></div></div>
-<div class="pnl" id="p-dashboard" style="display:none"><div class="eyebrow">Station 12</div><div class="sec-title">Dashboard <span class="gtxt">Shell</span></div><div class="sec-sub">Cross-station command center and live ops summary.</div><div class="card"><div class="shgrid"><div class="shblock"><h4>Build Areas</h4><div class="shlist"><div>Station status cards</div><div>Recent activity feed</div><div>Pipeline summary</div><div>Quick action launcher</div></div></div><div class="shblock"><div class="pholder">Master ops dashboard goes here</div></div></div></div></div>
-
-</div>
-
-<!-- IMPORT MODAL -->
-
-<div class="moverlay" id="m-import">
-  <div class="mcard wide">
-    <button class="mclose" onclick="closeM('m-import')">&#215;</button>
-    <div class="mtitle" id="imp-title">Import to CRM</div>
-    <div class="msub">Select contacts to import. Apollo will enrich with real data when connected.</div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-      <span style="font-size:12px;color:#8fa3c0">Choose contacts</span>
-      <button class="bsm ora" onclick="selAll()">Select All</button>
-    </div>
-    <div id="imp-list"></div>
-    <div style="display:flex;gap:8px;margin-top:14px">
-      <button class="bsm" style="flex:1;padding:11px" onclick="closeM('m-import')">Cancel</button>
-      <button class="btn-main" style="margin-top:0;flex:2" onclick="doImport()">Import Selected</button>
-    </div>
-  </div>
-</div>
-
-<!-- DETAIL MODAL -->
-
-<div class="moverlay" id="m-detail">
-  <div class="mcard wide">
-    <button class="mclose" onclick="closeM('m-detail')">&#215;</button>
-    <div id="m-detail-body"></div>
-  </div>
-</div>
-
-<!-- MANUAL MODAL -->
-
-<div class="moverlay" id="m-manual">
-  <div class="mcard">
-    <button class="mclose" onclick="closeM('m-manual')">&#215;</button>
-    <div class="mtitle">Add Lead Manually</div>
-    <div class="msub">Enter business details to add to CRM.</div>
-    <div class="row2"><div><label class="flabel">Business Name</label><input class="inp" id="mn-biz" type="text" placeholder="e.g. Desert AC Services" /></div><div><label class="flabel">Business Type</label><input class="inp" id="mn-type" type="text" placeholder="e.g. HVAC" /></div></div>
-    <div class="row2"><div><label class="flabel">City</label><input class="inp" id="mn-city" type="text" placeholder="e.g. Palm Desert CA" /></div><div><label class="flabel">Phone</label><input class="inp" id="mn-phone" type="text" placeholder="(760) 555-0100" /></div></div>
-    <div class="row2"><div><label class="flabel">Website</label><input class="inp" id="mn-web" type="text" placeholder="https://..." /></div><div><label class="flabel">Deal Value Est.</label><input class="inp" id="mn-deal" type="text" placeholder="e.g. $3,500" /></div></div>
-    <div class="row2"><div><label class="flabel">Contact Name</label><input class="inp" id="mn-con" type="text" placeholder="e.g. Mike Rivera" /></div><div><label class="flabel">Contact Title</label><input class="inp" id="mn-ttl" type="text" placeholder="e.g. Owner" /></div></div>
-    <div class="row2"><div><label class="flabel">Contact Email</label><input class="inp" id="mn-email" type="text" placeholder="mike@example.com" /></div><div><label class="flabel">Follow-up Date</label><input class="inp" id="mn-fu" type="date" /></div></div>
-    <button class="btn-main" onclick="saveManual()">Add to CRM</button>
-  </div>
-</div>
+<div class="toast" id="toast"></div>
 
 <script>
-var API = 'https://project-creator-BACON8R2026.replit.app';
-var leads = [];
-var crm = [];
-var impLead = null;
-var impCons = [];
-var selCons = [];
-var cv = 'all';
+const CONFIG = {
+  GOOGLE_DISCOVERY_URL: 'https://YOUR_BACKEND_HERE/api/leads/google-discovery',
+  COMBINED_ENRICH_URL: 'https://YOUR_BACKEND_HERE/api/leads/combined-search',
+  DOWNLOAD_TIMEOUT_MS: 45000,
+  GOOGLE_HARD_RADIUS_LIMIT_MILES: 31
+};
 
-var PANELS = { home:'p-home', leads:'p-leads', crm:'p-crm', seo:'p-seo', phone:'p-phone', proposals:'p-proposals', contracts:'p-contracts', invoicing:'p-invoicing', followup:'p-followup', social:'p-social', ads:'p-ads', newsletter:'p-newsletter', dashboard:'p-dashboard' };
-var NAV_IDS = { home:'nt-home', leads:'nt-leads', crm:'nt-crm', seo:'nt-seo', phone:'nt-phone', proposals:'nt-proposals', contracts:'nt-contracts', invoicing:'nt-invoicing', followup:'nt-followup', social:'nt-social', ads:'nt-ads', newsletter:'nt-newsletter', dashboard:'nt-dashboard' };
+let leads = [];
+let crm = [];
+let crmView = 'all';
 
-function go(id) {
-  var keys = Object.keys(PANELS);
-  for (var i = 0; i < keys.length; i++) {
-    var el = document.getElementById(PANELS[keys[i]]);
-    if (el) el.style.display = 'none';
-  }
-  var nkeys = Object.keys(NAV_IDS);
-  for (var j = 0; j < nkeys.length; j++) {
-    var nel = document.getElementById(NAV_IDS[nkeys[j]]);
-    if (nel) nel.classList.remove('on');
-  }
-  var target = document.getElementById(PANELS[id]);
-  if (target) target.style.display = 'block';
-  var ntab = document.getElementById(NAV_IDS[id]);
-  if (ntab) ntab.classList.add('on');
-  // Re-apply live badge to leads and crm tabs always
-  var tl = document.getElementById('nt-leads');
-  var tc = document.getElementById('nt-crm');
-  if (tl) tl.classList.add('live');
-  if (tc) tc.classList.add('live');
-  try { window.scrollTo(0, 0); } catch(e) {}
-  if (id === 'crm') { drawCRM(); checkFU(); }
+const PANELS = {
+  home: 'p-home',
+  leads: 'p-leads',
+  crm: 'p-crm',
+  seo: 'p-seo',
+  phone: 'p-phone',
+  proposals: 'p-proposals',
+  contracts: 'p-contracts',
+  invoicing: 'p-invoicing',
+  followup: 'p-followup',
+  social: 'p-social',
+  ads: 'p-ads',
+  newsletter: 'p-newsletter',
+  dashboard: 'p-dashboard'
+};
+
+const NAV_IDS = {
+  home: 'nt-home',
+  leads: 'nt-leads',
+  crm: 'nt-crm',
+  seo: 'nt-seo',
+  phone: 'nt-phone',
+  proposals: 'nt-proposals',
+  contracts: 'nt-contracts',
+  invoicing: 'nt-invoicing',
+  followup: 'nt-followup',
+  social: 'nt-social',
+  ads: 'nt-ads',
+  newsletter: 'nt-newsletter',
+  dashboard: 'nt-dashboard'
+};
+
+const STAGES = [
+  { key: 'new', label: 'New Lead', status: 'lead', col: 'col-new' },
+  { key: 'emailed', label: 'Emailed', status: 'lead', col: 'col-emailed' },
+  { key: 'contacted', label: 'Contacted', status: 'prospect', col: 'col-contacted' },
+  { key: 'demo', label: 'Demo Booked', status: 'prospect', col: 'col-demo' },
+  { key: 'proposal', label: 'Proposal Sent', status: 'prospect', col: 'col-proposal' },
+  { key: 'negotiating', label: 'Negotiating', status: 'prospect', col: 'col-negotiating' },
+  { key: 'won', label: 'Closed Won', status: 'account', col: 'col-won' },
+  { key: 'lost', label: 'Closed Lost', status: 'account', col: 'col-lost' }
+];
+
+function esc(value) {
+  if (value === null || value === undefined) return '';
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
 }
 
-function esc(s) { if (!s) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function uid() { return 'c' + Date.now() + Math.random().toString(36).substr(2,5); }
-function saveC() { try { localStorage.setItem('bai_crm', JSON.stringify(crm)); } catch(e) {} }
-function loadC() { try { var d = localStorage.getItem('bai_crm'); if (d) crm = JSON.parse(d); } catch(e) { crm = []; } }
+function setText(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = value;
+}
 
-function runSearch() {
-  var q = document.getElementById('ls-q').value.trim();
-  var c = document.getElementById('ls-c').value.trim();
-  var r = document.getElementById('ls-r').value;
-  if (!q || !c) { showErr('ls-eb', 'Enter a business type and city.'); return; }
-  hideEl('ls-eb'); hideEl('ls-out'); hideEl('ls-sv');
-  document.getElementById('ls-btn').disabled = true;
-  showElFlex('ls-sb');
-  var msgs = ['Connecting to Google Places...', 'Searching ' + q + ' in ' + c + '...', 'Enriching data...', 'Scoring results...', 'Almost done...'];
-  var mi = 0;
-  var iv = setInterval(function() { if (mi < msgs.length) { document.getElementById('ls-st').textContent = msgs[mi++]; } }, 700);
-  var url = API + '/api/places/search?query=' + encodeURIComponent(q + ' ' + c);
-  if (r) url += '&minRating=' + r;
-  fetch(url)
-    .then(function(res) { if (!res.ok) throw new Error('API ' + res.status); return res.json(); })
-    .then(function(data) {
-      clearInterval(iv); hideEl('ls-sb');
-      document.getElementById('ls-btn').disabled = false;
-      var results = data.results || data || [];
-      if (!Array.isArray(results)) results = [];
-      leads = results;
-      drawLeads(results);
-    })
-    .catch(function(err) {
-      clearInterval(iv); hideEl('ls-sb');
-      document.getElementById('ls-btn').disabled = false;
-      showErr('ls-eb', 'Search failed: ' + err.message);
+function showEl(id, displayValue) {
+  const el = document.getElementById(id);
+  if (el) el.style.display = displayValue || 'block';
+}
+
+function hideEl(id) {
+  const el = document.getElementById(id);
+  if (el) el.style.display = 'none';
+}
+
+function toast(message) {
+  const el = document.getElementById('toast');
+  if (!el) return;
+  el.textContent = message;
+  el.classList.add('show');
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
+}
+
+function go(panelId) {
+  Object.keys(PANELS).forEach((key) => {
+    const panel = document.getElementById(PANELS[key]);
+    if (panel) panel.style.display = 'none';
+  });
+
+  Object.keys(NAV_IDS).forEach((key) => {
+    const tab = document.getElementById(NAV_IDS[key]);
+    if (tab) tab.classList.remove('on');
+  });
+
+  const targetPanel = document.getElementById(PANELS[panelId]);
+  if (targetPanel) targetPanel.style.display = 'block';
+
+  const targetTab = document.getElementById(NAV_IDS[panelId]);
+  if (targetTab) targetTab.classList.add('on');
+
+  const leadsTab = document.getElementById('nt-leads');
+  const crmTab = document.getElementById('nt-crm');
+  if (leadsTab) leadsTab.classList.add('live');
+  if (crmTab) crmTab.classList.add('live');
+
+  if (panelId === 'crm') drawCRM();
+
+  try { window.scrollTo({ top: 0, behavior: 'auto' }); } catch (e) {}
+}
+
+function saveCRM() {
+  try {
+    localStorage.setItem('bai_crm_v2', JSON.stringify(crm));
+  } catch (e) {}
+}
+
+function loadCRM() {
+  try {
+    const raw = localStorage.getItem('bai_crm_v2');
+    crm = raw ? JSON.parse(raw) : [];
+  } catch (e) {
+    crm = [];
+  }
+}
+
+function uid() {
+  return 'id_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+}
+
+function parseMoney(value) {
+  if (value === null || value === undefined || value === '') return 0;
+  if (typeof value === 'number') return value;
+  const cleaned = String(value).replace(/[^0-9.]/g, '');
+  return cleaned ? Number(cleaned) : 0;
+}
+
+function formatMoney(value) {
+  const num = parseMoney(value);
+  if (!num) return 'Unknown';
+  return '$' + num.toLocaleString();
+}
+
+function safeUrl(url) {
+  if (!url) return '';
+  return /^https?:\/\//i.test(url) ? url : 'https://' + url;
+}
+
+function getDomain(url) {
+  try {
+    const parsed = new URL(safeUrl(url));
+    return parsed.hostname.replace(/^www\./i, '');
+  } catch (e) {
+    return '';
+  }
+}
+
+function boolFromSelect(id) {
+  return document.getElementById(id).value === 'true';
+}
+
+function companyInitials(name) {
+  return String(name || 'NA')
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map(part => part[0].toUpperCase())
+    .join('');
+}
+
+function buildLogoUrl(domain, explicitLogoUrl) {
+  if (explicitLogoUrl) return explicitLogoUrl;
+  if (!domain) return '';
+  return 'https://www.google.com/s2/favicons?domain=' + encodeURIComponent(domain) + '&sz=128';
+}
+
+function numberOrBlank(value) {
+  if (value === null || value === undefined || value === '') return '';
+  const num = Number(value);
+  return Number.isNaN(num) ? value : num;
+}
+
+function uniqueContacts(list) {
+  const seen = new Set();
+  return (list || []).filter((contact) => {
+    const key = [
+      (contact.name || '').toLowerCase(),
+      (contact.email || '').toLowerCase(),
+      (contact.phone || '').toLowerCase()
+    ].join('|');
+    if (!key.replace(/\|/g, '')) return false;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+function normalizeContacts(raw) {
+  const pools = [];
+  if (Array.isArray(raw.contacts)) pools.push(raw.contacts);
+  if (Array.isArray(raw.people)) pools.push(raw.people);
+  if (Array.isArray(raw.apolloContacts)) pools.push(raw.apolloContacts);
+  if (Array.isArray(raw.websiteContacts)) pools.push(raw.websiteContacts);
+  if (Array.isArray(raw.additionalContacts)) pools.push(raw.additionalContacts);
+
+  const contacts = [];
+  pools.forEach((pool) => {
+    pool.forEach((c) => {
+      if (!c) return;
+      contacts.push({
+        name: c.name || c.fullName || [c.firstName, c.lastName].filter(Boolean).join(' ') || '',
+        title: c.title || c.jobTitle || c.role || '',
+        email: c.email || c.workEmail || '',
+        phone: c.phone || c.mobile || c.directPhone || '',
+        linkedin: c.linkedin || c.linkedinUrl || '',
+        source: c.source || c.provider || ''
+      });
     });
-}
+  });
 
-function inCRM(name) { for (var i = 0; i < crm.length; i++) { if (crm[i].biz === name) return true; } return false; }
-
-function drawLeads(arr) {
-  var body = document.getElementById('ls-body');
-  body.innerHTML = '';
-  if (!arr.length) {
-    body.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:28px;color:#4a6080">No results found.</div>';
-  } else {
-    for (var i = 0; i < arr.length; i++) {
-      var l = arr[i];
-      var nm = l.name || l.displayName || '';
-      var ad = l.formatted_address || l.formattedAddress || l.vicinity || '';
-      var ph = l.formatted_phone_number || l.nationalPhoneNumber || l.internationalPhoneNumber || '';
-      var wb = l.website || l.websiteUri || '';
-      var rt = l.rating || '';
-      var ic = inCRM(nm);
-      var card = document.createElement('div');
-      card.className = 'lead-card';
-      card.style.animationDelay = (i * 40) + 'ms';
-      var html = '<div class="lc-name">' + esc(nm) + '</div>';
-      if (ad) html += '<div class="lc-addr">' + esc(ad) + '</div>';
-      html += '<div class="lc-row">';
-      if (ph) html += '<span class="lc-phone">' + esc(ph) + '</span>';
-      if (wb) html += '<a class="lc-web" href="' + esc(wb) + '" target="_blank" rel="noopener">Visit &#8599;</a>';
-      if (!ph && !wb) html += '<span class="lc-nodata">No contact data</span>';
-      html += '</div>';
-      html += '<div class="lc-bottom">';
-      if (rt) html += '<span class="lc-rating">&#9733; ' + esc(String(rt)) + '</span>';
-      else html += '<span></span>';
-      if (ic) {
-        html += '<span class="incrm-badge">In CRM</span>';
-      } else {
-        html += '<button class="bsm ora" onclick="openImp(' + i + ')">+ Add to CRM</button>';
-      }
-      html += '</div>';
-      card.innerHTML = html;
-      body.appendChild(card);
+  if (!contacts.length) {
+    const fallbackName = raw.contactName || raw.ownerName || '';
+    const fallbackTitle = raw.contactTitle || raw.ownerTitle || '';
+    const fallbackEmail = raw.contactEmail || raw.ownerEmail || '';
+    const fallbackPhone = raw.contactPhone || raw.ownerPhone || '';
+    if (fallbackName || fallbackTitle || fallbackEmail || fallbackPhone) {
+      contacts.push({
+        name: fallbackName,
+        title: fallbackTitle,
+        email: fallbackEmail,
+        phone: fallbackPhone,
+        linkedin: raw.contactLinkedin || raw.ownerLinkedin || '',
+        source: 'fallback'
+      });
     }
   }
-  var hot = arr.filter(function(x){return (x.rating||0)>=4.5;}).length;
-  var phs = arr.filter(function(x){return x.formatted_phone_number||x.nationalPhoneNumber||x.internationalPhoneNumber;}).length;
-  var wbs = arr.filter(function(x){return x.website||x.websiteUri;}).length;
-  setText('ls-tot', arr.length); setText('ls-hot', hot); setText('ls-ph', phs); setText('ls-wb', wbs);
-  showElFlex('ls-sv');
-  setText('ls-cnt', arr.length + ' results');
-  showCard('ls-out');
-  try { document.getElementById('ls-out').scrollIntoView({behavior:'smooth',block:'nearest'}); } catch(e) {}
+
+  return uniqueContacts(contacts);
 }
 
-function resetSearch() { hideEl('ls-out'); hideEl('ls-sv'); hideEl('ls-eb'); leads = []; }
+function collectExtraFields(raw) {
+  const reserved = new Set([
+    'id','placeId','companyId',
+    'name','displayName','businessName','companyName',
+    'type','businessType','category','primaryCategory',
+    'formatted_address','formattedAddress','address','streetAddress','vicinity',
+    'city','state','zip','postalCode','postal_code',
+    'formatted_phone_number','nationalPhoneNumber','internationalPhoneNumber','phone','phoneNumber',
+    'website','websiteUri','domain','url',
+    'rating','reviews','reviewCount','user_ratings_total',
+    'employees','employeeCount','number_of_employees',
+    'revenue','annualRevenue','estimatedRevenue',
+    'industry','founded','foundedYear','description','summary',
+    'logoUrl','logo','companyLogo',
+    'companyEmail','email','generalEmail',
+    'contacts','people','apolloContacts','websiteContacts','additionalContacts',
+    'serviceArea','matchSource','websiteSignals','scrapeNotes',
+    'linkedin','linkedinUrl','socials'
+  ]);
 
-function doCSV() {
-  if (!leads.length) return;
-  var rows = [['Name','Address','Phone','Website','Rating']];
-  for (var i = 0; i < leads.length; i++) {
-    var l = leads[i];
-    rows.push([l.name||l.displayName||'', l.formatted_address||l.formattedAddress||l.vicinity||'', l.formatted_phone_number||l.nationalPhoneNumber||l.internationalPhoneNumber||'', l.website||l.websiteUri||'', l.rating||'']);
+  const extras = [];
+  Object.keys(raw || {}).forEach((key) => {
+    if (reserved.has(key)) return;
+    const value = raw[key];
+    if (value === null || value === undefined || value === '') return;
+    if (typeof value === 'object') return;
+    extras.push({
+      label: key
+        .replace(/_/g, ' ')
+        .replace(/([a-z])([A-Z])/g, '$1 $2')
+        .replace(/\b\w/g, (m) => m.toUpperCase()),
+      value: String(value)
+    });
+  });
+
+  return extras.slice(0, 8);
+}
+
+function normalizeLead(raw) {
+  const contacts = normalizeContacts(raw);
+  const primary = contacts[0] || {};
+  const website = raw.website || raw.websiteUri || raw.url || '';
+  const domain = raw.domain || getDomain(website);
+  const logoUrl = buildLogoUrl(domain, raw.logoUrl || raw.logo || raw.companyLogo);
+  const serviceArea = raw.serviceArea || raw.service_area || raw.geoSummary || '';
+  const websiteSignals = Array.isArray(raw.websiteSignals) ? raw.websiteSignals : [];
+  const scrapeNotes = Array.isArray(raw.scrapeNotes) ? raw.scrapeNotes : [];
+
+  return {
+    id: raw.id || raw.placeId || raw.companyId || uid(),
+    raw,
+    name: raw.name || raw.displayName || raw.businessName || raw.companyName || 'Unknown Business',
+    type: raw.type || raw.businessType || raw.category || raw.primaryCategory || '',
+    address: raw.formatted_address || raw.formattedAddress || raw.address || raw.streetAddress || raw.vicinity || '',
+    city: raw.city || '',
+    state: raw.state || '',
+    zip: raw.zip || raw.postalCode || raw.postal_code || '',
+    phone: raw.formatted_phone_number || raw.nationalPhoneNumber || raw.internationalPhoneNumber || raw.phone || raw.phoneNumber || '',
+    website,
+    domain,
+    logoUrl,
+    rating: numberOrBlank(raw.rating),
+    reviews: raw.reviews || raw.reviewCount || raw.user_ratings_total || '',
+    employees: raw.employees || raw.employeeCount || raw.number_of_employees || '',
+    revenue: raw.revenue || raw.annualRevenue || raw.estimatedRevenue || '',
+    industry: raw.industry || '',
+    founded: raw.founded || raw.foundedYear || '',
+    description: raw.description || raw.summary || '',
+    companyEmail: raw.companyEmail || raw.email || raw.generalEmail || '',
+    linkedin: raw.linkedin || raw.linkedinUrl || '',
+    contacts,
+    primaryContactName: primary.name || '',
+    primaryContactTitle: primary.title || '',
+    primaryContactEmail: primary.email || '',
+    primaryContactPhone: primary.phone || '',
+    primaryContactLinkedin: primary.linkedin || '',
+    serviceArea,
+    matchSource: raw.matchSource || raw.match_source || '',
+    websiteSignals,
+    scrapeNotes,
+    extraFields: collectExtraFields(raw)
+  };
+}
+
+function normalizeLeadPayload(data) {
+  let list = [];
+  if (Array.isArray(data)) list = data;
+  else if (Array.isArray(data.results)) list = data.results;
+  else if (Array.isArray(data.data)) list = data.data;
+  else if (Array.isArray(data.leads)) list = data.leads;
+  else if (Array.isArray(data.items)) list = data.items;
+  return list.map(normalizeLead);
+}
+
+function setLoadingMessage(text) {
+  setText('ls-st', text);
+}
+
+function showError(message) {
+  setText('ls-eb', message);
+  showEl('ls-eb', 'block');
+}
+
+function clearLeadErrors() {
+  hideEl('ls-eb');
+  setText('ls-eb', '');
+}
+
+function updateLeadStats(list) {
+  const withRating = list.filter((lead) => Number(lead.rating || 0) >= 4.5).length;
+  const withPhone = list.filter((lead) => !!lead.phone).length;
+  const withWebsite = list.filter((lead) => !!lead.website).length;
+  const withEmployees = list.filter((lead) => !!lead.employees).length;
+  const withRevenue = list.filter((lead) => !!lead.revenue).length;
+  setText('ls-tot', String(list.length));
+  setText('ls-hot', String(withRating));
+  setText('ls-ph', String(withPhone));
+  setText('ls-wb', String(withWebsite));
+  setText('ls-em', String(withEmployees));
+  setText('ls-rev', String(withRevenue));
+}
+
+function resetSearch() {
+  leads = [];
+  document.getElementById('ls-body').innerHTML = '';
+  hideEl('ls-out');
+  hideEl('ls-sv');
+  clearLeadErrors();
+}
+
+async function runSearch() {
+  const query = document.getElementById('ls-q').value.trim();
+  const center = document.getElementById('ls-c').value.trim();
+  const radiusMiles = Number(document.getElementById('ls-radius').value || 50);
+  const minRating = document.getElementById('ls-r').value;
+  const enableGoogle = boolFromSelect('ls-google');
+  const enableApollo = boolFromSelect('ls-apollo');
+  const enableScrape = boolFromSelect('ls-scrape');
+  const limit = Number(document.getElementById('ls-limit').value || 40);
+
+  if (!query || !center) {
+    showError('Enter a business type and a center city or ZIP.');
+    return;
   }
-  var csv = rows.map(function(r){return r.map(function(c){return '"'+String(c).replace(/"/g,'""')+'"';}).join(',');}).join('\n');
-  var blob = new Blob([csv],{type:'text/csv'});
-  var url = URL.createObjectURL(blob);
-  var a = document.createElement('a'); a.href=url; a.download='leads.csv'; a.click();
-  URL.revokeObjectURL(url);
+
+  if (!enableGoogle && !enableApollo && !enableScrape) {
+    showError('At least one data layer must be turned on.');
+    return;
+  }
+
+  clearLeadErrors();
+  hideEl('ls-out');
+  hideEl('ls-sv');
+  showEl('ls-sb', 'flex');
+  document.getElementById('ls-btn').disabled = true;
+
+  const statusMessages = [
+    'Locating search center...',
+    'Running Google Places discovery...',
+    'Matching by domain and business name...',
+    'Applying Apollo enrichment...',
+    'Scraping websites for extra contacts...',
+    'Building company cards...'
+  ];
+  let msgIndex = 0;
+  setLoadingMessage(statusMessages[msgIndex]);
+  const rotate = setInterval(() => {
+    msgIndex = (msgIndex + 1) % statusMessages.length;
+    setLoadingMessage(statusMessages[msgIndex]);
+  }, 900);
+
+  try {
+    const payload = {
+      query,
+      center,
+      radiusMiles,
+      minRating: minRating || null,
+      maxResults: limit,
+      includeGoogle: enableGoogle,
+      includeApollo: enableApollo,
+      includeWebsiteScrape: enableScrape,
+      googleHardRadiusLimitMiles: CONFIG.GOOGLE_HARD_RADIUS_LIMIT_MILES,
+      matchingStrategy: {
+        primary: 'domain',
+        secondary: 'exact_business_name',
+        tertiary: 'business_name_plus_city',
+        quaternary: 'phone'
+      }
+    };
+
+    /*
+      Expected backend behavior:
+      1. Geocode center.
+      2. If radius <= 31 miles, run one Google Places discovery circle.
+      3. If radius > 31 miles, run chunked overlapping Google searches to cover the wider area.
+      4. Deduplicate businesses by placeId, domain, normalized name + phone.
+      5. Match into Apollo using domain first, then exact business name, then business name + city.
+      6. Optionally scrape website home, contact, and about pages for extra emails, phones, and names.
+      7. Return normalized merged leads.
+    */
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), CONFIG.DOWNLOAD_TIMEOUT_MS);
+
+    const response = await fetch(CONFIG.COMBINED_ENRICH_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      signal: controller.signal
+    });
+
+    clearTimeout(timeout);
+
+    if (!response.ok) {
+      throw new Error('Backend ' + response.status);
+    }
+
+    const data = await response.json();
+    leads = normalizeLeadPayload(data);
+    drawLeads(leads, radiusMiles);
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      showError('The lead search timed out. Try fewer results or turn off website scraping.');
+    } else {
+      showError('Search failed: ' + error.message);
+    }
+  } finally {
+    clearInterval(rotate);
+    hideEl('ls-sb');
+    document.getElementById('ls-btn').disabled = false;
+  }
+}
+
+function inCRM(name) {
+  return crm.some((item) => String(item.biz || '').toLowerCase() === String(name || '').toLowerCase());
+}
+
+function primaryContactHtml(lead) {
+  if (!lead.primaryContactName && !lead.primaryContactEmail && !lead.primaryContactPhone) {
+    return '<div class="lc-contactline">No contact found yet</div>';
+  }
+
+  let html = '<div class="lc-contactline"><strong>' + esc(lead.primaryContactName || 'Primary Contact') + '</strong>';
+  if (lead.primaryContactTitle) html += ' <span>Â· ' + esc(lead.primaryContactTitle) + '</span>';
+  html += '</div>';
+  if (lead.primaryContactEmail) {
+    html += '<div class="lc-contactline"><a class="lc-link" href="mailto:' + esc(lead.primaryContactEmail) + '">' + esc(lead.primaryContactEmail) + '</a></div>';
+  }
+  if (lead.primaryContactPhone) {
+    html += '<div class="lc-contactline"><a class="lc-link" href="tel:' + esc(lead.primaryContactPhone) + '">' + esc(lead.primaryContactPhone) + '</a></div>';
+  }
+  if (lead.primaryContactLinkedin) {
+    html += '<div class="lc-contactline"><a class="lc-link" href="' + esc(safeUrl(lead.primaryContactLinkedin)) + '" target="_blank" rel="noopener noreferrer">LinkedIn</a></div>';
+  }
+  return html;
+}
+
+function renderLogo(lead) {
+  if (lead.logoUrl) {
+    return '<div class="lc-logo"><img src="' + esc(lead.logoUrl) + '" alt="' + esc(lead.name) + ' logo" onerror="this.onerror=null; this.parentNode.innerHTML=\'' + esc(companyInitials(lead.name)) + '\';"></div>';
+  }
+  return '<div class="lc-logo">' + esc(companyInitials(lead.name)) + '</div>';
+}
+
+function drawLeads(list, radiusMiles) {
+  const body = document.getElementById('ls-body');
+  body.innerHTML = '';
+
+  if (!list.length) {
+    body.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:28px;color:#4a6080">No results found.</div>';
+  } else {
+    list.forEach((lead, index) => {
+      const card = document.createElement('div');
+      card.className = 'lead-card';
+      card.style.animationDelay = (index * 35) + 'ms';
+
+      const cityState = [lead.city, lead.state, lead.zip].filter(Boolean).join(' ');
+      const actions = [];
+
+      if (lead.website) {
+        actions.push('<a class="bsm" href="' + esc(safeUrl(lead.website)) + '" target="_blank" rel="noopener noreferrer">Website</a>');
+      }
+      if (lead.contacts.length) {
+        actions.push('<button class="bsm ok" onclick="openContactsTab(' + index + ')">Contacts ' + lead.contacts.length + '</button>');
+      }
+      if (lead.scrapeNotes.length || lead.websiteSignals.length) {
+        actions.push('<button class="bsm" onclick="openWebsiteIntelTab(' + index + ')">Website Intel</button>');
+      }
+      if (inCRM(lead.name)) {
+        actions.push('<span class="incrm-badge">In CRM</span>');
+      } else {
+        actions.push('<button class="bsm ora" onclick="addLeadToCRM(' + index + ')">Add to CRM</button>');
+      }
+
+      const extraBlocks = (lead.extraFields || []).slice(0, 4).map((field) => (
+        '<div class="lc-box"><div class="lc-label">' + esc(field.label) + '</div><div class="lc-value small">' + esc(field.value) + '</div></div>'
+      )).join('');
+
+      let serviceAreaHtml = '';
+      if (lead.serviceArea) {
+        serviceAreaHtml = '<div class="lc-box"><div class="lc-label">Service Area</div><div class="lc-value small">' + esc(lead.serviceArea) + '</div></div>';
+      }
+
+      let descHtml = '';
+      if (lead.description) {
+        descHtml = '<div class="lc-box"><div class="lc-label">Description</div><div class="lc-value small">' + esc(lead.description) + '</div></div>';
+      }
+
+      let noteHtml = '<div class="lc-note">Search radius: ' + esc(radiusMiles) + ' miles. ';
+      if (Number(radiusMiles) > CONFIG.GOOGLE_HARD_RADIUS_LIMIT_MILES) {
+        noteHtml += 'Backend should cover this with chunked overlapping Google searches. ';
+      }
+      if (lead.matchSource) noteHtml += 'Apollo match: ' + esc(lead.matchSource) + '. ';
+      noteHtml += '</div>';
+
+      card.innerHTML =
+        '<div class="lc-top">' +
+          renderLogo(lead) +
+          '<div class="lc-head">' +
+            '<div class="lc-name">' + esc(lead.name) + '</div>' +
+            '<div class="lc-addr">' + esc(lead.address || cityState || 'No address returned') + '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="lc-chiprow">' +
+          (lead.rating ? '<span class="lc-chip rating">â ' + esc(lead.rating) + '</span>' : '') +
+          (lead.type ? '<span class="lc-chip">' + esc(lead.type) + '</span>' : '<span class="lc-chip">Business</span>') +
+          (lead.website ? '<span class="lc-chip good">Website</span>' : '') +
+          (lead.revenue ? '<span class="lc-chip warn">Revenue</span>' : '') +
+        '</div>' +
+        '<div class="lc-grid">' +
+          '<div class="lc-box"><div class="lc-label">Phone</div><div class="lc-value">' + (lead.phone ? '<a class="lc-link" href="tel:' + esc(lead.phone) + '">' + esc(lead.phone) + '</a>' : 'None found') + '</div></div>' +
+          '<div class="lc-box"><div class="lc-label">Website</div><div class="lc-value small">' + (lead.website ? '<a class="lc-link" href="' + esc(safeUrl(lead.website)) + '" target="_blank" rel="noopener noreferrer">' + esc(lead.domain || lead.website) + '</a>' : 'None found') + '</div></div>' +
+          '<div class="lc-box"><div class="lc-label">Employees</div><div class="lc-value">' + esc(lead.employees || 'Unknown') + '</div></div>' +
+          '<div class="lc-box"><div class="lc-label">Revenue</div><div class="lc-value">' + esc(formatMoney(lead.revenue)) + '</div></div>' +
+          '<div class="lc-box"><div class="lc-label">Reviews</div><div class="lc-value">' + esc(lead.reviews || 'Unknown') + '</div></div>' +
+          '<div class="lc-box"><div class="lc-label">City / State</div><div class="lc-value small">' + esc(cityState || 'Unknown') + '</div></div>' +
+          '<div class="lc-box"><div class="lc-label">Company Email</div><div class="lc-value small">' + (lead.companyEmail ? '<a class="lc-link" href="mailto:' + esc(lead.companyEmail) + '">' + esc(lead.companyEmail) + '</a>' : 'None found') + '</div></div>' +
+          '<div class="lc-box"><div class="lc-label">Industry</div><div class="lc-value small">' + esc(lead.industry || 'Unknown') + '</div></div>' +
+          '<div class="lc-box"><div class="lc-label">Founded</div><div class="lc-value small">' + esc(lead.founded || 'Unknown') + '</div></div>' +
+          '<div class="lc-box"><div class="lc-label">LinkedIn</div><div class="lc-value small">' + (lead.linkedin ? '<a class="lc-link" href="' + esc(safeUrl(lead.linkedin)) + '" target="_blank" rel="noopener noreferrer">Open</a>' : 'None found') + '</div></div>' +
+          serviceAreaHtml +
+          extraBlocks +
+        '</div>' +
+        descHtml +
+        '<div class="lc-contacts"><div class="lc-contacts-title">Primary Contact</div>' + primaryContactHtml(lead) + '</div>' +
+        noteHtml +
+        '<div class="lc-actions">' + actions.join('') + '</div>';
+
+      body.appendChild(card);
+    });
+  }
+
+  updateLeadStats(list);
+  setText('ls-cnt', list.length + ' results');
+  showEl('ls-out', 'block');
+  showEl('ls-sv', 'flex');
+}
+
+function openContactsTab(index) {
+  const lead = leads[index];
+  if (!lead) return;
+
+  const win = window.open('', '_blank');
+  if (!win) {
+    toast('Popups are blocked in Safari. Allow popups to open contact tabs.');
+    return;
+  }
+
+  const contactsHtml = lead.contacts.length ? lead.contacts.map((contact) => {
+    return '<div style="padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.08)">' +
+      '<div style="font-family:Syne,sans-serif;font-size:16px;font-weight:800;color:#e8edf5;margin-bottom:6px">' + esc(contact.name || 'Unnamed Contact') + '</div>' +
+      '<div style="font-size:13px;color:#fb923c;margin-bottom:6px">' + esc(contact.title || 'No title') + '</div>' +
+      (contact.email ? '<div style="margin-bottom:5px"><a href="mailto:' + esc(contact.email) + '" style="color:#fb923c;text-decoration:none">' + esc(contact.email) + '</a></div>' : '') +
+      (contact.phone ? '<div style="margin-bottom:5px"><a href="tel:' + esc(contact.phone) + '" style="color:#fb923c;text-decoration:none">' + esc(contact.phone) + '</a></div>' : '') +
+      (contact.linkedin ? '<div style="margin-bottom:5px"><a href="' + esc(safeUrl(contact.linkedin)) + '" target="_blank" rel="noopener noreferrer" style="color:#fb923c;text-decoration:none">LinkedIn</a></div>' : '') +
+      (contact.source ? '<div style="font-size:11px;color:#8fa3c0">Source: ' + esc(contact.source) + '</div>' : '') +
+      '</div>';
+  }).join('') : '<div style="padding:14px 0;color:#8fa3c0">No contacts found yet.</div>';
+
+  win.document.write(
+    '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>' + esc(lead.name) + ' Contacts</title>' +
+    '<meta name="viewport" content="width=device-width, initial-scale=1.0">' +
+    '<style>body{margin:0;background:#080c18;color:#e8edf5;font-family:DM Sans,sans-serif;padding:24px}a{color:#fb923c}.wrap{max-width:920px;margin:0 auto}.card{background:#0f1623;border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:22px}.sub{color:#8fa3c0;line-height:1.5;margin-top:8px}</style></head><body>' +
+    '<div class="wrap"><div class="card">' +
+    '<div style="font-family:Syne,sans-serif;font-size:28px;font-weight:800">' + esc(lead.name) + '</div>' +
+    '<div class="sub">' + esc(lead.address || '') + '</div>' +
+    '<div class="sub">Employees: ' + esc(lead.employees || 'Unknown') + ' Â· Revenue: ' + esc(formatMoney(lead.revenue)) + '</div>' +
+    '<div style="margin-top:20px;font-family:Syne,sans-serif;font-size:18px;font-weight:800">Contacts</div>' +
+    contactsHtml +
+    '</div></div></body></html>'
+  );
+  win.document.close();
+}
+
+function openWebsiteIntelTab(index) {
+  const lead = leads[index];
+  if (!lead) return;
+
+  const win = window.open('', '_blank');
+  if (!win) {
+    toast('Popups are blocked in Safari. Allow popups to open website intel tabs.');
+    return;
+  }
+
+  const notes = lead.scrapeNotes.length
+    ? lead.scrapeNotes.map((note) => '<li>' + esc(note) + '</li>').join('')
+    : '<li>No scrape notes returned.</li>';
+
+  const signals = lead.websiteSignals.length
+    ? lead.websiteSignals.map((signal) => '<li>' + esc(signal) + '</li>').join('')
+    : '<li>No website signals returned.</li>';
+
+  win.document.write(
+    '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>' + esc(lead.name) + ' Website Intel</title>' +
+    '<meta name="viewport" content="width=device-width, initial-scale=1.0">' +
+    '<style>body{margin:0;background:#080c18;color:#e8edf5;font-family:DM Sans,sans-serif;padding:24px}a{color:#fb923c}.wrap{max-width:920px;margin:0 auto}.card{background:#0f1623;border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:22px}.sub{color:#8fa3c0;line-height:1.5;margin-top:8px}ul{margin:12px 0 0 18px}li{margin-bottom:8px;line-height:1.5;color:#dfe6f2}</style></head><body>' +
+    '<div class="wrap"><div class="card">' +
+    '<div style="font-family:Syne,sans-serif;font-size:28px;font-weight:800">' + esc(lead.name) + '</div>' +
+    '<div class="sub">' + (lead.website ? '<a href="' + esc(safeUrl(lead.website)) + '" target="_blank" rel="noopener noreferrer">' + esc(lead.website) + '</a>' : 'No website returned') + '</div>' +
+    '<div style="margin-top:18px;font-family:Syne,sans-serif;font-size:18px;font-weight:800">Website Signals</div><ul>' + signals + '</ul>' +
+    '<div style="margin-top:18px;font-family:Syne,sans-serif;font-size:18px;font-weight:800">Scrape Notes</div><ul>' + notes + '</ul>' +
+    '</div></div></body></html>'
+  );
+  win.document.close();
+}
+
+function makeCrmRecord(lead) {
+  return {
+    id: uid(),
+    biz: lead.name,
+    type: lead.type || '',
+    city: [lead.city, lead.state].filter(Boolean).join(', ') || lead.address || '',
+    phone: lead.phone || '',
+    web: lead.website || '',
+    rating: lead.rating || '',
+    employees: lead.employees || '',
+    revenue: lead.revenue || '',
+    status: 'lead',
+    stage: 'new',
+    cons: lead.contacts || [],
+    createdAt: new Date().toISOString()
+  };
+}
+
+function addLeadToCRM(index) {
+  const lead = leads[index];
+  if (!lead || inCRM(lead.name)) return;
+  crm.push(makeCrmRecord(lead));
+  saveCRM();
+  drawLeads(leads, document.getElementById('ls-radius').value);
+  drawCRM();
+  toast(lead.name + ' added to CRM');
 }
 
 function bulkAdd() {
   if (!leads.length) return;
-  var n = 0;
-  for (var i = 0; i < leads.length; i++) {
-    var l = leads[i];
-    var nm = l.name||l.displayName||'';
-    if (inCRM(nm)) continue;
-    crm.push(mkRecord(l, [{name:'Business Owner',title:'Owner / Decision Maker',email:'(Apollo will enrich)',phone:l.formatted_phone_number||''}]));
-    n++;
-  }
-  saveC(); drawLeads(leads); toast(n+' leads added to CRM');
-}
-
-function openImp(idx) {
-  impLead = leads[idx];
-  var nm = impLead.name || impLead.displayName || 'Business';
-  document.getElementById('imp-title').textContent = 'Import: ' + nm;
-  var ph = impLead.formatted_phone_number || impLead.nationalPhoneNumber || impLead.internationalPhoneNumber || '(Apollo will enrich)';
-  impCons = [{name:'Business Owner',title:'Owner / Decision Maker',email:'(Apollo will enrich)',phone:ph}];
-  selCons = [];
-  var html = '';
-  for (var i = 0; i < impCons.length; i++) {
-    var c = impCons[i];
-    html += '<div class="csi" id="ci'+i+'" onclick="togCon('+i+')">';
-    html += '<div class="cchk" id="ck'+i+'">&#10003;</div>';
-    html += '<div><div class="ci-name">'+esc(c.name)+'</div><div class="ci-title">'+esc(c.title)+'</div><div class="ci-info">'+esc(c.email)+'</div><div class="ci-info">'+esc(c.phone)+'</div></div>';
-    html += '</div>';
-  }
-  document.getElementById('imp-list').innerHTML = html;
-  document.getElementById('m-import').classList.add('open');
-}
-
-function togCon(i) {
-  var el = document.getElementById('ci'+i);
-  var found = false;
-  for (var j = 0; j < selCons.length; j++) { if (selCons[j]._i === i) { found = true; break; } }
-  if (found) { selCons = selCons.filter(function(x){return x._i!==i;}); el.classList.remove('sel'); }
-  else { var c = impCons[i]; c._i = i; selCons.push(c); el.classList.add('sel'); }
-}
-
-function selAll() {
-  var allSel = selCons.length === impCons.length;
-  selCons = [];
-  for (var i = 0; i < impCons.length; i++) {
-    var el = document.getElementById('ci'+i);
-    if (allSel) { if(el) el.classList.remove('sel'); }
-    else { var c = impCons[i]; c._i = i; selCons.push(c); if(el) el.classList.add('sel'); }
-  }
-}
-
-function doImport() {
-  if (!impLead) return;
-  var cons = selCons.length > 0 ? selCons : impCons;
-  crm.push(mkRecord(impLead, cons));
-  saveC(); closeM('m-import'); drawLeads(leads); drawCRM(); toast((impLead.name||'Lead')+' added to CRM');
-}
-
-function mkRecord(l, cons) {
-  return {
-    id: uid(), biz: l.name||l.displayName||'Unknown',
-    type: (document.getElementById('ls-q')||{}).value||'',
-    city: l.formatted_address||l.formattedAddress||l.vicinity||'',
-    phone: l.formatted_phone_number||l.nationalPhoneNumber||l.internationalPhoneNumber||'',
-    web: l.website||l.websiteUri||'', rating: l.rating||'',
-    rev: '', deal: '', notes: '', fu: '', stage: 'new', status: 'lead',
-    cons: cons.map(function(c){return{name:c.name,title:c.title,email:c.email,phone:c.phone};}),
-    acts: [], created: new Date().toISOString(), staged: new Date().toISOString()
-  };
-}
-
-var STAGES = [
-  {k:'new',l:'New Lead',col:'col-new',st:'lead'},
-  {k:'emailed',l:'Emailed',col:'col-emailed',st:'lead'},
-  {k:'contacted',l:'Contacted',col:'col-contacted',st:'prospect'},
-  {k:'demo',l:'Demo Booked',col:'col-demo',st:'prospect'},
-  {k:'proposal',l:'Proposal Sent',col:'col-proposal',st:'prospect'},
-  {k:'negotiating',l:'Negotiating',col:'col-negotiating',st:'prospect'},
-  {k:'won',l:'Closed Won',col:'col-won',st:'account'},
-  {k:'lost',l:'Closed Lost',col:'col-lost',st:'account'}
-];
-
-function cview(v) {
-  cv = v;
-  var vs = ['all','leads','prospects','accounts'];
-  for (var i = 0; i < vs.length; i++) {
-    var t = document.getElementById('ct-'+vs[i]);
-    if (t) t.classList.toggle('on', vs[i]===v);
-  }
-  drawKanban();
-}
-
-function drawCRM() { updStats(); drawKanban(); }
-
-function updStats() {
-  var ls = crm.filter(function(r){return r.status==='lead';}).length;
-  var ps = crm.filter(function(r){return r.status==='prospect';}).length;
-  var ac = crm.filter(function(r){return r.status==='account'&&r.stage==='won';}).length;
-  var pip = 0;
-  for (var i = 0; i < crm.length; i++) { var d = String(crm[i].deal||'').replace(/[^0-9.]/g,''); if(d) pip+=parseFloat(d); }
-  setText('cs-leads',ls); setText('cs-prospects',ps); setText('cs-accounts',ac);
-  setText('cs-pipe','$'+pip.toLocaleString());
-  setText('cc-all',crm.length); setText('cc-leads',ls); setText('cc-prospects',ps);
-  setText('cc-accounts',crm.filter(function(r){return r.status==='account';}).length);
-}
-
-function drawKanban() {
-  var board = document.getElementById('kboard');
-  if (!board) return;
-  var filt = cv==='leads'?crm.filter(function(r){return r.status==='lead';}):
-    cv==='prospects'?crm.filter(function(r){return r.status==='prospect';}):
-    cv==='accounts'?crm.filter(function(r){return r.status==='account';}):crm;
-  var sts = cv==='leads'?STAGES.slice(0,2):cv==='prospects'?STAGES.slice(2,6):cv==='accounts'?STAGES.slice(6):STAGES;
-  var html = '';
-  for (var s = 0; s < sts.length; s++) {
-    var st = sts[s];
-    var cards = filt.filter(function(r){return r.stage===st.k;});
-    html += '<div class="kcol '+st.col+'"><div class="kcol-hd"><span class="kcol-title">'+st.l+'</span><span class="kcol-cnt">'+cards.length+'</span></div><div class="kcards">';
-    if (!cards.length) {
-      html += '<div class="kempty">No records</div>';
-    } else {
-      for (var c = 0; c < cards.length; c++) {
-        var r = cards[c];
-        var pc = r.cons&&r.cons.length?r.cons[0]:null;
-        var days = Math.floor((Date.now()-new Date(r.staged).getTime())/86400000);
-        var ov = r.fu && new Date(r.fu)<new Date();
-        var sc = r.status==='account'?(r.stage==='won'?'sw':'sx'):r.status==='prospect'?'sp':'sl';
-        html += '<div class="kcard '+sc+'" onclick="openDet(\''+r.id+'\')">';
-        html += '<div class="kdays">'+days+'d</div>';
-        html += '<div class="kbiz">'+esc(r.biz)+'</div>';
-        if (pc) html += '<div class="kcon">'+esc(pc.name)+(pc.title?' &#183; '+esc(pc.title):'')+'</div>';
-        html += '<div class="ktype">'+esc(r.type)+(r.city?' &#183; '+esc(r.city.split(',')[0]):'')+'</div>';
-        html += '<div class="kmeta">';
-        if (r.deal) html += '<span class="ktag deal">$'+esc(r.deal)+'</span>';
-        if (r.cons&&r.cons.length>1) html += '<span class="ktag deal">'+r.cons.length+' contacts</span>';
-        if (r.fu) html += '<span class="ktag '+(ov?'ov':'fu')+'">'+(ov?'&#9888; ':'&#128197; ')+esc(r.fu)+'</span>';
-        html += '</div><div class="kacts" onclick="event.stopPropagation()">';
-        html += '<button class="kbtn" onclick="mvStage(\''+r.id+'\')">&#8594; Move</button>';
-        html += '<button class="kbtn" onclick="openDet(\''+r.id+'\')">View</button>';
-        html += '</div></div>';
-      }
+  let count = 0;
+  leads.forEach((lead) => {
+    if (!inCRM(lead.name)) {
+      crm.push(makeCrmRecord(lead));
+      count += 1;
     }
-    html += '</div></div>';
-  }
-  board.innerHTML = html;
+  });
+  saveCRM();
+  drawLeads(leads, document.getElementById('ls-radius').value);
+  drawCRM();
+  toast(count + ' leads added to CRM');
 }
 
-function mvStage(id) {
-  var rec = getR(id); if (!rec) return;
-  var keys = STAGES.map(function(s){return s.k;});
-  var i = keys.indexOf(rec.stage);
-  if (i < keys.length-1) {
-    rec.stage = keys[i+1]; rec.status = STAGES[i+1].st;
-    rec.staged = new Date().toISOString();
-    rec.acts.unshift({t:'note',txt:'Moved to '+STAGES[i+1].l,ts:new Date().toLocaleString()});
-    saveC(); drawCRM(); toast('Moved to '+STAGES[i+1].l);
-  }
+function downloadCSV() {
+  if (!leads.length) return;
+
+  const rows = [[
+    'Name','Type','Address','City','State','ZIP','Phone','Website','Domain','Rating','Reviews',
+    'Employees','Revenue','Industry','Founded','Company Email',
+    'Primary Contact Name','Primary Contact Title','Primary Contact Email','Primary Contact Phone','LinkedIn'
+  ]];
+
+  leads.forEach((lead) => {
+    rows.push([
+      lead.name || '',
+      lead.type || '',
+      lead.address || '',
+      lead.city || '',
+      lead.state || '',
+      lead.zip || '',
+      lead.phone || '',
+      lead.website || '',
+      lead.domain || '',
+      lead.rating || '',
+      lead.reviews || '',
+      lead.employees || '',
+      lead.revenue || '',
+      lead.industry || '',
+      lead.founded || '',
+      lead.companyEmail || '',
+      lead.primaryContactName || '',
+      lead.primaryContactTitle || '',
+      lead.primaryContactEmail || '',
+      lead.primaryContactPhone || '',
+      lead.linkedin || ''
+    ]);
+  });
+
+  const csv = rows.map((row) => row.map((cell) => '"' + String(cell || '').replace(/"/g, '""') + '"').join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'breakout_ai_leads.csv';
+  a.click();
+  URL.revokeObjectURL(url);
 }
 
-function getR(id) { for (var i=0;i<crm.length;i++){if(crm[i].id===id) return crm[i];} return null; }
-
-function openDet(id) {
-  var r = getR(id); if (!r) return;
-  var html = '<div class="mtitle">'+esc(r.biz)+'</div>';
-  html += '<div style="font-size:11px;color:#fb923c;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px">'+r.status.toUpperCase()+' &#183; '+esc(r.type)+'</div>';
-  html += '<div class="sectdiv">Pipeline Stage</div><div class="stage-row">';
-  for (var s=0;s<STAGES.length;s++) {
-    html += '<button class="sbtn'+(r.stage===STAGES[s].k?' cur':'')+'" onclick="setSt(\''+id+'\',\''+STAGES[s].k+'\')">'+STAGES[s].l+'</button>';
-  }
-  html += '</div>';
-  html += '<div class="sectdiv">Business Info</div><div class="df">';
-  html += '<div class="dfield"><div class="dfl">Phone</div><div class="dfv">'+esc(r.phone||'&#8212;')+'</div></div>';
-  html += '<div class="dfield"><div class="dfl">Website</div><div class="dfv">'+(r.web?'<a href="'+esc(r.web)+'" target="_blank" class="lc-web">Visit &#8599;</a>':'&#8212;')+'</div></div>';
-  html += '<div class="dfield"><div class="dfl">Deal Value</div><div class="dfv"><input class="inp" style="padding:5px 9px;font-size:12px" value="'+esc(r.deal)+'" onchange="updF(\''+id+'\',\'deal\',this.value)" placeholder="$3,500" /></div></div>';
-  html += '<div class="dfield"><div class="dfl">Follow-up</div><div class="dfv"><input class="inp" type="date" style="padding:5px 9px;font-size:12px" value="'+esc(r.fu)+'" onchange="updF(\''+id+'\',\'fu\',this.value)" /></div></div>';
-  html += '<div class="dfield"><div class="dfl">Annual Revenue</div><div class="dfv"><input class="inp" style="padding:5px 9px;font-size:12px" value="'+esc(r.rev)+'" onchange="updF(\''+id+'\',\'rev\',this.value)" placeholder="$2M" /></div></div>';
-  html += '<div class="dfield"><div class="dfl">Rating</div><div class="dfv">&#9733; '+esc(String(r.rating||'&#8212;'))+'</div></div>';
-  html += '</div>';
-  html += '<div style="margin-bottom:12px"><label class="flabel">Notes</label><textarea class="lgtxt" onchange="updF(\''+id+'\',\'notes\',this.value)" placeholder="Add notes...">'+esc(r.notes)+'</textarea></div>';
-
-html += ‘<div class="sectdiv">Contacts (’+((r.cons||[]).length)+’)</div><div class="clist">’;
-if (r.cons&&r.cons.length) {
-for (var c=0;c<r.cons.length;c++) {
-var con = r.cons[c];
-html += ‘<div class="crow"><div class="cn">’+esc(con.name)+’</div><div class="ct">’+esc(con.title)+’</div><div class="ce">’+esc(con.email)+’</div><div class="ce">’+esc(con.phone)+’</div></div>’;
-}
-} else { html += ‘<div style="color:#4a6080;font-size:12px;padding:10px">Apollo will enrich when connected.</div>’; }
-html += ‘</div>’;
-html += ‘<div class="sectdiv">Log Activity</div><div class="logform">’;
-html += ‘<div class="logrow"><select class="sel" id="lt-'+id+'" style="font-size:12px"><option value="email">Email</option><option value="call">Call</option><option value="text">Text</option><option value="note">Note</option></select>’;
-html += ‘<select class="sel" id="lo-'+id+'" style="font-size:12px"><option>No Answer</option><option>Left Voicemail</option><option>Spoke to Them</option><option>Not Interested</option><option>Interested</option><option>Meeting Booked</option></select></div>’;
-html += ‘<textarea class="lgtxt" id="ln-'+id+'" placeholder="Notes from this attempt..."></textarea>’;
-html += ‘<button class="bsm ora" style="margin-top:7px;padding:7px 13px" onclick="logAct(\''+id+'\')">+ Log</button></div>’;
-if (r.acts&&r.acts.length) {
-var icons = {email:‘📧’,call:‘📞’,text:‘💬’,note:‘📝’};
-html += ‘<div class="alog" style="margin-top:9px">’;
-for (var a=0;a<r.acts.length;a++) {
-var ac = r.acts[a];
-html += ‘<div class="aitem"><div class="aico '+(ac.t||'note')+'">’+(icons[ac.t]||‘📝’)+’</div><div><div class="atype">’+esc((ac.t||‘note’).toUpperCase())+(ac.o?’ · ‘+esc(ac.o):’’)+’</div><div class="atxt">’+esc(ac.txt)+’</div><div class="atime">’+esc(ac.ts)+’</div></div></div>’;
-}
-html += ‘</div>’;
-}
-html += ‘<div style="margin-top:16px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.07)">’;
-html += ‘<button class="bsm red" onclick="delR(\''+id+'\')">Delete Record</button></div>’;
-document.getElementById(‘m-detail-body’).innerHTML = html;
-document.getElementById(‘m-detail’).classList.add(‘open’);
-}
-
-function setSt(id, stage) {
-var r = getR(id); if (!r) return;
-r.stage = stage;
-for (var s=0;s<STAGES.length;s++){if(STAGES[s].k===stage){r.status=STAGES[s].st;break;}}
-r.staged = new Date().toISOString();
-r.acts.unshift({t:‘note’,txt:’Stage: ’+stage,ts:new Date().toLocaleString()});
-saveC(); drawCRM(); openDet(id);
-}
-
-function updF(id,f,v) { var r=getR(id); if(r){r[f]=v; saveC(); updStats();} }
-
-function logAct(id) {
-var te=document.getElementById(‘lt-’+id), oe=document.getElementById(‘lo-’+id), ne=document.getElementById(‘ln-’+id);
-if (!te||!ne) return;
-var note=ne.value.trim(), outcome=oe?oe.value:’’;
-if (!note&&!outcome) return;
-var r=getR(id); if(!r) return;
-r.acts.unshift({t:te.value,o:outcome,txt:note||outcome,ts:new Date().toLocaleString()});
-saveC(); ne.value=’’; openDet(id); drawCRM();
-}
-
-function delR(id) {
-if (!confirm(‘Delete this record?’)) return;
-crm = crm.filter(function(r){return r.id!==id;});
-saveC(); closeM(‘m-detail’); drawCRM();
-if (leads.length) drawLeads(leads);
-}
-
-function checkFU() {
-var today = new Date().toISOString().split(‘T’)[0];
-var due = crm.filter(function(r){return r.fu&&r.fu<=today&&r.status!==‘account’;});
-var el = document.getElementById(‘fu-alerts’); if (!el) return;
-if (!due.length) { el.innerHTML=’’; return; }
-var html=’’;
-for (var i=0;i<Math.min(due.length,3);i++) {
-html+=’<div class="fualert">📅 Follow-up due: <strong>’+esc(due[i].biz)+’</strong> · ‘+esc(due[i].fu)+’<button onclick="openDet(\''+due[i].id+'\')">View →</button></div>’;
-}
-el.innerHTML = html;
-}
-
-function openManual() { document.getElementById(‘m-manual’).classList.add(‘open’); }
-function saveManual() {
-var biz = document.getElementById(‘mn-biz’).value.trim();
-if (!biz) { alert(‘Enter a business name.’); return; }
-var con = document.getElementById(‘mn-con’).value.trim();
-var record = {
-id:uid(), biz:biz, type:document.getElementById(‘mn-type’).value.trim(),
-city:document.getElementById(‘mn-city’).value.trim(), phone:document.getElementById(‘mn-phone’).value.trim(),
-web:document.getElementById(‘mn-web’).value.trim(), rating:’’, rev:’’,
-deal:document.getElementById(‘mn-deal’).value.trim(), notes:’’,
-fu:document.getElementById(‘mn-fu’).value, stage:‘new’, status:‘lead’,
-cons: con ? [{name:con,title:document.getElementById(‘mn-ttl’).value.trim(),email:document.getElementById(‘mn-email’).value.trim(),phone:document.getElementById(‘mn-phone’).value.trim()}] : [],
-acts:[], created:new Date().toISOString(), staged:new Date().toISOString()
-};
-crm.push(record); saveC(); closeM(‘m-manual’); drawCRM(); toast(biz+’ added to CRM’);
-}
-
-function closeM(id) { var el=document.getElementById(id); if(el) el.classList.remove(‘open’); }
-function showEl(id) { var el=document.getElementById(id); if(el) el.style.display=‘block’; }
-function showCard(id) { var el=document.getElementById(id); if(el) el.style.display=‘block’; }
-function showElFlex(id) { var el=document.getElementById(id); if(el) el.style.display=‘flex’; }
-function hideEl(id) { var el=document.getElementById(id); if(el) el.style.display=‘none’; }
-function showErr(id,msg) { var el=document.getElementById(id); if(el){el.textContent=msg;el.style.display=‘block’;} }
-function setText(id,val) { var el=document.getElementById(id); if(el) el.textContent=val; }
-function toast(msg) {
-var t=document.createElement(‘div’);
-t.style.cssText=‘position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#0f1623;border:1px solid rgba(249,115,22,0.4);color:#fb923c;padding:11px 18px;border-radius:9px;font-size:13px;z-index:9999;box-shadow:0 7px 22px rgba(0,0,0,0.4);white-space:nowrap’;
-t.textContent=msg; document.body.appendChild(t);
-setTimeout(function(){if(t.parentNode)t.parentNode.removeChild(t);},2400);
-}
-
-loadC();
-go(‘home’);
-</script>
-
-</body>
-</html>
+function setCrmView(value) {
+  crmView = value;
+  ['all','lead','prospect','account'].forEach((key) => {
+    const e
