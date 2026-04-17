@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+\<!DOCTYPE html>
 
 <html lang="en">
 <head>
@@ -314,9 +314,9 @@ body::before { content: ''; position: fixed; inset: 0; background-image: linear-
       Search for Leads
     </button>
   </div>
-  <div class="sbar" id="ls-sb"><div class="spin"></div><span id="ls-st">Connecting...</span></div>
-  <div class="ebar" id="ls-eb"></div>
-  <div class="svbar" id="ls-sv">
+  <div class="sbar" id="ls-sb" style="display:none"><div class="spin"></div><span id="ls-st">Connecting...</span></div>
+  <div class="ebar" id="ls-eb" style="display:none"></div>
+  <div class="svbar" id="ls-sv" style="display:none">
     <div class="svstat"><div class="svnum" id="ls-tot">0</div><div class="svlbl">Found</div></div>
     <div class="svdiv"></div>
     <div class="svstat"><div class="svnum" id="ls-hot">0</div><div class="svlbl">4.5+</div></div>
@@ -325,7 +325,7 @@ body::before { content: ''; position: fixed; inset: 0; background-image: linear-
     <div class="svdiv"></div>
     <div class="svstat"><div class="svnum" id="ls-wb">0</div><div class="svlbl">Website</div></div>
   </div>
-  <div class="outcard" id="ls-out">
+  <div class="outcard" id="ls-out" style="display:none">
     <div class="outhdr">
       <div class="outtitle">Live Results</div>
       <div class="outacts">
@@ -453,6 +453,11 @@ function go(id) {
   if (target) target.style.display = 'block';
   var ntab = document.getElementById(NAV_IDS[id]);
   if (ntab) ntab.classList.add('on');
+  // Re-apply live badge to leads and crm tabs always
+  var tl = document.getElementById('nt-leads');
+  var tc = document.getElementById('nt-crm');
+  if (tl) tl.classList.add('live');
+  if (tc) tc.classList.add('live');
   try { window.scrollTo(0, 0); } catch(e) {}
   if (id === 'crm') { drawCRM(); checkFU(); }
 }
@@ -537,7 +542,7 @@ function drawLeads(arr) {
   setText('ls-tot', arr.length); setText('ls-hot', hot); setText('ls-ph', phs); setText('ls-wb', wbs);
   showElFlex('ls-sv');
   setText('ls-cnt', arr.length + ' results');
-  showEl('ls-out');
+  showCard('ls-out');
   try { document.getElementById('ls-out').scrollIntoView({behavior:'smooth',block:'nearest'}); } catch(e) {}
 }
 
@@ -823,6 +828,7 @@ crm.push(record); saveC(); closeM(‘m-manual’); drawCRM(); toast(biz+’ adde
 
 function closeM(id) { var el=document.getElementById(id); if(el) el.classList.remove(‘open’); }
 function showEl(id) { var el=document.getElementById(id); if(el) el.style.display=‘block’; }
+function showCard(id) { var el=document.getElementById(id); if(el) el.style.display=‘block’; }
 function showElFlex(id) { var el=document.getElementById(id); if(el) el.style.display=‘flex’; }
 function hideEl(id) { var el=document.getElementById(id); if(el) el.style.display=‘none’; }
 function showErr(id,msg) { var el=document.getElementById(id); if(el){el.textContent=msg;el.style.display=‘block’;} }
