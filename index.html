@@ -89,8 +89,8 @@ a { color: inherit; text-decoration: none; }
 .bsm.red { border-color: rgba(239,68,68,0.35); color: #fca5a5; background: rgba(239,68,68,0.08); }
 .link-btn { background: transparent; border: none; color: #fb923c; font: inherit; cursor: pointer; padding: 0; text-align: left; }
 .link-btn:hover { text-decoration: underline; }
-.muted-btn { background: transparent; border: none; color: #7dd3fc; font: inherit; cursor: pointer; padding: 0; }
-.muted-btn:hover { color: #bae6fd; text-decoration: underline; }
+.muted-btn { background: transparent; border: none; color: #8fa3c0; font: inherit; cursor: pointer; padding: 0; }
+.muted-btn:hover { color: #e8edf5; text-decoration: underline; }
 
 .progress-wrap { display:none; margin-bottom: 14px; background:#0f1623; border:1px solid rgba(249,115,22,0.2); border-radius: 14px; padding: 14px; }
 .progress-head { display:flex; justify-content:space-between; gap:12px; font-size:12px; color:#fb923c; margin-bottom:8px; }
@@ -701,7 +701,7 @@ function statusLabel(status){
     proposal_sent:'Proposal Sent', negotiating:'Negotiating', closed_won:'Closed Won', closed_lost:'Closed Lost'
   }[status] || status;
 }
-function renderWebsiteLink(url){ return url ? '<a href="' + esc(url) + '" target="_blank" class="link-btn">' + esc(url.replace(/^https?:\/\/,'').replace(/\/$/,'')) + '</a>' : ''; }
+function renderWebsiteLink(url){ return url ? '<a href="' + esc(url) + '" target="_blank" class="link-btn">' + esc(url.replace(/^https?:\/\//,'').replace(/\/$/,'')) + '</a>' : ''; }
 function renderEmailAction(email, crmId, missingField){
   return email ? '<button class="link-btn" onclick="openComposeByRecord(\'' + crmId + '\', \'' + encodeURIComponent(email) + '\')">' + esc(email) + '</button>' : '<button class="muted-btn" onclick="openPromptBuilder(\'' + crmId + '\', \'' + missingField + '\')">Not found</button>';
 }
@@ -712,24 +712,6 @@ function renderContactNameAction(record){
   return record.primaryContactName ? '<button class="link-btn" onclick="openCrmRecord(\'' + record.crmId + '\')">' + esc(record.primaryContactName) + '</button>' : '<button class="muted-btn" onclick="openPromptBuilder(\'' + record.crmId + '\', \'primary_contact_name\')">Not found</button>';
 }
 
-function buildCrmMirrorCard(r){
-  return '<div class="crm-card">' +
-    '<div class="crm-head"><div><div class="crm-title"><button class="link-btn" onclick="openCrmRecord(\'' + r.crmId + '\')">' + esc(r.businessName) + '</button></div><div class="crm-sub">' + esc(r.address || [r.city, r.state].filter(Boolean).join(', ')) + '</div></div><div class="badges"><span class="badge">' + esc(statusLabel(r.status)) + '</span></div></div>' +
-    '<div class="card-columns"><div class="column-stack">' +
-    '<div class="block"><div class="block-label">Industry</div><div class="block-value">' + esc(r.industry || 'Not found') + '</div></div>' +
-    '<div class="block"><div class="block-label">Website</div><div class="block-value">' + (renderWebsiteLink(r.website) || '<button class="muted-btn" onclick="openPromptBuilder(\'' + r.crmId + '\', \'website\')">Not found</button>') + '</div></div>' +
-    '<div class="block"><div class="block-label">Business Phone</div><div class="block-value">' + renderPhoneAction(r.businessPhone, r.crmId, 'business_phone') + '</div></div>' +
-    '<div class="block"><div class="block-label">Company Email</div><div class="block-value">' + renderEmailAction(r.companyEmail, r.crmId, 'company_email') + '</div></div>' +
-    '</div><div class="column-stack">' +
-    '<div class="block"><div class="block-label">Primary Contact</div><div class="block-value">' + renderContactNameAction(r) + '</div><div class="crm-sub">' + esc(r.primaryContactTitle || '') + '</div></div>' +
-    '<div class="block"><div class="block-label">Primary Contact Phone</div><div class="block-value">' + renderPhoneAction(r.primaryContactPhone, r.crmId, 'primary_contact_phone') + '</div></div>' +
-    '<div class="block"><div class="block-label">Primary Contact Email</div><div class="block-value">' + renderEmailAction(r.primaryContactEmail, r.crmId, 'primary_contact_email') + '</div></div>' +
-    '</div></div>' +
-    '<div class="secondary-row"><div class="secondary-pill"><div class="block-label">Employees</div><div class="block-value">' + esc(r.employees || 'Optional') + '</div></div><div class="secondary-pill"><div class="block-label">Revenue</div><div class="block-value">' + esc(r.revenue || 'Optional') + '</div></div></div>' +
-    '<div class="action-row"><button class="bsm" onclick="openCrmRecord(\'' + r.crmId + '\')">Open</button><button class="bsm" onclick="openContactsByRecord(\'' + r.crmId + '\')">Contacts</button></div>' +
-    '</div>';
-}
-
 function setCrmView(next){ crmView = next; renderCrm(); }
 function filteredCrmRecords(){
   const status = $('crmStatusFilter').value;
@@ -737,7 +719,7 @@ function filteredCrmRecords(){
   return crmRecords.filter(r => {
     if (status && r.status !== status) return false;
     if (q) {
-      const hay = [r.businessName,r.primaryContactName,r.primaryContactEmail,r.primaryContactPhone,r.businessPhone,r.companyEmail,r.website,r.industry,r.notes].join(' ').toLowerCase();
+      const hay = [r.businessName,r.primaryContactName,r.primaryContactEmail,r.businessPhone,r.companyEmail,r.industry,r.notes].join(' ').toLowerCase();
       if (!hay.includes(q)) return false;
     }
     return true;
@@ -749,21 +731,33 @@ function renderCrm(){
   $('crmCardsWrap').classList.toggle('hidden', crmView !== 'cards');
 
   if (crmView === 'list') {
-    $('crmListWrap').innerHTML = '<table class="crm-table"><thead><tr><th>Business</th><th>Industry</th><th>Website</th><th>Business Phone</th><th>Company Email</th><th>Primary Contact</th><th>Primary Contact Phone</th><th>Primary Contact Email</th><th>Employees</th><th>Revenue</th><th>Actions</th></tr></thead><tbody>' + records.map(r => '<tr>' +
-      '<td><button class="link-btn" onclick="openCrmRecord(\'' + r.crmId + '\')">' + esc(r.businessName) + '</button><div class="crm-mini">' + esc(r.address || [r.city, r.state].filter(Boolean).join(', ')) + '</div><div class="crm-mini">' + esc(statusLabel(r.status)) + '</div></td>' +
-      '<td>' + esc(r.industry || 'Not found') + '</td>' +
-      '<td>' + (renderWebsiteLink(r.website) || '<button class="muted-btn" onclick="openPromptBuilder(\'' + r.crmId + '\', \'website\')">Not found</button>') + '</td>' +
-      '<td>' + renderPhoneAction(r.businessPhone, r.crmId, 'business_phone') + '</td>' +
-      '<td>' + renderEmailAction(r.companyEmail, r.crmId, 'company_email') + '</td>' +
+    $('crmListWrap').innerHTML = '<table class="crm-table"><thead><tr><th>Business</th><th>Primary Contact</th><th>Company Email</th><th>Business Phone</th><th>Website</th><th>Industry</th><th>Status</th><th>Last Contact</th><th>Next Follow Up</th><th>Actions</th></tr></thead><tbody>' + records.map(r => '<tr>' +
+      '<td><button class="link-btn" onclick="openCrmRecord(\'' + r.crmId + '\')">' + esc(r.businessName) + '</button><div class="crm-mini">' + esc(r.address) + '</div></td>' +
       '<td><div>' + renderContactNameAction(r) + '</div><div class="crm-mini">' + esc(r.primaryContactTitle || '') + '</div></td>' +
-      '<td>' + renderPhoneAction(r.primaryContactPhone, r.crmId, 'primary_contact_phone') + '</td>' +
-      '<td>' + renderEmailAction(r.primaryContactEmail, r.crmId, 'primary_contact_email') + '</td>' +
-      '<td>' + esc(r.employees || 'Optional') + '</td>' +
-      '<td>' + esc(r.revenue || 'Optional') + '</td>' +
+      '<td>' + renderEmailAction(r.companyEmail, r.crmId, 'company_email') + '</td>' +
+      '<td>' + renderPhoneAction(r.businessPhone, r.crmId, 'business_phone') + '</td>' +
+      '<td>' + renderWebsiteLink(r.website) + '</td>' +
+      '<td>' + esc(r.industry || '') + '</td>' +
+      '<td><select class="crm-select" onchange="quickStatusUpdate(\'' + r.crmId + '\', this.value)">' + ['new','emailed','called_or_texted','need_new_contact_info','replied','interested','follow_up_needed','meeting_booked','proposal_sent','negotiating','closed_won','closed_lost'].map(s => '<option value="' + s + '"' + (r.status === s ? ' selected' : '') + '>' + statusLabel(s) + '</option>').join('') + '</select></td>' +
+      '<td>' + esc(r.lastActivityAt ? fmtDateTime(r.lastActivityAt) : '') + '</td>' +
+      '<td>' + esc(r.nextFollowUpDate || '') + '</td>' +
       '<td><div class="crm-actions"><button class="bsm" onclick="openCrmRecord(\'' + r.crmId + '\')">Open</button><button class="bsm" onclick="openContactsByRecord(\'' + r.crmId + '\')">Contacts</button></div></td>' +
       '</tr>').join('') + '</tbody></table>';
   } else {
-    $('crmCardsWrap').innerHTML = records.map(r => buildCrmMirrorCard(r)).join('');
+    $('crmCardsWrap').innerHTML = records.map(r => '<div class="crm-card">' +
+      '<div class="crm-head"><div><div class="crm-title"><button class="link-btn" onclick="openCrmRecord(\'' + r.crmId + '\')">' + esc(r.businessName) + '</button></div><div class="crm-sub">' + esc(r.address) + '</div></div><div class="badges"><span class="badge">' + esc(statusLabel(r.status)) + '</span></div></div>' +
+      '<div class="card-columns"><div class="column-stack">' +
+      '<div class="block"><div class="block-label">Primary Contact</div><div class="block-value">' + renderContactNameAction(r) + '</div><div class="crm-sub">' + esc(r.primaryContactTitle || '') + '</div></div>' +
+      '<div class="block"><div class="block-label">Company Email</div><div class="block-value">' + renderEmailAction(r.companyEmail, r.crmId, 'company_email') + '</div></div>' +
+      '<div class="block"><div class="block-label">Business Phone</div><div class="block-value">' + renderPhoneAction(r.businessPhone, r.crmId, 'business_phone') + '</div></div>' +
+      '</div><div class="column-stack">' +
+      '<div class="block"><div class="block-label">Website</div><div class="block-value">' + (renderWebsiteLink(r.website) || '<button class="muted-btn" onclick="openPromptBuilder(\'' + r.crmId + '\', \'website\')">Not found</button>') + '</div></div>' +
+      '<div class="block"><div class="block-label">Industry</div><div class="block-value">' + esc(r.industry || '') + '</div></div>' +
+      '<div class="block"><div class="block-label">Next Follow Up</div><div class="block-value">' + esc(r.nextFollowUpDate || '') + '</div></div>' +
+      '</div></div>' +
+      '<div class="secondary-row"><div class="secondary-pill"><div class="block-label">Deal Size</div><div class="block-value">' + esc(r.estimatedDealSize || '') + '</div></div><div class="secondary-pill"><div class="block-label">Contacts</div><div class="block-value">' + esc(String((r.contacts || []).length || 0)) + '</div></div></div>' +
+      '<div class="action-row"><button class="bsm" onclick="openCrmRecord(\'' + r.crmId + '\')">Open</button><button class="bsm" onclick="openContactsByRecord(\'' + r.crmId + '\')">Contacts</button></div>' +
+      '</div>').join('');
   }
   updateDashboardSummary();
 }
