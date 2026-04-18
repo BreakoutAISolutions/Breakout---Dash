@@ -13,741 +13,138 @@ body::before {
   content: '';
   position: fixed;
   inset: 0;
-  background-image:
-    linear-gradient(rgba(249,115,22,0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(249,115,22,0.025) 1px, transparent 1px);
+  background-image: linear-gradient(rgba(249,115,22,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(249,115,22,0.025) 1px, transparent 1px);
   background-size: 44px 44px;
   pointer-events: none;
   z-index: 0;
 }
-a { color: inherit; }
+a { color: inherit; text-decoration: none; }
 .hidden { display: none !important; }
 
-.topnav {
-  position: sticky;
-  top: 0;
-  z-index: 90;
-  background: rgba(8,12,24,0.96);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(255,255,255,0.07);
-}
-.topnav-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 18px;
-  height: 58px;
-  gap: 14px;
-}
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
-}
-.brand-icon {
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
-  background: linear-gradient(135deg,#f97316,#c2410c);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.brand-name {
-  font-family: 'Syne', sans-serif;
-  font-size: 14px;
-  font-weight: 800;
-}
-.top-links {
-  display: flex;
-  gap: 6px;
-  overflow-x: auto;
-  flex: 1;
-  scrollbar-width: none;
-}
+.topnav { position: sticky; top: 0; z-index: 90; background: rgba(8,12,24,0.96); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.07); }
+.topnav-inner { display: flex; align-items: center; justify-content: space-between; padding: 0 18px; height: 58px; gap: 14px; }
+.brand { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.brand-icon { width: 30px; height: 30px; border-radius: 8px; background: linear-gradient(135deg,#f97316,#c2410c); display: flex; align-items: center; justify-content: center; }
+.brand-name { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 800; }
+.top-links { display: flex; gap: 6px; overflow-x: auto; flex: 1; scrollbar-width: none; }
 .top-links::-webkit-scrollbar { display: none; }
-.top-link {
-  border: 1px solid transparent;
-  background: transparent;
-  color: #8fa3c0;
-  border-radius: 10px;
-  padding: 8px 12px;
-  font-size: 12px;
-  cursor: pointer;
-  white-space: nowrap;
-}
-.top-link.active {
-  color: #e8edf5;
-  background: rgba(255,255,255,0.04);
-  border-color: rgba(255,255,255,0.08);
-}
-.nav-status {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: #34d399;
-  font-size: 11px;
-  flex-shrink: 0;
-}
-.nav-status::before {
-  content: '';
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #34d399;
-  box-shadow: 0 0 8px #34d399;
-}
+.top-link { border: 1px solid transparent; background: transparent; color: #8fa3c0; border-radius: 10px; padding: 8px 12px; font-size: 12px; cursor: pointer; white-space: nowrap; }
+.top-link.active { color: #e8edf5; background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.08); }
+.nav-status { display: flex; align-items: center; gap: 6px; color: #34d399; font-size: 11px; flex-shrink: 0; }
+.nav-status::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: #34d399; box-shadow: 0 0 8px #34d399; }
 
-.main {
-  position: relative;
-  z-index: 1;
-}
-.shell {
-  max-width: 1160px;
-  margin: 0 auto;
-  padding: 26px 18px 80px;
-}
-.hero {
-  text-align: center;
-  padding: 18px 0 22px;
-}
-.hero h1 {
-  font-family: 'Syne', sans-serif;
-  font-size: 40px;
-  line-height: 1.05;
-  letter-spacing: -1.4px;
-  font-weight: 800;
-}
-.gtxt {
-  background: linear-gradient(90deg,#fb923c,#fdba74);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.hero-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 14px;
-  padding: 7px 14px;
-  border-radius: 999px;
-  border: 1px solid rgba(249,115,22,0.22);
-  background: rgba(249,115,22,0.08);
-  color: #fb923c;
-  font-size: 12px;
-}
-.hero-pill::before {
-  content: '';
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #34d399;
-  box-shadow: 0 0 8px #34d399;
-}
+.main { position: relative; z-index: 1; }
+.shell { max-width: 1160px; margin: 0 auto; padding: 26px 18px 80px; }
 
-.metric-bar {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0,1fr));
-  gap: 0;
-  background: #0f1623;
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 18px;
-  overflow: hidden;
-  margin-bottom: 16px;
-}
-.metric {
-  text-align: center;
-  padding: 18px 10px;
-  border-right: 1px solid rgba(255,255,255,0.06);
-}
+.hero { text-align: center; padding: 18px 0 22px; }
+.hero h1 { font-family: 'Syne', sans-serif; font-size: 40px; line-height: 1.05; letter-spacing: -1.4px; font-weight: 800; }
+.gtxt { background: linear-gradient(90deg,#fb923c,#fdba74); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero-pill { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; padding: 7px 14px; border-radius: 999px; border: 1px solid rgba(249,115,22,0.22); background: rgba(249,115,22,0.08); color: #fb923c; font-size: 12px; }
+.hero-pill::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: #34d399; box-shadow: 0 0 8px #34d399; }
+
+.metric-bar { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 0; background: #0f1623; border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; overflow: hidden; margin-bottom: 16px; }
+.metric { text-align: center; padding: 18px 10px; border-right: 1px solid rgba(255,255,255,0.06); }
 .metric:last-child { border-right: none; }
-.metric strong {
-  display: block;
-  font-family: 'Syne', sans-serif;
-  font-size: 34px;
-  line-height: 1;
-  margin-bottom: 6px;
-}
-.metric span {
-  display: block;
-  font-size: 11px;
-  color: #4a6080;
-  letter-spacing: .6px;
-  text-transform: uppercase;
-}
+.metric strong { display: block; font-family: 'Syne', sans-serif; font-size: 34px; line-height: 1; margin-bottom: 6px; }
+.metric span { display: block; font-size: 11px; color: #4a6080; letter-spacing: .6px; text-transform: uppercase; }
 
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0,1fr));
-  gap: 14px;
-}
-.station-card {
-  background: #0f1623;
-  border: 1px solid rgba(255,255,255,0.07);
-  border-radius: 18px;
-  padding: 18px;
-  min-height: 208px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transition: transform .15s ease, border-color .15s ease, background .15s ease;
-}
-.station-card.live {
-  cursor: pointer;
-}
-.station-card.live:hover {
-  transform: translateY(-2px);
-  border-color: rgba(249,115,22,0.28);
-  background: #131c2d;
-}
-.station-icon {
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.08);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 14px;
-  font-size: 18px;
-}
-.station-title {
-  font-family: 'Syne', sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  margin-bottom: 6px;
-}
-.station-desc {
-  font-size: 12px;
-  color: #8fa3c0;
-  line-height: 1.45;
-  min-height: 36px;
-}
-.station-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 9px;
-  border-radius: 999px;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: .6px;
-  text-transform: uppercase;
-  margin-top: 10px;
-}
-.station-tag.live {
-  color: #34d399;
-  border: 1px solid rgba(52,211,153,0.24);
-  background: rgba(52,211,153,0.08);
-}
-.station-tag.soon {
-  color: #8fa3c0;
-  border: 1px solid rgba(255,255,255,0.08);
-  background: rgba(255,255,255,0.03);
-}
-.station-bottom {
-  margin-top: 14px;
-}
-.station-mini-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0,1fr));
-  gap: 8px;
-}
-.station-mini {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 12px;
-  padding: 9px 8px;
-  min-height: 56px;
-}
-.station-mini strong {
-  display: block;
-  font-family: 'Syne', sans-serif;
-  font-size: 18px;
-  line-height: 1;
-  color: #e8edf5;
-  margin-bottom: 5px;
-}
-.station-mini span {
-  display: block;
-  font-size: 9px;
-  color: #8fa3c0;
-  letter-spacing: .5px;
-  text-transform: uppercase;
-}
-.station-last {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 12px;
-  padding: 10px;
-  margin-bottom: 8px;
-}
-.station-last .label {
-  font-size: 9px;
-  color: #8fa3c0;
-  letter-spacing: .6px;
-  text-transform: uppercase;
-  margin-bottom: 5px;
-}
-.station-last .value {
-  font-size: 12px;
-  color: #e8edf5;
-  line-height: 1.45;
-}
-.station-empty {
-  color: #4a6080;
-  font-size: 12px;
-}
+.dashboard-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 14px; }
+.station-card { background: #0f1623; border: 1px solid rgba(255,255,255,0.07); border-radius: 18px; padding: 18px; min-height: 208px; display: flex; flex-direction: column; justify-content: space-between; transition: transform .15s ease, border-color .15s ease, background .15s ease; }
+.station-card.live { cursor: pointer; }
+.station-card.live:hover { transform: translateY(-2px); border-color: rgba(249,115,22,0.28); background: #131c2d; }
+.station-icon { width: 34px; height: 34px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; margin-bottom: 14px; font-size: 18px; }
+.station-title { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+.station-desc { font-size: 12px; color: #8fa3c0; line-height: 1.45; min-height: 36px; }
+.station-tag { display: inline-flex; align-items: center; gap: 6px; padding: 4px 9px; border-radius: 999px; font-size: 10px; font-weight: 700; letter-spacing: .6px; text-transform: uppercase; margin-top: 10px; }
+.station-tag.live { color: #34d399; border: 1px solid rgba(52,211,153,0.24); background: rgba(52,211,153,0.08); }
+.station-tag.soon { color: #8fa3c0; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.03); }
+.station-bottom { margin-top: 14px; }
+.station-mini-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px; }
+.station-mini { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 9px 8px; min-height: 56px; }
+.station-mini strong { display: block; font-family: 'Syne', sans-serif; font-size: 18px; line-height: 1; color: #e8edf5; margin-bottom: 5px; }
+.station-mini span { display: block; font-size: 9px; color: #8fa3c0; letter-spacing: .5px; text-transform: uppercase; }
+.station-last { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 10px; margin-bottom: 8px; }
+.station-last .label { font-size: 9px; color: #8fa3c0; letter-spacing: .6px; text-transform: uppercase; margin-bottom: 5px; }
+.station-last .value { font-size: 12px; color: #e8edf5; line-height: 1.45; }
 
-.section-wrap {
-  background: #0f1623;
-  border: 1px solid rgba(255,255,255,0.07);
-  border-radius: 18px;
-  padding: 18px;
-  margin-bottom: 14px;
-}
-.section-head {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: 12px;
-}
-.section-title {
-  font-family: 'Syne', sans-serif;
-  font-size: 24px;
-  font-weight: 800;
-}
-.section-sub {
-  color: #8fa3c0;
-  font-size: 13px;
-  margin-top: 4px;
-}
-.controls {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-.flabel {
-  display: block;
-  font-size: 11px;
-  color: #8fa3c0;
-  margin-bottom: 5px;
-}
-.row2 {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-bottom: 10px;
-}
-.row2 > * {
-  flex: 1;
-  min-width: 170px;
-}
-.inp, .sel, .edit-input, .crm-select, .crm-textarea {
-  width: 100%;
-  background: #161e30;
-  color: #e8edf5;
-  border: 1px solid rgba(249,115,22,0.22);
-  border-radius: 10px;
-  padding: 10px 12px;
-  font: inherit;
-  outline: none;
-}
-.crm-textarea {
-  min-height: 90px;
-  resize: vertical;
-}
-.btn-main, .bsm {
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font: inherit;
-}
-.btn-main {
-  width: 100%;
-  padding: 13px;
-  background: linear-gradient(135deg,#f97316,#c2410c);
-  color: white;
-  font-family: 'Syne', sans-serif;
-  font-weight: 700;
-}
-.bsm {
-  padding: 9px 12px;
-  background: #161e30;
-  color: #e8edf5;
-  border: 1px solid rgba(255,255,255,0.08);
-}
-.bsm.ok {
-  border-color: rgba(52,211,153,0.3);
-  color: #34d399;
-  background: rgba(52,211,153,0.08);
-}
-.bsm.ora {
-  border-color: rgba(249,115,22,0.35);
-  color: #fb923c;
-  background: rgba(249,115,22,0.08);
-}
-.bsm.red {
-  border-color: rgba(239,68,68,0.35);
-  color: #fca5a5;
-  background: rgba(239,68,68,0.08);
-}
-
-.progress-wrap {
-  display:none;
-  margin-bottom: 14px;
-  background:#0f1623;
-  border:1px solid rgba(249,115,22,0.2);
-  border-radius: 14px;
-  padding: 14px;
-}
-.progress-head {
-  display:flex;
-  justify-content:space-between;
-  gap:12px;
-  font-size:12px;
-  color:#fb923c;
-  margin-bottom:8px;
-}
-.progress-sub {
-  font-size:11px;
-  color:#8fa3c0;
-  margin-bottom:10px;
-}
-.progress-track {
-  width:100%;
-  height:10px;
-  background:#161e30;
-  border-radius:999px;
-  overflow:hidden;
-}
-.progress-fill {
-  height:100%;
-  width:0%;
-  background: linear-gradient(90deg,#fb923c,#fdba74);
-  transition: width .35s ease;
-}
-.ebar {
-  display:none;
-  padding: 12px 14px;
-  background: rgba(239,68,68,0.08);
-  border: 1px solid rgba(239,68,68,0.25);
-  border-radius: 10px;
-  color: #fca5a5;
-  margin-bottom: 12px;
-}
-
-.summary {
-  display:none;
-  align-items:center;
-  gap:0;
-  background: rgba(52,211,153,0.07);
-  border: 1px solid rgba(52,211,153,0.2);
-  border-radius: 14px;
-  margin-bottom: 14px;
-  overflow: auto;
-}
-.summary-box {
-  flex:1;
-  min-width:120px;
-  text-align:center;
-  padding:12px 8px;
-}
-.summary-box strong {
-  display:block;
-  font-family: 'Syne', sans-serif;
-  font-size: 22px;
-  color:#34d399;
-}
-.summary-box span {
-  display:block;
-  font-size:10px;
-  color:#4a6080;
-  text-transform:uppercase;
-  letter-spacing:.5px;
-}
-.summary-div {
-  width:1px;
-  height:32px;
-  background: rgba(52,211,153,0.18);
-  flex-shrink:0;
-}
-
-.results-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0,1fr));
-  gap: 14px;
-}
-.lead-card, .crm-card {
-  background: #0f1623;
-  border: 1px solid rgba(255,255,255,0.07);
-  border-radius: 16px;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-.lead-card { min-height: 440px; }
-.lead-head, .crm-head {
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap:12px;
-}
-.lead-title, .crm-title {
-  font-family:'Syne',sans-serif;
-  font-size:16px;
-  font-weight:800;
-  color:#e8edf5;
-  line-height:1.2;
-}
-.lead-sub, .crm-sub {
-  font-size:11px;
-  color:#8fa3c0;
-  line-height:1.45;
-  margin-top:4px;
-}
-.badges {
-  display:flex;
-  gap:6px;
-  flex-wrap:wrap;
-}
-.badge {
-  display:inline-flex;
-  align-items:center;
-  padding:4px 8px;
-  border-radius:999px;
-  font-size:10px;
-  font-weight:700;
-  background:rgba(255,255,255,0.04);
-  border:1px solid rgba(255,255,255,0.08);
-  color:#cdd6e6;
-}
-.badge.ok {
-  color:#34d399;
-  border-color:rgba(52,211,153,0.22);
-  background:rgba(52,211,153,0.08);
-}
-.badge.ora {
-  color:#fb923c;
-  border-color:rgba(249,115,22,0.22);
-  background:rgba(249,115,22,0.08);
-}
-.badge.red {
-  color:#fca5a5;
-  border-color:rgba(239,68,68,0.22);
-  background:rgba(239,68,68,0.08);
-}
-.card-columns {
-  display:grid;
-  grid-template-columns: 1fr 1fr;
-  gap:10px;
-}
-.column-stack {
-  display:grid;
-  gap:10px;
-}
-.block {
-  background: rgba(255,255,255,0.025);
-  border:1px solid rgba(255,255,255,0.06);
-  border-radius: 12px;
-  padding: 10px;
-  min-height: 62px;
-}
-.block-label {
-  font-size:9px;
-  text-transform:uppercase;
-  letter-spacing:.8px;
-  color:#4a6080;
-  margin-bottom:4px;
-}
-.block-value {
-  font-size:12px;
-  color:#e8edf5;
-  line-height:1.35;
-  word-break: break-word;
-}
-.secondary-row {
-  display:flex;
-  justify-content:flex-end;
-  gap:10px;
-  margin-top:auto;
-}
-.secondary-pill {
-  min-width:110px;
-  text-align:right;
-  background: rgba(255,255,255,0.025);
-  border:1px solid rgba(255,255,255,0.06);
-  border-radius: 12px;
-  padding: 10px;
-}
-.secondary-pill .block-value { color:#8fa3c0; }
-.action-row {
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-}
-
-.list-wrap {
-  overflow:auto;
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 14px;
-  background: #0f1623;
-}
-.crm-table {
-  width: 100%;
-  min-width: 1100px;
-  border-collapse: collapse;
-}
-.crm-table th {
-  text-align:left;
-  font-size:10px;
-  letter-spacing:1px;
-  text-transform:uppercase;
-  color:#8fa3c0;
-  background:#161e30;
-  padding:12px;
-  position: sticky;
-  top: 0;
-}
-.crm-table td {
-  padding:12px;
-  border-top:1px solid rgba(255,255,255,0.06);
-  vertical-align: top;
-  font-size: 12px;
-  color:#e8edf5;
-}
-.crm-mini {
-  font-size:11px;
-  color:#8fa3c0;
-}
-.crm-actions {
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-}
-
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(8,12,24,0.86);
-  backdrop-filter: blur(8px);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:100;
-  padding:16px;
-}
-.modal-backdrop.open { display:flex; }
-.modal {
-  width: 100%;
-  max-width: 920px;
-  max-height: 90vh;
-  overflow: auto;
-  background:#0f1623;
-  border:1px solid rgba(249,115,22,0.22);
-  border-radius:18px;
-  padding:20px;
-}
-.modal h3 {
-  font-family:'Syne',sans-serif;
-  margin-bottom:6px;
-}
-.modal-sub {
-  color:#8fa3c0;
-  font-size:13px;
-  margin-bottom:14px;
-}
-.contacts-list, .history-list, .search-history-list {
-  display:grid;
-  gap:8px;
-  margin-top:10px;
-}
-.contact-row, .history-row, .search-history-row, .dup-row {
-  background:#161e30;
-  border:1px solid rgba(255,255,255,0.07);
-  border-radius:12px;
-  padding:10px;
-}
-.divider-title {
-  font-size:11px;
-  text-transform:uppercase;
-  letter-spacing:1px;
-  color:#fb923c;
-  margin: 12px 0 8px;
-}
-
-.back-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 12px;
-  flex-wrap: wrap;
-}
-.back-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: #8fa3c0;
-  cursor: pointer;
-  font-size: 12px;
-}
+.section-wrap { background: #0f1623; border: 1px solid rgba(255,255,255,0.07); border-radius: 18px; padding: 18px; margin-bottom: 14px; }
+.section-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+.section-title { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; }
+.section-sub { color: #8fa3c0; font-size: 13px; margin-top: 4px; }
+.controls { display: flex; gap: 8px; flex-wrap: wrap; }
+.back-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+.back-link { display: inline-flex; align-items: center; gap: 8px; color: #8fa3c0; cursor: pointer; font-size: 12px; }
 .back-link:hover { color: #e8edf5; }
 
-
-.link-btn {
-  background: transparent;
-  border: none;
-  color: #fb923c;
-  font: inherit;
-  cursor: pointer;
-  padding: 0;
-  text-align: left;
-}
+.row2 { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+.row2 > * { flex: 1; min-width: 170px; }
+.flabel { display: block; font-size: 11px; color: #8fa3c0; margin-bottom: 5px; }
+.inp, .sel, .edit-input, .crm-select, .crm-textarea { width: 100%; background: #161e30; color: #e8edf5; border: 1px solid rgba(249,115,22,0.22); border-radius: 10px; padding: 10px 12px; font: inherit; outline: none; }
+.crm-textarea { min-height: 90px; resize: vertical; }
+.btn-main, .bsm { border: none; border-radius: 10px; cursor: pointer; font: inherit; }
+.btn-main { width: 100%; padding: 13px; background: linear-gradient(135deg,#f97316,#c2410c); color: white; font-family: 'Syne', sans-serif; font-weight: 700; }
+.bsm { padding: 9px 12px; background: #161e30; color: #e8edf5; border: 1px solid rgba(255,255,255,0.08); }
+.bsm.ok { border-color: rgba(52,211,153,0.3); color: #34d399; background: rgba(52,211,153,0.08); }
+.bsm.ora { border-color: rgba(249,115,22,0.35); color: #fb923c; background: rgba(249,115,22,0.08); }
+.bsm.red { border-color: rgba(239,68,68,0.35); color: #fca5a5; background: rgba(239,68,68,0.08); }
+.link-btn { background: transparent; border: none; color: #fb923c; font: inherit; cursor: pointer; padding: 0; text-align: left; }
 .link-btn:hover { text-decoration: underline; }
-.muted-btn {
-  background: transparent;
-  border: none;
-  color: #8fa3c0;
-  font: inherit;
-  cursor: pointer;
-  padding: 0;
-}
+.muted-btn { background: transparent; border: none; color: #8fa3c0; font: inherit; cursor: pointer; padding: 0; }
 .muted-btn:hover { color: #e8edf5; text-decoration: underline; }
-.tasks-list { display:grid; gap:8px; margin-top:10px; }
-.task-row { background:#161e30; border:1px solid rgba(255,255,255,0.07); border-radius:12px; padding:10px; }
-.toast-wrap {
-  position: fixed;
-  right: 18px;
-  bottom: 18px;
-  z-index: 140;
-  display: grid;
-  gap: 10px;
-}
-.toast {
-  min-width: 260px;
-  max-width: 360px;
-  background: #0f1623;
-  border: 1px solid rgba(52,211,153,0.24);
-  border-radius: 14px;
-  box-shadow: 0 14px 30px rgba(0,0,0,0.35);
-  padding: 14px 14px 12px;
-}
-.toast-title {
-  font-family: 'Syne', sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  color: #34d399;
-  margin-bottom: 4px;
-}
-.toast-body {
-  font-size: 12px;
-  color: #cfd8e6;
-  line-height: 1.45;
-}
+
+.progress-wrap { display:none; margin-bottom: 14px; background:#0f1623; border:1px solid rgba(249,115,22,0.2); border-radius: 14px; padding: 14px; }
+.progress-head { display:flex; justify-content:space-between; gap:12px; font-size:12px; color:#fb923c; margin-bottom:8px; }
+.progress-sub { font-size:11px; color:#8fa3c0; margin-bottom:10px; }
+.progress-track { width:100%; height:10px; background:#161e30; border-radius:999px; overflow:hidden; }
+.progress-fill { height:100%; width:0%; background: linear-gradient(90deg,#fb923c,#fdba74); transition: width .35s ease; }
+.ebar { display:none; padding: 12px 14px; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.25); border-radius: 10px; color: #fca5a5; margin-bottom: 12px; }
+.summary { display:none; align-items:center; gap:0; background: rgba(52,211,153,0.07); border: 1px solid rgba(52,211,153,0.2); border-radius: 14px; margin-bottom: 14px; overflow: auto; }
+.summary-box { flex:1; min-width:120px; text-align:center; padding:12px 8px; }
+.summary-box strong { display:block; font-family: 'Syne', sans-serif; font-size: 22px; color:#34d399; }
+.summary-box span { display:block; font-size:10px; color:#4a6080; text-transform:uppercase; letter-spacing:.5px; }
+.summary-div { width:1px; height:32px; background: rgba(52,211,153,0.18); flex-shrink:0; }
+
+.results-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px; }
+.lead-card, .crm-card { background: #0f1623; border: 1px solid rgba(255,255,255,0.07); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.lead-card, .crm-card { min-height: 440px; }
+.lead-head, .crm-head { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
+.lead-title, .crm-title { font-family:'Syne',sans-serif; font-size:16px; font-weight:800; color:#e8edf5; line-height:1.2; }
+.lead-sub, .crm-sub { font-size:11px; color:#8fa3c0; line-height:1.45; margin-top:4px; }
+.badges { display:flex; gap:6px; flex-wrap:wrap; }
+.badge { display:inline-flex; align-items:center; padding:4px 8px; border-radius:999px; font-size:10px; font-weight:700; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); color:#cdd6e6; }
+.badge.ok { color:#34d399; border-color:rgba(52,211,153,0.22); background:rgba(52,211,153,0.08); }
+.badge.ora { color:#fb923c; border-color:rgba(249,115,22,0.22); background:rgba(249,115,22,0.08); }
+.badge.red { color:#fca5a5; border-color:rgba(239,68,68,0.22); background:rgba(239,68,68,0.08); }
+.card-columns { display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
+.column-stack { display:grid; gap:10px; }
+.block { background: rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 10px; min-height: 62px; }
+.block-label { font-size:9px; text-transform:uppercase; letter-spacing:.8px; color:#4a6080; margin-bottom:4px; }
+.block-value { font-size:12px; color:#e8edf5; line-height:1.35; word-break: break-word; }
+.secondary-row { display:flex; justify-content:flex-end; gap:10px; margin-top:auto; }
+.secondary-pill { min-width:110px; text-align:right; background: rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 10px; }
+.secondary-pill .block-value { color:#8fa3c0; }
+.action-row { display:flex; gap:8px; flex-wrap:wrap; }
+
+.list-wrap { overflow:auto; border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; background: #0f1623; }
+.crm-table { width: 100%; min-width: 1240px; border-collapse: collapse; }
+.crm-table th { text-align:left; font-size:10px; letter-spacing:1px; text-transform:uppercase; color:#8fa3c0; background:#161e30; padding:12px; position: sticky; top: 0; }
+.crm-table td { padding:12px; border-top:1px solid rgba(255,255,255,0.06); vertical-align: top; font-size: 12px; color:#e8edf5; }
+.crm-mini { font-size:11px; color:#8fa3c0; }
+.crm-actions { display:flex; gap:8px; flex-wrap:wrap; }
+
+.modal-backdrop { position: fixed; inset: 0; background: rgba(8,12,24,0.86); backdrop-filter: blur(8px); display:none; align-items:center; justify-content:center; z-index:100; padding:16px; }
+.modal-backdrop.open { display:flex; }
+.modal { width: 100%; max-width: 980px; max-height: 90vh; overflow: auto; background:#0f1623; border:1px solid rgba(249,115,22,0.22); border-radius:18px; padding:20px; }
+.modal h3 { font-family:'Syne',sans-serif; margin-bottom:6px; }
+.modal-sub { color:#8fa3c0; font-size:13px; margin-bottom:14px; }
+.contacts-list, .history-list, .search-history-list, .tasks-list { display:grid; gap:8px; margin-top:10px; }
+.contact-row, .history-row, .search-history-row, .dup-row, .task-row { background:#161e30; border:1px solid rgba(255,255,255,0.07); border-radius:12px; padding:10px; }
+.divider-title { font-size:11px; text-transform:uppercase; letter-spacing:1px; color:#fb923c; margin: 12px 0 8px; }
+
+.toast-wrap { position: fixed; right: 18px; bottom: 18px; z-index: 140; display: grid; gap: 10px; }
+.toast { min-width: 260px; max-width: 360px; background: #0f1623; border: 1px solid rgba(52,211,153,0.24); border-radius: 14px; box-shadow: 0 14px 30px rgba(0,0,0,0.35); padding: 14px 14px 12px; }
+.toast-title { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: #34d399; margin-bottom: 4px; }
+.toast-body { font-size: 12px; color: #cfd8e6; line-height: 1.45; }
 
 @media (max-width: 980px) {
   .dashboard-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
@@ -765,24 +162,21 @@ a { color: inherit; }
 <body>
 <div class="topnav">
   <div class="topnav-inner">
-    <div class="brand">
-      <div class="brand-icon">â¡</div>
-      <div class="brand-name">Breakout AI</div>
-    </div>
+    <div class="brand"><div class="brand-icon">â¡</div><div class="brand-name">Breakout AI</div></div>
     <div class="top-links">
       <button class="top-link active" id="topHome" onclick="showView('home')">Overview</button>
       <button class="top-link" id="topLeads" onclick="enterStation('leads')">Find Leads</button>
-      <button class="top-link" id="topSeo">SEO+AEO</button>
+      <button class="top-link">SEO+AEO</button>
       <button class="top-link" id="topCrm" onclick="enterStation('crm')">Smart CRM</button>
-      <button class="top-link" id="topPhone">Phone Agent</button>
-      <button class="top-link" id="topProposals">Proposals</button>
-      <button class="top-link" id="topContracts">Contracts</button>
-      <button class="top-link" id="topInvoicing">Invoicing</button>
-      <button class="top-link" id="topFollow">Follow Up</button>
-      <button class="top-link" id="topSocial">Social</button>
-      <button class="top-link" id="topAds">Ads</button>
-      <button class="top-link" id="topNewsletter">Newsletter</button>
-      <button class="top-link" id="topDashboard">Dashboard</button>
+      <button class="top-link">Phone Agent</button>
+      <button class="top-link">Proposals</button>
+      <button class="top-link">Contracts</button>
+      <button class="top-link">Invoicing</button>
+      <button class="top-link">Follow Up</button>
+      <button class="top-link">Social</button>
+      <button class="top-link">Ads</button>
+      <button class="top-link">Newsletter</button>
+      <button class="top-link">Dashboard</button>
     </div>
     <div class="nav-status">AI Online</div>
   </div>
@@ -812,10 +206,7 @@ a { color: inherit; }
             <div class="station-tag live">Live</div>
           </div>
           <div class="station-bottom">
-            <div class="station-last" id="stationLeadsLast">
-              <div class="label">Last search</div>
-              <div class="value">No searches yet</div>
-            </div>
+            <div class="station-last" id="stationLeadsLast"><div class="label">Last search</div><div class="value">No searches yet</div></div>
             <div class="station-mini-grid">
               <div class="station-mini"><strong id="stationLeadsCount">0</strong><span>Results</span></div>
               <div class="station-mini"><strong id="stationLeadsAi">0</strong><span>AI enriched</span></div>
@@ -829,7 +220,7 @@ a { color: inherit; }
           <div>
             <div class="station-icon">âï¸</div>
             <div class="station-title">Smart CRM</div>
-            <div class="station-desc">Manage imported leads, statuses, notes, and follow ups.</div>
+            <div class="station-desc">Manage imported leads, statuses, notes, follow ups, and tasks.</div>
             <div class="station-tag live">Live</div>
           </div>
           <div class="station-bottom">
@@ -842,95 +233,16 @@ a { color: inherit; }
           </div>
         </button>
 
-        <div class="station-card">
-          <div>
-            <div class="station-icon">ð</div>
-            <div class="station-title">SEO + AEO</div>
-            <div class="station-desc">Keywords, city pages, FAQ blocks, and answer engine content.</div>
-            <div class="station-tag soon">Coming soon</div>
-          </div>
-        </div>
-
-        <div class="station-card">
-          <div>
-            <div class="station-icon">ð</div>
-            <div class="station-title">Phone Agent</div>
-            <div class="station-desc">AI phone workflows, call summaries, and transfer logic.</div>
-            <div class="station-tag soon">Coming soon</div>
-          </div>
-        </div>
-
-        <div class="station-card">
-          <div>
-            <div class="station-icon">ð</div>
-            <div class="station-title">Proposals</div>
-            <div class="station-desc">Build send ready proposals from notes and sales context.</div>
-            <div class="station-tag soon">Coming soon</div>
-          </div>
-        </div>
-
-        <div class="station-card">
-          <div>
-            <div class="station-icon">ðï¸</div>
-            <div class="station-title">Contracts</div>
-            <div class="station-desc">Templates, signatures, and agreement tracking.</div>
-            <div class="station-tag soon">Coming soon</div>
-          </div>
-        </div>
-
-        <div class="station-card">
-          <div>
-            <div class="station-icon">ðµ</div>
-            <div class="station-title">Invoicing</div>
-            <div class="station-desc">Invoice creation, reminders, and payment visibility.</div>
-            <div class="station-tag soon">Coming soon</div>
-          </div>
-        </div>
-
-        <div class="station-card">
-          <div>
-            <div class="station-icon">ð¬</div>
-            <div class="station-title">Follow Up SMS</div>
-            <div class="station-desc">Sequences and light touch follow up by deal stage.</div>
-            <div class="station-tag soon">Coming soon</div>
-          </div>
-        </div>
-
-        <div class="station-card">
-          <div>
-            <div class="station-icon">ð±</div>
-            <div class="station-title">Social Media</div>
-            <div class="station-desc">Draft, approve, and schedule social content.</div>
-            <div class="station-tag soon">Coming soon</div>
-          </div>
-        </div>
-
-        <div class="station-card">
-          <div>
-            <div class="station-icon">ð£</div>
-            <div class="station-title">Ad Campaigns</div>
-            <div class="station-desc">Offer strategy, targeting, creative, and launch planning.</div>
-            <div class="station-tag soon">Coming soon</div>
-          </div>
-        </div>
-
-        <div class="station-card">
-          <div>
-            <div class="station-icon">âï¸</div>
-            <div class="station-title">Email Newsletter</div>
-            <div class="station-desc">Topic to draft to scheduled send flow.</div>
-            <div class="station-tag soon">Coming soon</div>
-          </div>
-        </div>
-
-        <div class="station-card">
-          <div>
-            <div class="station-icon">ð</div>
-            <div class="station-title">Dashboard</div>
-            <div class="station-desc">Cross station command center and activity rollup.</div>
-            <div class="station-tag soon">Coming soon</div>
-          </div>
-        </div>
+        <div class="station-card"><div><div class="station-icon">ð</div><div class="station-title">SEO + AEO</div><div class="station-desc">Keywords, city pages, FAQ blocks, and answer engine content.</div><div class="station-tag soon">Coming soon</div></div></div>
+        <div class="station-card"><div><div class="station-icon">ð</div><div class="station-title">Phone Agent</div><div class="station-desc">AI phone workflows, call summaries, and transfer logic.</div><div class="station-tag soon">Coming soon</div></div></div>
+        <div class="station-card"><div><div class="station-icon">ð</div><div class="station-title">Proposals</div><div class="station-desc">Build send ready proposals from notes and sales context.</div><div class="station-tag soon">Coming soon</div></div></div>
+        <div class="station-card"><div><div class="station-icon">ðï¸</div><div class="station-title">Contracts</div><div class="station-desc">Templates, signatures, and agreement tracking.</div><div class="station-tag soon">Coming soon</div></div></div>
+        <div class="station-card"><div><div class="station-icon">ðµ</div><div class="station-title">Invoicing</div><div class="station-desc">Invoice creation, reminders, and payment visibility.</div><div class="station-tag soon">Coming soon</div></div></div>
+        <div class="station-card"><div><div class="station-icon">ð¬</div><div class="station-title">Follow Up SMS</div><div class="station-desc">Sequences and light touch follow up by deal stage.</div><div class="station-tag soon">Coming soon</div></div></div>
+        <div class="station-card"><div><div class="station-icon">ð±</div><div class="station-title">Social Media</div><div class="station-desc">Draft, approve, and schedule social content.</div><div class="station-tag soon">Coming soon</div></div></div>
+        <div class="station-card"><div><div class="station-icon">ð£</div><div class="station-title">Ad Campaigns</div><div class="station-desc">Offer strategy, targeting, creative, and launch planning.</div><div class="station-tag soon">Coming soon</div></div></div>
+        <div class="station-card"><div><div class="station-icon">âï¸</div><div class="station-title">Email Newsletter</div><div class="station-desc">Topic to draft to scheduled send flow.</div><div class="station-tag soon">Coming soon</div></div></div>
+        <div class="station-card"><div><div class="station-icon">ð</div><div class="station-title">Dashboard</div><div class="station-desc">Cross station command center and activity rollup.</div><div class="station-tag soon">Coming soon</div></div></div>
       </div>
     </div>
 
@@ -945,21 +257,15 @@ a { color: inherit; }
 
       <div class="section-wrap">
         <div class="section-head">
-          <div>
-            <div class="section-title">Find Leads</div>
-            <div class="section-sub">Search, review, edit, and import enriched leads.</div>
-          </div>
+          <div><div class="section-title">Find Leads</div><div class="section-sub">Search, review, edit, and import enriched leads.</div></div>
         </div>
-
         <div class="row2">
           <div><label class="flabel">Business Type</label><input class="inp" id="searchType" value="HVAC"></div>
           <div><label class="flabel">City</label><input class="inp" id="searchCity" value="Palm Desert CA"></div>
           <div><label class="flabel">Min Rating</label><select class="sel" id="searchRating"><option value="">Any</option><option value="4" selected>4.0+</option><option value="4.5">4.5+</option></select></div>
           <div><label class="flabel">Max Results</label><select class="sel" id="searchLimit"><option value="10">10</option><option value="20" selected>20</option><option value="30">30</option><option value="40">40</option></select></div>
         </div>
-        <div class="row2">
-          <div><label class="flabel">Custom Cities Optional</label><input class="inp" id="searchCenters" placeholder="Palm Springs CA, La Quinta CA"></div>
-        </div>
+        <div class="row2"><div><label class="flabel">Custom Cities Optional</label><input class="inp" id="searchCenters" placeholder="Palm Springs CA, La Quinta CA"></div></div>
         <button class="btn-main" id="searchBtn" onclick="runSearch()">Search for Leads</button>
       </div>
 
@@ -997,15 +303,10 @@ a { color: inherit; }
 
       <div class="section-wrap">
         <div class="section-head">
-          <div>
-            <div class="section-title">Smart CRM</div>
-            <div class="section-sub">Imported leads, statuses, notes, and contact management.</div>
-          </div>
+          <div><div class="section-title">Smart CRM</div><div class="section-sub">Imported leads, statuses, notes, contact notes, and follow up tasks.</div></div>
         </div>
-
         <div class="row2">
-          <div>
-            <label class="flabel">Filter by Status</label>
+          <div><label class="flabel">Filter by Status</label>
             <select class="sel" id="crmStatusFilter" onchange="renderCrm()">
               <option value="">All</option>
               <option value="new">New</option>
@@ -1022,10 +323,7 @@ a { color: inherit; }
               <option value="closed_lost">Closed Lost</option>
             </select>
           </div>
-          <div>
-            <label class="flabel">Search CRM</label>
-            <input class="inp" id="crmSearch" placeholder="Business, contact, email, phone" oninput="renderCrm()">
-          </div>
+          <div><label class="flabel">Search CRM</label><input class="inp" id="crmSearch" placeholder="Business, contact, email, phone" oninput="renderCrm()"></div>
         </div>
       </div>
 
@@ -1035,153 +333,56 @@ a { color: inherit; }
   </div>
 </div>
 
-<div class="modal-backdrop" id="editModalWrap">
-  <div class="modal">
-    <h3 id="editTitle">Edit Lead</h3>
-    <div class="modal-sub">Fix anything before import.</div>
-    <div class="row2">
-      <div><label class="flabel">Business Name</label><input class="edit-input" id="edit_name"></div>
-      <div><label class="flabel">Industry</label><input class="edit-input" id="edit_industry"></div>
-    </div>
-    <div class="row2">
-      <div><label class="flabel">Address</label><input class="edit-input" id="edit_address"></div>
-      <div><label class="flabel">Business Phone</label><input class="edit-input" id="edit_phone"></div>
-    </div>
-    <div class="row2">
-      <div><label class="flabel">Website</label><input class="edit-input" id="edit_website"></div>
-      <div><label class="flabel">Company Email</label><input class="edit-input" id="edit_companyEmail"></div>
-    </div>
-    <div class="row2">
-      <div><label class="flabel">Primary Contact Name</label><input class="edit-input" id="edit_primaryContactName"></div>
-      <div><label class="flabel">Primary Contact Title</label><input class="edit-input" id="edit_primaryContactTitle"></div>
-    </div>
-    <div class="row2">
-      <div><label class="flabel">Primary Contact Email</label><input class="edit-input" id="edit_primaryContactEmail"></div>
-      <div><label class="flabel">Primary Contact Phone</label><input class="edit-input" id="edit_primaryContactPhone"></div>
-    </div>
-    <div class="row2">
-      <div><label class="flabel">Employees</label><input class="edit-input" id="edit_employees"></div>
-      <div><label class="flabel">Revenue</label><input class="edit-input" id="edit_revenue"></div>
-    </div>
-    <div class="action-row">
-      <button class="bsm" onclick="closeModal('editModalWrap')">Cancel</button>
-      <button class="bsm ok" onclick="saveEdit(false)">Save Changes</button>
-      <button class="bsm ora" onclick="saveEdit(true)">Import</button>
-    </div>
-  </div>
-</div>
+<div class="modal-backdrop" id="editModalWrap"><div class="modal"><h3 id="editTitle">Edit Lead</h3><div class="modal-sub">Fix anything before import.</div>
+<div class="row2"><div><label class="flabel">Business Name</label><input class="edit-input" id="edit_name"></div><div><label class="flabel">Industry</label><input class="edit-input" id="edit_industry"></div></div>
+<div class="row2"><div><label class="flabel">Address</label><input class="edit-input" id="edit_address"></div><div><label class="flabel">Business Phone</label><input class="edit-input" id="edit_phone"></div></div>
+<div class="row2"><div><label class="flabel">Website</label><input class="edit-input" id="edit_website"></div><div><label class="flabel">Company Email</label><input class="edit-input" id="edit_companyEmail"></div></div>
+<div class="row2"><div><label class="flabel">Primary Contact Name</label><input class="edit-input" id="edit_primaryContactName"></div><div><label class="flabel">Primary Contact Title</label><input class="edit-input" id="edit_primaryContactTitle"></div></div>
+<div class="row2"><div><label class="flabel">Primary Contact Email</label><input class="edit-input" id="edit_primaryContactEmail"></div><div><label class="flabel">Primary Contact Phone</label><input class="edit-input" id="edit_primaryContactPhone"></div></div>
+<div class="row2"><div><label class="flabel">Employees</label><input class="edit-input" id="edit_employees"></div><div><label class="flabel">Revenue</label><input class="edit-input" id="edit_revenue"></div></div>
+<div class="action-row"><button class="bsm" onclick="closeModal('editModalWrap')">Cancel</button><button class="bsm ok" onclick="saveEdit(false)">Save Changes</button><button class="bsm ora" onclick="saveEdit(true)">Import</button></div>
+</div></div>
 
-<div class="modal-backdrop" id="contactsModalWrap">
-  <div class="modal">
-    <h3 id="contactsTitle">Contacts</h3>
-    <div class="modal-sub">Public contacts found for this company.</div>
-    <div class="contacts-list" id="contactsList"></div>
-    <div class="action-row"><button class="bsm" onclick="closeModal('contactsModalWrap')">Close</button></div>
-  </div>
-</div>
+<div class="modal-backdrop" id="contactsModalWrap"><div class="modal"><h3 id="contactsTitle">Contacts</h3><div class="modal-sub">Contact notes and contact tasks live here.</div><div class="contacts-list" id="contactsList"></div><div class="action-row"><button class="bsm" onclick="closeModal('contactsModalWrap')">Close</button></div></div></div>
+<div class="modal-backdrop" id="searchHistoryModalWrap"><div class="modal"><h3>Search History</h3><div class="modal-sub">Searches run in the last year.</div><div class="search-history-list" id="searchHistoryList"></div><div class="action-row"><button class="bsm" onclick="closeModal('searchHistoryModalWrap')">Close</button></div></div></div>
+<div class="modal-backdrop" id="duplicateModalWrap"><div class="modal"><h3>Possible Duplicate Found</h3><div class="modal-sub">Review the existing CRM record and decide what to do.</div><div class="divider-title">Existing CRM Record</div><div id="duplicateExisting"></div><div class="divider-title">Incoming Lead</div><div id="duplicateIncoming"></div><div class="action-row"><button class="bsm" onclick="closeModal('duplicateModalWrap')">Cancel</button><button class="bsm ok" onclick="resolveDuplicate('update')">Update Existing</button><button class="bsm ora" onclick="resolveDuplicate('import_anyway')">Import Anyway</button></div></div></div>
 
-<div class="modal-backdrop" id="searchHistoryModalWrap">
-  <div class="modal">
-    <h3>Search History</h3>
-    <div class="modal-sub">Searches run in the last year.</div>
-    <div class="search-history-list" id="searchHistoryList"></div>
-    <div class="action-row"><button class="bsm" onclick="closeModal('searchHistoryModalWrap')">Close</button></div>
-  </div>
-</div>
+<div class="modal-backdrop" id="crmRecordModalWrap"><div class="modal"><h3 id="crmRecordTitle">CRM Record</h3><div class="modal-sub">Update status, notes, follow up, and deal details.</div>
+<div class="row2"><div><label class="flabel">Status</label><select class="crm-select" id="crmRecordStatus"><option value="new">New</option><option value="emailed">Emailed</option><option value="called_or_texted">Called or Texted</option><option value="need_new_contact_info">Need New Contact Info</option><option value="replied">Replied</option><option value="interested">Interested</option><option value="follow_up_needed">Follow Up Needed</option><option value="meeting_booked">Meeting Booked</option><option value="proposal_sent">Proposal Sent</option><option value="negotiating">Negotiating</option><option value="closed_won">Closed Won</option><option value="closed_lost">Closed Lost</option></select></div><div><label class="flabel">Next Follow Up</label><input class="edit-input" id="crmRecordFollowUp" type="date"></div></div>
+<div class="row2"><div><label class="flabel">Priority</label><select class="crm-select" id="crmRecordPriority"><option value="">None</option><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select></div><div><label class="flabel">Estimated Deal Size</label><input class="edit-input" id="crmRecordDealSize" placeholder="$5,000"></div></div>
+<div class="row2"><div><label class="flabel">Service Interest</label><input class="edit-input" id="crmRecordServiceInterest" placeholder="AI phone agent, lead gen, automation"></div><div><label class="flabel">Lead Owner</label><input class="edit-input" id="crmRecordOwner" placeholder="Dave, Celine"></div></div>
+<div><label class="flabel">Notes</label><textarea class="crm-textarea" id="crmRecordNotes"></textarea></div>
+<div class="divider-title">History</div><div class="history-list" id="crmHistoryList"></div>
+<div class="action-row" style="margin-top:12px;"><button class="bsm" onclick="closeModal('crmRecordModalWrap')">Close</button><button class="bsm ok" onclick="saveCrmRecordModal()">Save CRM Record</button><button class="bsm" onclick="openContactsFromCrm()">View Contacts</button></div>
+</div></div>
 
-<div class="modal-backdrop" id="duplicateModalWrap">
-  <div class="modal">
-    <h3>Possible Duplicate Found</h3>
-    <div class="modal-sub">Review the existing CRM record and decide what to do.</div>
-    <div class="divider-title">Existing CRM Record</div>
-    <div id="duplicateExisting"></div>
-    <div class="divider-title">Incoming Lead</div>
-    <div id="duplicateIncoming"></div>
-    <div class="action-row">
-      <button class="bsm" onclick="closeModal('duplicateModalWrap')">Cancel</button>
-      <button class="bsm ok" onclick="resolveDuplicate('update')">Update Existing</button>
-      <button class="bsm ora" onclick="resolveDuplicate('import_anyway')">Import Anyway</button>
-    </div>
-  </div>
-</div>
+<div class="modal-backdrop" id="composeModalWrap"><div class="modal"><h3>Compose Email</h3><div class="modal-sub">Draft inside the app. You can copy it or send it later from Gmail integration.</div>
+<div class="row2"><div><label class="flabel">To</label><input class="edit-input" id="composeTo"></div><div><label class="flabel">Subject</label><input class="edit-input" id="composeSubject"></div></div>
+<div><label class="flabel">Message</label><textarea class="crm-textarea" id="composeBody"></textarea></div>
+<div class="action-row" style="margin-top:12px;"><button class="bsm" onclick="closeModal('composeModalWrap')">Close</button><button class="bsm ok" onclick="copyComposeDraft()">Copy Draft</button></div>
+</div></div>
 
-<div class="modal-backdrop" id="crmRecordModalWrap">
-  <div class="modal">
-    <h3 id="crmRecordTitle">CRM Record</h3>
-    <div class="modal-sub">Update status, notes, and follow up details.</div>
+<div class="modal-backdrop" id="phoneModalWrap"><div class="modal"><h3>Phone Actions</h3><div class="modal-sub" id="phoneModalSub">Choose what you want to do with this number.</div><div class="action-row" style="margin-top:8px;"><a class="bsm ok" id="phoneCallLink" href="#">Call</a><a class="bsm ora" id="phoneTextLink" href="#">Text</a><button class="bsm" onclick="copyPhoneNumber()">Copy Number</button><button class="bsm" onclick="closeModal('phoneModalWrap')">Close</button></div></div></div>
 
-    <div class="row2">
-      <div>
-        <label class="flabel">Status</label>
-        <select class="crm-select" id="crmRecordStatus">
-          <option value="new">New</option>
-          <option value="emailed">Emailed</option>
-          <option value="called_or_texted">Called or Texted</option>
-          <option value="need_new_contact_info">Need New Contact Info</option>
-          <option value="replied">Replied</option>
-          <option value="interested">Interested</option>
-          <option value="follow_up_needed">Follow Up Needed</option>
-          <option value="meeting_booked">Meeting Booked</option>
-          <option value="proposal_sent">Proposal Sent</option>
-          <option value="negotiating">Negotiating</option>
-          <option value="closed_won">Closed Won</option>
-          <option value="closed_lost">Closed Lost</option>
-        </select>
-      </div>
-      <div>
-        <label class="flabel">Next Follow Up</label>
-        <input class="edit-input" id="crmRecordFollowUp" type="date">
-      </div>
-    </div>
+<div class="modal-backdrop" id="promptModalWrap"><div class="modal"><h3>AI Research Prompt</h3><div class="modal-sub">Copy this prompt into ChatGPT or another AI tool and paste the result back into CRM.</div>
+<div><label class="flabel">Prompt</label><textarea class="crm-textarea" id="promptBuilderText"></textarea></div>
+<div class="action-row" style="margin-top:12px;"><button class="bsm" onclick="closeModal('promptModalWrap')">Close</button><button class="bsm ok" onclick="copyPromptText()">Copy Prompt</button></div>
+</div></div>
 
-    <div class="row2">
-      <div>
-        <label class="flabel">Priority</label>
-        <select class="crm-select" id="crmRecordPriority">
-          <option value="">None</option>
-          <option value="high">High</option>
-          <option value="medium">Medium</option>
-          <option value="low">Low</option>
-        </select>
-      </div>
-      <div>
-        <label class="flabel">Estimated Deal Size</label>
-        <input class="edit-input" id="crmRecordDealSize" placeholder="$5,000">
-      </div>
-    </div>
+<div class="modal-backdrop" id="taskModalWrap"><div class="modal"><h3>Create Task</h3><div class="modal-sub" id="taskModalSub">Create a follow up task attached to this contact.</div>
+<div class="row2"><div><label class="flabel">Task Title</label><input class="edit-input" id="taskTitle"></div><div><label class="flabel">Task Type</label><select class="crm-select" id="taskType"><option value="follow_up">Follow Up</option><option value="call">Call</option><option value="text">Text</option><option value="email">Email</option><option value="research">Research</option><option value="meeting_prep">Meeting Prep</option><option value="custom">Custom</option></select></div></div>
+<div class="row2"><div><label class="flabel">Due Date</label><input class="edit-input" id="taskDueDate" type="date"></div><div><label class="flabel">Due Time</label><input class="edit-input" id="taskDueTime" type="time"></div></div>
+<div class="row2"><div><label class="flabel">Owner</label><input class="edit-input" id="taskOwner" placeholder="Dave, Celine"></div><div><label class="flabel">Priority</label><select class="crm-select" id="taskPriority"><option value="">None</option><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select></div></div>
+<div><label class="flabel">Notes</label><textarea class="crm-textarea" id="taskNotes"></textarea></div>
+<div class="action-row" style="margin-top:12px;"><button class="bsm" onclick="closeModal('taskModalWrap')">Close</button><button class="bsm ok" onclick="saveContactTask()">Create Task</button></div>
+</div></div>
 
-    <div class="row2">
-      <div>
-        <label class="flabel">Service Interest</label>
-        <input class="edit-input" id="crmRecordServiceInterest" placeholder="AI phone agent, lead gen, automation">
-      </div>
-      <div>
-        <label class="flabel">Lead Owner</label>
-        <input class="edit-input" id="crmRecordOwner" placeholder="Dave, Celine">
-      </div>
-    </div>
-
-    <div>
-      <label class="flabel">Notes</label>
-      <textarea class="crm-textarea" id="crmRecordNotes"></textarea>
-    </div>
-
-    <div class="divider-title">History</div>
-    <div class="history-list" id="crmHistoryList"></div>
-
-    <div class="action-row" style="margin-top:12px;">
-      <button class="bsm" onclick="closeModal('crmRecordModalWrap')">Close</button>
-      <button class="bsm ok" onclick="saveCrmRecordModal()">Save CRM Record</button>
-      <button class="bsm" onclick="openContactsFromCrm()">View Contacts</button>
-    </div>
-  </div>
-</div>
+<div class="toast-wrap" id="toastWrap"></div>
 
 <script>
 const API = 'https://project-creator-BACON8R2026.replit.app';
-const CRM_KEY = 'bai_crm_records_v3';
-const SEARCH_HISTORY_KEY = 'bai_search_history_v3';
-
+const CRM_KEY = 'bai_crm_records_v4_fix';
+const SEARCH_HISTORY_KEY = 'bai_search_history_v4_fix';
 let currentView = 'home';
 let leads = [];
 let crmRecords = [];
@@ -1196,71 +397,30 @@ let currentPhoneValue = '';
 let taskContext = null;
 
 function esc(s){ return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function $(id){ return document.getElementById(id); }
 function compact(v){ return String(v || '').trim(); }
-function isEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(v || '').trim()); }
-function isPhoneLike(v){ return String(v || '').replace(/\D/g,'').length >= 10; }
 function digitsOnly(v){ return String(v || '').replace(/\D/g,''); }
+function isEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(v || '').trim()); }
+function isPhoneLike(v){ return digitsOnly(v).length >= 10; }
+function $(id){ return document.getElementById(id); }
 function nowIso(){ return new Date().toISOString(); }
-function fmtDateTime(iso){
-  try {
-    const d = new Date(iso);
-    return d.toLocaleString([], { month:'short', day:'numeric', year:'numeric', hour:'numeric', minute:'2-digit' });
-  } catch {
-    return iso || '';
-  }
-}
-function normalizeName(name){
-  return String(name || '')
-    .toLowerCase()
-    .replace(/\b(inc|llc|l\.l\.c|corp|corporation|co|company|pc|p\.c|professional corporation|law firm|group)\b/g, '')
-    .replace(/[^a-z0-9]/g, '')
-    .trim();
-}
-function genId(){
-  return 'crm_' + Math.random().toString(36).slice(2) + Date.now().toString(36);
-}
-function closeModal(id){ $(id).classList.remove('open'); }
-function openModal(id){ $(id).classList.add('open'); }
-function showToast(title, body){
-  const wrap = $('toastWrap');
-  const item = document.createElement('div');
-  item.className = 'toast';
-  item.innerHTML = `<div class="toast-title">${esc(title)}</div><div class="toast-body">${esc(body)}</div>`;
-  wrap.appendChild(item);
-  setTimeout(() => item.remove(), 2800);
-}
-function copyText(text, successTitle, successBody){
-  const value = String(text || '');
-  if (!value) return;
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(value).then(() => showToast(successTitle, successBody)).catch(() => fallbackCopy(value, successTitle, successBody));
-  } else {
-    fallbackCopy(value, successTitle, successBody);
-  }
-}
-function fallbackCopy(value, successTitle, successBody){
-  const ta = document.createElement('textarea');
-  ta.value = value;
-  document.body.appendChild(ta);
-  ta.select();
-  try { document.execCommand('copy'); } catch {}
-  ta.remove();
-  showToast(successTitle, successBody);
-}
+function fmtDateTime(iso){ try { return new Date(iso).toLocaleString([], { month:'short', day:'numeric', year:'numeric', hour:'numeric', minute:'2-digit' }); } catch { return iso || ''; } }
+function normalizeName(name){ return String(name || '').toLowerCase().replace(/\b(inc|llc|corp|corporation|co|company|pc|group|law firm)\b/g,'').replace(/[^a-z0-9]/g,'').trim(); }
+function genId(){ return 'crm_' + Math.random().toString(36).slice(2) + Date.now().toString(36); }
+function openModal(id){ const el = $(id); if (el) el.classList.add('open'); }
+function closeModal(id){ const el = $(id); if (el) el.classList.remove('open'); }
+function fallbackCopy(value){ const ta = document.createElement('textarea'); ta.value = value; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); } catch {} ta.remove(); }
+function copyText(value, title, body){ const v = String(value || ''); if (!v) return; if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(v).then(() => showToast(title, body)).catch(() => { fallbackCopy(v); showToast(title, body); }); } else { fallbackCopy(v); showToast(title, body); } }
+function showToast(title, body){ const wrap = $('toastWrap'); const item = document.createElement('div'); item.className = 'toast'; item.innerHTML = '<div class="toast-title">' + esc(title) + '</div><div class="toast-body">' + esc(body) + '</div>'; wrap.appendChild(item); setTimeout(() => item.remove(), 2800); }
 
 function loadState(){
   try { crmRecords = JSON.parse(localStorage.getItem(CRM_KEY) || '[]'); } catch { crmRecords = []; }
   try { searchHistory = JSON.parse(localStorage.getItem(SEARCH_HISTORY_KEY) || '[]'); } catch { searchHistory = []; }
-  crmRecords = Array.isArray(crmRecords) ? crmRecords : [];
-  searchHistory = Array.isArray(searchHistory) ? searchHistory : [];
+  if (!Array.isArray(crmRecords)) crmRecords = [];
+  if (!Array.isArray(searchHistory)) searchHistory = [];
   crmRecords.forEach(r => {
     if (!Array.isArray(r.contacts)) r.contacts = [];
-    r.contacts.forEach(c => {
-      if (!Array.isArray(c.tasks)) c.tasks = [];
-      if (typeof c.notes !== 'string') c.notes = '';
-    });
     if (!Array.isArray(r.history)) r.history = [];
+    r.contacts.forEach(c => { if (typeof c.notes !== 'string') c.notes = ''; if (!Array.isArray(c.tasks)) c.tasks = []; });
   });
 }
 function saveCrm(){ localStorage.setItem(CRM_KEY, JSON.stringify(crmRecords)); }
@@ -1271,21 +431,14 @@ function showView(view){
   $('viewHome').classList.toggle('hidden', view !== 'home');
   $('viewLeads').classList.toggle('hidden', view !== 'leads');
   $('viewCrm').classList.toggle('hidden', view !== 'crm');
-
   $('topHome').classList.toggle('active', view === 'home');
   $('topLeads').classList.toggle('active', view === 'leads');
   $('topCrm').classList.toggle('active', view === 'crm');
-
   if (view === 'crm') renderCrm();
 }
-function enterStation(station){ showView(station); }
+function enterStation(name){ showView(name); }
 
-function setProgress(pct, stage, sub){
-  $('progressPct').textContent = pct + '%';
-  $('progressStage').textContent = stage;
-  $('progressSub').textContent = sub;
-  $('progressFill').style.width = pct + '%';
-}
+function setProgress(pct, stage, sub){ $('progressPct').textContent = pct + '%'; $('progressStage').textContent = stage; $('progressSub').textContent = sub; $('progressFill').style.width = pct + '%'; }
 function startProgress(){
   $('errorBar').style.display = 'none';
   $('progressWrap').style.display = 'block';
@@ -1294,7 +447,7 @@ function startProgress(){
     { pct: 30, stage: 'Searching Google Places', sub: 'Loading fast business records first' },
     { pct: 56, stage: 'Filling missing fields', sub: 'AI is checking for missing website, email, and contacts' },
     { pct: 82, stage: 'Generating cards', sub: 'Building the lead cards for review' },
-    { pct: 96, stage: 'Finalizing', sub: 'Waiting for final enriched records' },
+    { pct: 96, stage: 'Finalizing', sub: 'Waiting for final enriched records' }
   ];
   let i = 0;
   setProgress(steps[0].pct, steps[0].stage, steps[0].sub);
@@ -1305,15 +458,7 @@ function startProgress(){
     if (i === steps.length - 1) clearInterval(progressTimer);
   }, 1200);
 }
-function finishProgress(ok){
-  clearInterval(progressTimer);
-  if (ok) {
-    setProgress(100, 'Complete', 'Lead search finished');
-    setTimeout(() => { $('progressWrap').style.display = 'none'; }, 800);
-  } else {
-    setProgress(100, 'Failed', 'Lead search stopped before completion');
-  }
-}
+function finishProgress(ok){ clearInterval(progressTimer); if (ok) { setProgress(100, 'Complete', 'Lead search finished'); setTimeout(() => $('progressWrap').style.display = 'none', 800); } else { setProgress(100, 'Failed', 'Lead search stopped before completion'); } }
 
 function normalizeLead(item){
   return {
@@ -1327,10 +472,7 @@ function normalizeLead(item){
     website: compact(item.website),
     domain: compact(item.domain),
     rating: item.rating || null,
-    reviews: item.reviews || '',
-    type: compact(item.type),
-    source: compact(item.source || 'google'),
-    contacts: Array.isArray(item.contacts) ? item.contacts.filter(c => c && (c.name || c.title || c.email || c.phone)) : [],
+    contacts: Array.isArray(item.contacts) ? item.contacts.map(c => ({ name: compact(c.name), title: compact(c.title), email: compact(c.email), phone: compact(c.phone), notes: '', tasks: [] })).filter(c => c.name || c.title || c.email || c.phone) : [],
     primaryContactName: compact(item.primaryContactName),
     primaryContactTitle: compact(item.primaryContactTitle),
     primaryContactEmail: isEmail(item.primaryContactEmail) ? compact(item.primaryContactEmail) : '',
@@ -1340,15 +482,11 @@ function normalizeLead(item){
     revenue: compact(item.revenue),
     industry: compact(item.industry),
     enrichmentSource: compact(item.enrichmentSource),
-    enrichmentStatus: compact(item.enrichmentStatus),
-    confidence: compact(item.confidence),
-    sourceNote: compact(item.sourceNote),
-    handledState: '',
+    handledState: ''
   };
 }
-
 function markLeadHandledStates(){
-  for (const lead of leads) {
+  leads.forEach(lead => {
     lead.handledState = '';
     const existing = crmRecords.find(r =>
       (lead.placeId && r.placeId && lead.placeId === r.placeId) ||
@@ -1357,79 +495,44 @@ function markLeadHandledStates(){
       (normalizeName(lead.name) && normalizeName(r.businessName) && normalizeName(lead.name) === normalizeName(r.businessName) && compact(lead.city).toLowerCase() === compact(r.city).toLowerCase())
     );
     if (existing) lead.handledState = existing.status === 'closed_lost' ? 'declined' : 'in_crm';
-  }
-}
-
-function toggleHandledResults(){
-  handledFilterHidden = !handledFilterHidden;
-  $('handledToggleLabel').textContent = handledFilterHidden ? 'Hide imported and declined' : 'Show imported and declined';
-  renderLeads();
+  });
 }
 function visibleLeads(){ return handledFilterHidden ? leads.filter(l => !l.handledState) : leads.slice(); }
+function toggleHandledResults(){ handledFilterHidden = !handledFilterHidden; $('handledToggleLabel').textContent = handledFilterHidden ? 'Hide imported and declined' : 'Show imported and declined'; renderLeads(); }
 
 function summaryCounts(arr){
-  $('sumTotal').textContent = arr.length;
-  $('sumWebsite').textContent = arr.filter(x => !!x.website).length;
-  $('sumEmail').textContent = arr.filter(x => !!x.companyEmail).length;
-  $('sumContacts').textContent = arr.reduce((n, x) => n + x.contacts.length, 0);
-  $('sumAi').textContent = arr.filter(x => x.enrichmentSource === 'openai').length;
+  $('sumTotal').textContent = String(arr.length);
+  $('sumWebsite').textContent = String(arr.filter(x => !!x.website).length);
+  $('sumEmail').textContent = String(arr.filter(x => !!x.companyEmail).length);
+  $('sumContacts').textContent = String(arr.reduce((n, x) => n + x.contacts.length, 0));
+  $('sumAi').textContent = String(arr.filter(x => x.enrichmentSource === 'openai').length);
   $('summaryBar').style.display = 'flex';
 }
-
 function renderLeads(){
   const shown = visibleLeads();
   const grid = $('resultsGrid');
   grid.innerHTML = '';
-
-  shown.forEach((lead) => {
+  shown.forEach(lead => {
     const realIndex = leads.indexOf(lead);
-    const contactsLink = lead.contacts.length > 1 ? `<button class="bsm" onclick="openContacts(${realIndex}, false)">More Contacts (${lead.contacts.length})</button>` : '';
-    const handledBadge = lead.handledState === 'in_crm'
-      ? `<span class="badge ok">Already in CRM</span>`
-      : lead.handledState === 'declined'
-      ? `<span class="badge red">Previously Declined</span>`
-      : '';
-
+    const contactsLink = lead.contacts.length > 1 ? '<button class="bsm" onclick="openContactsFromLead(' + realIndex + ')">More Contacts (' + lead.contacts.length + ')</button>' : '';
+    const handledBadge = lead.handledState === 'in_crm' ? '<span class="badge ok">Already in CRM</span>' : lead.handledState === 'declined' ? '<span class="badge red">Previously Declined</span>' : '';
     const card = document.createElement('div');
     card.className = 'lead-card';
-    card.innerHTML = `
-      <div class="lead-head">
-        <div>
-          <div class="lead-title">${esc(lead.name)}</div>
-          <div class="lead-sub">${esc(lead.address || [lead.city, lead.state].filter(Boolean).join(', '))}</div>
-        </div>
-        <div class="badges">
-          ${lead.rating ? `<span class="badge">â ${esc(lead.rating)}</span>` : ''}
-          ${lead.enrichmentSource === 'openai' ? `<span class="badge ok">AI Enriched</span>` : `<span class="badge ora">Google Places</span>`}
-          ${handledBadge}
-        </div>
-      </div>
-      <div class="card-columns">
-        <div class="column-stack">
-          <div class="block"><div class="block-label">Industry</div><div class="block-value">${esc(lead.industry || 'Not found')}</div></div>
-          <div class="block"><div class="block-label">Website</div><div class="block-value">${lead.website ? `<a href="${esc(lead.website)}" target="_blank" style="color:#fb923c;text-decoration:none">${esc(lead.domain || lead.website)}</a>` : 'Not found'}</div></div>
-          <div class="block"><div class="block-label">Business Phone</div><div class="block-value">${esc(lead.phone || 'Not found')}</div></div>
-          <div class="block"><div class="block-label">Company Email</div><div class="block-value">${esc(lead.companyEmail || 'Not found')}</div></div>
-        </div>
-        <div class="column-stack">
-          <div class="block"><div class="block-label">Primary Contact</div><div class="block-value">${esc(lead.primaryContactName || 'Not found')}</div><div class="lead-sub">${esc(lead.primaryContactTitle || '')}</div></div>
-          <div class="block"><div class="block-label">Primary Contact Phone</div><div class="block-value">${esc(lead.primaryContactPhone || 'Not found')}</div></div>
-          <div class="block"><div class="block-label">Primary Contact Email</div><div class="block-value">${esc(lead.primaryContactEmail || 'Not found')}</div></div>
-        </div>
-      </div>
-      <div class="secondary-row">
-        <div class="secondary-pill"><div class="block-label">Employees</div><div class="block-value">${esc(lead.employees || 'Optional')}</div></div>
-        <div class="secondary-pill"><div class="block-label">Revenue</div><div class="block-value">${esc(lead.revenue || 'Optional')}</div></div>
-      </div>
-      <div class="action-row">
-        <button class="bsm" onclick="openEdit(${realIndex})">Edit</button>
-        <button class="bsm ok" onclick="importLead(${realIndex})">Import</button>
-        ${contactsLink}
-      </div>
-    `;
+    card.innerHTML = '<div class="lead-head"><div><div class="lead-title">' + esc(lead.name) + '</div><div class="lead-sub">' + esc(lead.address || [lead.city, lead.state].filter(Boolean).join(', ')) + '</div></div><div class="badges">' + (lead.rating ? '<span class="badge">â ' + esc(lead.rating) + '</span>' : '') + (lead.enrichmentSource === 'openai' ? '<span class="badge ok">AI Enriched</span>' : '<span class="badge ora">Google Places</span>') + handledBadge + '</div></div>' +
+      '<div class="card-columns"><div class="column-stack">' +
+      '<div class="block"><div class="block-label">Industry</div><div class="block-value">' + esc(lead.industry || 'Not found') + '</div></div>' +
+      '<div class="block"><div class="block-label">Website</div><div class="block-value">' + (lead.website ? '<a href="' + esc(lead.website) + '" target="_blank" style="color:#fb923c;text-decoration:none">' + esc(lead.domain || lead.website) + '</a>' : 'Not found') + '</div></div>' +
+      '<div class="block"><div class="block-label">Business Phone</div><div class="block-value">' + esc(lead.phone || 'Not found') + '</div></div>' +
+      '<div class="block"><div class="block-label">Company Email</div><div class="block-value">' + esc(lead.companyEmail || 'Not found') + '</div></div>' +
+      '</div><div class="column-stack">' +
+      '<div class="block"><div class="block-label">Primary Contact</div><div class="block-value">' + esc(lead.primaryContactName || 'Not found') + '</div><div class="lead-sub">' + esc(lead.primaryContactTitle || '') + '</div></div>' +
+      '<div class="block"><div class="block-label">Primary Contact Phone</div><div class="block-value">' + esc(lead.primaryContactPhone || 'Not found') + '</div></div>' +
+      '<div class="block"><div class="block-label">Primary Contact Email</div><div class="block-value">' + esc(lead.primaryContactEmail || 'Not found') + '</div></div>' +
+      '</div></div>' +
+      '<div class="secondary-row"><div class="secondary-pill"><div class="block-label">Employees</div><div class="block-value">' + esc(lead.employees || 'Optional') + '</div></div><div class="secondary-pill"><div class="block-label">Revenue</div><div class="block-value">' + esc(lead.revenue || 'Optional') + '</div></div></div>' +
+      '<div class="action-row"><button class="bsm" onclick="openEdit(' + realIndex + ')">Edit</button><button class="bsm ok" onclick="importLead(' + realIndex + ')">Import</button>' + contactsLink + '</div>';
     grid.appendChild(card);
   });
-
   summaryCounts(shown);
   updateDashboardSummary();
 }
@@ -1437,84 +540,25 @@ function renderLeads(){
 function openEdit(index){
   activeEditIndex = index;
   const lead = leads[index];
-  [
-    'name','industry','address','phone','website','companyEmail',
-    'primaryContactName','primaryContactTitle','primaryContactEmail',
-    'primaryContactPhone','employees','revenue'
-  ].forEach(key => { $('edit_' + key).value = lead[key] || ''; });
-  $('editTitle').textContent = 'Edit Lead: ' + lead.name;
+  ['name','industry','address','phone','website','companyEmail','primaryContactName','primaryContactTitle','primaryContactEmail','primaryContactPhone','employees','revenue'].forEach(key => { $('edit_' + key).value = lead[key] || ''; });
   openModal('editModalWrap');
 }
 function saveEdit(importAfter){
   if (activeEditIndex < 0) return;
   const lead = leads[activeEditIndex];
-  [
-    'name','industry','address','phone','website','companyEmail',
-    'primaryContactName','primaryContactTitle','primaryContactEmail',
-    'primaryContactPhone','employees','revenue'
-  ].forEach(key => { lead[key] = compact($('edit_' + key).value); });
+  ['name','industry','address','phone','website','companyEmail','primaryContactName','primaryContactTitle','primaryContactEmail','primaryContactPhone','employees','revenue'].forEach(key => { lead[key] = compact($('edit_' + key).value); });
   closeModal('editModalWrap');
   renderLeads();
   if (importAfter) importLead(activeEditIndex);
 }
-
-function openContacts(indexOrId, fromCrm){
-  if (fromCrm) {
-    const record = crmRecords.find(r => r.crmId === indexOrId);
-    if (!record) return;
-    $('contactsTitle').textContent = 'Contacts';
-    $('contactsList').innerHTML = (record.contacts || []).map((c, idx) => `
-      <div class="contact-row">
-        <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;">
-          <div>
-            <div style="font-weight:700">${esc(c.name || 'Unnamed')}</div>
-            <div style="font-size:12px;color:#fb923c;margin-top:4px">${esc(c.title || '')}</div>
-          </div>
-          <div class="crm-actions">
-            ${c.email ? `<button class="bsm" onclick="openComposeByContact('${record.crmId}', ${idx})">Email</button>` : `<button class="bsm" onclick="openPromptBuilder('${record.crmId}','company_email')">Find Email</button>`}
-            ${c.phone ? `<button class="bsm" onclick="openPhoneModal('${esc(c.phone)}')">Phone</button>` : `<button class="bsm" onclick="openPromptBuilder('${record.crmId}','business_phone')">Find Phone</button>`}
-            <button class="bsm" onclick="setPrimaryContact('${record.crmId}', ${idx})">Set Primary</button>
-            <button class="bsm ok" onclick="openTaskModal('${record.crmId}', ${idx})">Create Task</button>
-          </div>
-        </div>
-        <div style="font-size:12px;color:#cdd6e6;margin-top:8px">${esc(c.email || '')}</div>
-        <div style="font-size:12px;color:#8fa3c0;margin-top:4px">${esc(c.phone || '')}</div>
-        <div style="margin-top:10px;">
-          <label class="flabel">Contact Notes</label>
-          <textarea class="crm-textarea" id="contactNotes_${record.crmId}_${idx}">${esc(c.notes || '')}</textarea>
-          <div class="action-row" style="margin-top:8px;">
-            <button class="bsm" onclick="saveContactNotes('${record.crmId}', ${idx})">Save Notes</button>
-          </div>
-        </div>
-        <div class="divider-title">Tasks</div>
-        <div class="tasks-list">
-          ${(c.tasks && c.tasks.length) ? c.tasks.map(t => `
-            <div class="task-row">
-              <div style="font-weight:700">${esc(t.title || '')}</div>
-              <div class="crm-mini">${esc((t.type || '').replace(/_/g,' '))} Â· ${esc(t.dueDate || '')} ${esc(t.dueTime || '')}</div>
-              <div class="crm-mini">${esc(t.notes || '')}</div>
-            </div>
-          `).join('') : '<div class="task-row">No tasks yet</div>'}
-        </div>
-      </div>
-    `).join('');
-  } else {
-    const lead = leads[indexOrId];
-    $('contactsTitle').textContent = 'Additional Contacts';
-    $('contactsList').innerHTML = lead.contacts.map(c => `
-      <div class="contact-row">
-        <div style="font-weight:700">${esc(c.name || 'Unnamed')}</div>
-        <div style="font-size:12px;color:#fb923c;margin-top:4px">${esc(c.title || '')}</div>
-        <div style="font-size:12px;color:#cdd6e6;margin-top:4px">${esc(c.email || '')}</div>
-        <div style="font-size:12px;color:#8fa3c0;margin-top:4px">${esc(c.phone || '')}</div>
-      </div>
-    `).join('');
-  }
+function openContactsFromLead(index){
+  const lead = leads[index];
+  $('contactsTitle').textContent = 'Contacts';
+  $('contactsList').innerHTML = lead.contacts.map(c => '<div class="contact-row"><div style="font-weight:700">' + esc(c.name || 'Unnamed') + '</div><div style="font-size:12px;color:#fb923c;margin-top:4px">' + esc(c.title || '') + '</div><div style="font-size:12px;color:#cdd6e6;margin-top:4px">' + esc(c.email || '') + '</div><div style="font-size:12px;color:#8fa3c0;margin-top:4px">' + esc(c.phone || '') + '</div></div>').join('');
   openModal('contactsModalWrap');
 }
 
 function crmHistoryEntry(kind, text){ return { at: nowIso(), kind, text }; }
-
 function buildCrmCandidate(lead){
   return {
     crmId: genId(),
@@ -1546,39 +590,23 @@ function buildCrmCandidate(lead){
     estimatedDealSize: '',
     serviceInterest: '',
     notes: '',
-    history: [crmHistoryEntry('imported', 'Imported from Find Leads')],
+    history: [crmHistoryEntry('imported', 'Imported from Find Leads')]
   };
 }
-
 function findDuplicate(candidate){
   for (const record of crmRecords) {
-    if (candidate.placeId && record.placeId && candidate.placeId === record.placeId) return { type: 'placeId', record };
-    if (candidate.domain && record.domain && candidate.domain === record.domain) return { type: 'domain', record };
-    if (digitsOnly(candidate.businessPhone) && digitsOnly(record.businessPhone) && digitsOnly(candidate.businessPhone) === digitsOnly(record.businessPhone)) return { type: 'phone', record };
-    if (
-      normalizeName(candidate.businessName) &&
-      normalizeName(record.businessName) &&
-      normalizeName(candidate.businessName) === normalizeName(record.businessName) &&
-      compact(candidate.city).toLowerCase() === compact(record.city).toLowerCase()
-    ) return { type: 'name_city', record };
+    if (candidate.placeId && record.placeId && candidate.placeId === record.placeId) return { record };
+    if (candidate.domain && record.domain && candidate.domain === record.domain) return { record };
+    if (digitsOnly(candidate.businessPhone) && digitsOnly(record.businessPhone) && digitsOnly(candidate.businessPhone) === digitsOnly(record.businessPhone)) return { record };
+    if (normalizeName(candidate.businessName) && normalizeName(record.businessName) && normalizeName(candidate.businessName) === normalizeName(record.businessName) && compact(candidate.city).toLowerCase() === compact(record.city).toLowerCase()) return { record };
   }
   return null;
 }
-function renderDuplicateCard(obj){
-  return `
-    <div class="dup-row">
-      <div style="font-weight:700">${esc(obj.businessName || obj.name || '')}</div>
-      <div style="font-size:12px;color:#8fa3c0;margin-top:4px">${esc(obj.address || '')}</div>
-      <div style="font-size:12px;color:#8fa3c0;margin-top:4px">${esc(obj.companyEmail || '')}</div>
-      <div style="font-size:12px;color:#8fa3c0;margin-top:4px">${esc(obj.businessPhone || obj.phone || '')}</div>
-    </div>
-  `;
-}
+function renderDuplicateCard(obj){ return '<div class="dup-row"><div style="font-weight:700">' + esc(obj.businessName || obj.name || '') + '</div><div style="font-size:12px;color:#8fa3c0;margin-top:4px">' + esc(obj.address || '') + '</div><div style="font-size:12px;color:#8fa3c0;margin-top:4px">' + esc(obj.companyEmail || '') + '</div><div style="font-size:12px;color:#8fa3c0;margin-top:4px">' + esc(obj.businessPhone || obj.phone || '') + '</div></div>'; }
 
 function importLead(index, forceNew = false){
   const lead = leads[index];
   const candidate = buildCrmCandidate(lead);
-
   if (!forceNew) {
     const dup = findDuplicate(candidate);
     if (dup) {
@@ -1589,7 +617,6 @@ function importLead(index, forceNew = false){
       return;
     }
   }
-
   crmRecords.unshift(candidate);
   saveCrm();
   markLeadHandledStates();
@@ -1600,33 +627,17 @@ function importLead(index, forceNew = false){
 }
 function resolveDuplicate(mode){
   if (!pendingDuplicate) return;
-  const { candidate, existing } = pendingDuplicate;
-
+  const candidate = pendingDuplicate.candidate;
+  const existing = pendingDuplicate.existing;
   if (mode === 'update') {
-    Object.assign(existing, {
-      businessName: candidate.businessName,
-      address: candidate.address,
-      city: candidate.city,
-      state: candidate.state,
-      domain: candidate.domain,
-      businessPhone: candidate.businessPhone,
-      website: candidate.website,
-      companyEmail: candidate.companyEmail,
-      industry: candidate.industry,
-      primaryContactName: candidate.primaryContactName,
-      primaryContactTitle: candidate.primaryContactTitle,
-      primaryContactEmail: candidate.primaryContactEmail,
-      primaryContactPhone: candidate.primaryContactPhone,
-      contacts: candidate.contacts,
-      employees: candidate.employees,
-      revenue: candidate.revenue,
-      updatedAt: nowIso(),
-    });
+    Object.assign(existing, candidate, { crmId: existing.crmId, history: existing.history });
+    existing.updatedAt = nowIso();
     existing.history.unshift(crmHistoryEntry('updated', 'Updated from duplicate import review'));
+    showToast('Success!', 'Updated existing CRM record.');
   } else {
     crmRecords.unshift(candidate);
+    showToast('Success!', 'Imported duplicate as a new CRM record.');
   }
-
   saveCrm();
   closeModal('duplicateModalWrap');
   pendingDuplicate = null;
@@ -1638,25 +649,23 @@ function resolveDuplicate(mode){
 
 function statusLabel(status){
   return {
-    new:'New',
-    emailed:'Emailed',
-    called_or_texted:'Called or Texted',
-    need_new_contact_info:'Need New Contact Info',
-    replied:'Replied',
-    interested:'Interested',
-    follow_up_needed:'Follow Up Needed',
-    meeting_booked:'Meeting Booked',
-    proposal_sent:'Proposal Sent',
-    negotiating:'Negotiating',
-    closed_won:'Closed Won',
-    closed_lost:'Closed Lost',
+    new:'New', emailed:'Emailed', called_or_texted:'Called or Texted', need_new_contact_info:'Need New Contact Info',
+    replied:'Replied', interested:'Interested', follow_up_needed:'Follow Up Needed', meeting_booked:'Meeting Booked',
+    proposal_sent:'Proposal Sent', negotiating:'Negotiating', closed_won:'Closed Won', closed_lost:'Closed Lost'
   }[status] || status;
 }
-
-function setCrmView(next){
-  crmView = next;
-  renderCrm();
+function renderWebsiteLink(url){ return url ? '<a href="' + esc(url) + '" target="_blank" class="link-btn">' + esc(url.replace(/^https?:\/\//,'').replace(/\/$/,'')) + '</a>' : ''; }
+function renderEmailAction(email, crmId, missingField){
+  return email ? '<button class="link-btn" onclick="openComposeByRecord(\'' + crmId + '\', \'' + encodeURIComponent(email) + '\')">' + esc(email) + '</button>' : '<button class="muted-btn" onclick="openPromptBuilder(\'' + crmId + '\', \'' + missingField + '\')">Not found</button>';
 }
+function renderPhoneAction(phone, crmId, missingField){
+  return phone ? '<button class="link-btn" onclick="openPhoneModal(\'' + encodeURIComponent(phone) + '\')">' + esc(phone) + '</button>' : '<button class="muted-btn" onclick="openPromptBuilder(\'' + crmId + '\', \'' + missingField + '\')">Not found</button>';
+}
+function renderContactNameAction(record){
+  return record.primaryContactName ? '<button class="link-btn" onclick="openCrmRecord(\'' + record.crmId + '\')">' + esc(record.primaryContactName) + '</button>' : '<button class="muted-btn" onclick="openPromptBuilder(\'' + record.crmId + '\', \'primary_contact_name\')">Not found</button>';
+}
+
+function setCrmView(next){ crmView = next; renderCrm(); }
 function filteredCrmRecords(){
   const status = $('crmStatusFilter').value;
   const q = compact($('crmSearch').value).toLowerCase();
@@ -1675,74 +684,34 @@ function renderCrm(){
   $('crmCardsWrap').classList.toggle('hidden', crmView !== 'cards');
 
   if (crmView === 'list') {
-    $('crmListWrap').innerHTML = `
-      <table class="crm-table">
-        <thead>
-          <tr>
-            <th>Business</th>
-            <th>Primary Contact</th>
-            <th>Company Email</th>
-            <th>Business Phone</th>
-            <th>Website</th>
-            <th>Industry</th>
-            <th>Status</th>
-            <th>Last Contact</th>
-            <th>Next Follow Up</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${records.map(r => `
-            <tr>
-              <td><button class="link-btn" onclick="openCrmRecord('${r.crmId}')">${esc(r.businessName)}</button><div class="crm-mini">${esc(r.address)}</div></td>
-              <td><div>${renderContactNameAction(r)}</div><div class="crm-mini">${esc(r.primaryContactTitle || '')}</div></td>
-              <td>${renderEmailAction(r.companyEmail, r.crmId, 'company_email')}</td>
-              <td>${renderPhoneAction(r.businessPhone, r.crmId, 'business_phone')}</td>
-              <td>${renderWebsiteLink(r.website) || `<button class="muted-btn" onclick="openPromptBuilder('${r.crmId}','website')">Not found</button>`}</td>
-              <td>${esc(r.industry || '')}</td>
-              <td>
-                <select class="crm-select" onchange="quickStatusUpdate('${r.crmId}', this.value)">
-                  ${['new','emailed','called_or_texted','need_new_contact_info','replied','interested','follow_up_needed','meeting_booked','proposal_sent','negotiating','closed_won','closed_lost'].map(s => `<option value="${s}" ${r.status === s ? 'selected' : ''}>${statusLabel(s)}</option>`).join('')}
-                </select>
-              </td>
-              <td>${esc(r.lastActivityAt ? fmtDateTime(r.lastActivityAt) : '')}</td>
-              <td>${esc(r.nextFollowUpDate || '')}</td>
-              <td><div class="crm-actions"><button class="bsm" onclick="openCrmRecord('${r.crmId}')">Open</button><button class="bsm" onclick="openContacts('${r.crmId}', true)">Contacts</button></div></td>
-            </tr>
-          `).join('')}
-        </tbody>
-      </table>
-    `;
+    $('crmListWrap').innerHTML = '<table class="crm-table"><thead><tr><th>Business</th><th>Primary Contact</th><th>Company Email</th><th>Business Phone</th><th>Website</th><th>Industry</th><th>Status</th><th>Last Contact</th><th>Next Follow Up</th><th>Actions</th></tr></thead><tbody>' + records.map(r => '<tr>' +
+      '<td><button class="link-btn" onclick="openCrmRecord(\'' + r.crmId + '\')">' + esc(r.businessName) + '</button><div class="crm-mini">' + esc(r.address) + '</div></td>' +
+      '<td><div>' + renderContactNameAction(r) + '</div><div class="crm-mini">' + esc(r.primaryContactTitle || '') + '</div></td>' +
+      '<td>' + renderEmailAction(r.companyEmail, r.crmId, 'company_email') + '</td>' +
+      '<td>' + renderPhoneAction(r.businessPhone, r.crmId, 'business_phone') + '</td>' +
+      '<td>' + renderWebsiteLink(r.website) + '</td>' +
+      '<td>' + esc(r.industry || '') + '</td>' +
+      '<td><select class="crm-select" onchange="quickStatusUpdate(\'' + r.crmId + '\', this.value)">' + ['new','emailed','called_or_texted','need_new_contact_info','replied','interested','follow_up_needed','meeting_booked','proposal_sent','negotiating','closed_won','closed_lost'].map(s => '<option value="' + s + '"' + (r.status === s ? ' selected' : '') + '>' + statusLabel(s) + '</option>').join('') + '</select></td>' +
+      '<td>' + esc(r.lastActivityAt ? fmtDateTime(r.lastActivityAt) : '') + '</td>' +
+      '<td>' + esc(r.nextFollowUpDate || '') + '</td>' +
+      '<td><div class="crm-actions"><button class="bsm" onclick="openCrmRecord(\'' + r.crmId + '\')">Open</button><button class="bsm" onclick="openContactsByRecord(\'' + r.crmId + '\')">Contacts</button></div></td>' +
+      '</tr>').join('') + '</tbody></table>';
   } else {
-    $('crmCardsWrap').innerHTML = records.map(r => `
-      <div class="crm-card">
-        <div class="crm-head">
-          <div>
-            <div class="crm-title"><button class="link-btn" onclick="openCrmRecord('${r.crmId}')">${esc(r.businessName)}</button></div>
-            <div class="crm-sub">${esc(r.address)}</div>
-          </div>
-          <div class="badges"><span class="badge">${esc(statusLabel(r.status))}</span></div>
-        </div>
-        <div class="card-columns">
-          <div class="column-stack">
-            <div class="block"><div class="block-label">Primary Contact</div><div class="block-value">${renderContactNameAction(r)}</div><div class="crm-sub">${esc(r.primaryContactTitle || '')}</div></div>
-            <div class="block"><div class="block-label">Company Email</div><div class="block-value">${renderEmailAction(r.companyEmail, r.crmId, 'company_email')}</div></div>
-            <div class="block"><div class="block-label">Business Phone</div><div class="block-value">${renderPhoneAction(r.businessPhone, r.crmId, 'business_phone')}</div></div>
-          </div>
-          <div class="column-stack">
-            <div class="block"><div class="block-label">Website</div><div class="block-value">${renderWebsiteLink(r.website) || `<button class="muted-btn" onclick="openPromptBuilder('${r.crmId}','website')">Not found</button>`}</div></div>
-            <div class="block"><div class="block-label">Industry</div><div class="block-value">${esc(r.industry || '')}</div></div>
-            <div class="block"><div class="block-label">Next Follow Up</div><div class="block-value">${esc(r.nextFollowUpDate || '')}</div></div>
-          </div>
-        </div>
-        <div class="action-row">
-          <button class="bsm" onclick="openCrmRecord('${r.crmId}')">Open</button>
-          <button class="bsm" onclick="openContacts('${r.crmId}', true)">Contacts</button>
-        </div>
-      </div>
-    `).join('');
+    $('crmCardsWrap').innerHTML = records.map(r => '<div class="crm-card">' +
+      '<div class="crm-head"><div><div class="crm-title"><button class="link-btn" onclick="openCrmRecord(\'' + r.crmId + '\')">' + esc(r.businessName) + '</button></div><div class="crm-sub">' + esc(r.address) + '</div></div><div class="badges"><span class="badge">' + esc(statusLabel(r.status)) + '</span></div></div>' +
+      '<div class="card-columns"><div class="column-stack">' +
+      '<div class="block"><div class="block-label">Primary Contact</div><div class="block-value">' + renderContactNameAction(r) + '</div><div class="crm-sub">' + esc(r.primaryContactTitle || '') + '</div></div>' +
+      '<div class="block"><div class="block-label">Company Email</div><div class="block-value">' + renderEmailAction(r.companyEmail, r.crmId, 'company_email') + '</div></div>' +
+      '<div class="block"><div class="block-label">Business Phone</div><div class="block-value">' + renderPhoneAction(r.businessPhone, r.crmId, 'business_phone') + '</div></div>' +
+      '</div><div class="column-stack">' +
+      '<div class="block"><div class="block-label">Website</div><div class="block-value">' + (renderWebsiteLink(r.website) || '<button class="muted-btn" onclick="openPromptBuilder(\'' + r.crmId + '\', \'website\')">Not found</button>') + '</div></div>' +
+      '<div class="block"><div class="block-label">Industry</div><div class="block-value">' + esc(r.industry || '') + '</div></div>' +
+      '<div class="block"><div class="block-label">Next Follow Up</div><div class="block-value">' + esc(r.nextFollowUpDate || '') + '</div></div>' +
+      '</div></div>' +
+      '<div class="secondary-row"><div class="secondary-pill"><div class="block-label">Deal Size</div><div class="block-value">' + esc(r.estimatedDealSize || '') + '</div></div><div class="secondary-pill"><div class="block-label">Contacts</div><div class="block-value">' + esc(String((r.contacts || []).length || 0)) + '</div></div></div>' +
+      '<div class="action-row"><button class="bsm" onclick="openCrmRecord(\'' + r.crmId + '\')">Open</button><button class="bsm" onclick="openContactsByRecord(\'' + r.crmId + '\')">Contacts</button></div>' +
+      '</div>').join('');
   }
-
   updateDashboardSummary();
 }
 
@@ -1773,12 +742,7 @@ function openCrmRecord(crmId){
   $('crmRecordServiceInterest').value = record.serviceInterest || '';
   $('crmRecordOwner').value = record.leadOwner || '';
   $('crmRecordNotes').value = record.notes || '';
-  $('crmHistoryList').innerHTML = (record.history || []).map(h => `
-    <div class="history-row">
-      <div style="font-weight:700">${esc(h.text)}</div>
-      <div class="crm-mini">${esc(fmtDateTime(h.at))}</div>
-    </div>
-  `).join('') || '<div class="history-row">No history yet</div>';
+  $('crmHistoryList').innerHTML = (record.history || []).map(h => '<div class="history-row"><div style="font-weight:700">' + esc(h.text) + '</div><div class="crm-mini">' + esc(fmtDateTime(h.at)) + '</div></div>').join('') || '<div class="history-row">No history yet</div>';
   openModal('crmRecordModalWrap');
 }
 function saveCrmRecordModal(){
@@ -1803,57 +767,28 @@ function saveCrmRecordModal(){
   renderLeads();
   showToast('Success!', 'CRM record saved.');
 }
-function openContactsFromCrm(){
-  if (!activeCrmRecordId) return;
-  closeModal('crmRecordModalWrap');
-  openContacts(activeCrmRecordId, true);
-}
+function openContactsFromCrm(){ if (!activeCrmRecordId) return; closeModal('crmRecordModalWrap'); openContactsByRecord(activeCrmRecordId); }
 
-
-function renderWebsiteLink(url){
-  return url ? `<a href="${esc(url)}" target="_blank" class="link-btn">${esc(url.replace(/^https?:\/\//,'').replace(/\/$/,''))}</a>` : '';
-}
-function renderEmailAction(email, crmId, missingField){
-  if (email) return `<button class="link-btn" onclick="openComposeByRecord('${crmId}','${esc(email)}')">${esc(email)}</button>`;
-  return `<button class="muted-btn" onclick="openPromptBuilder('${crmId}','${missingField}')">Not found</button>`;
-}
-function renderPhoneAction(phone, crmId, missingField){
-  if (phone) return `<button class="link-btn" onclick="openPhoneModal('${esc(phone)}')">${esc(phone)}</button>`;
-  return `<button class="muted-btn" onclick="openPromptBuilder('${crmId}','${missingField}')">Not found</button>`;
-}
-function renderContactNameAction(record){
-  if (record.primaryContactName) return `<button class="link-btn" onclick="openCrmRecord('${record.crmId}')">${esc(record.primaryContactName)}</button>`;
-  return `<button class="muted-btn" onclick="openPromptBuilder('${record.crmId}','primary_contact_name')">Not found</button>`;
-}
-function openComposeByRecord(crmId, to){
+function openComposeByRecord(crmId, encodedTo){
   const record = crmRecords.find(r => r.crmId === crmId);
-  $('composeTo').value = to || '';
+  $('composeTo').value = decodeURIComponent(encodedTo || '');
   $('composeSubject').value = record ? 'Quick note from ' + record.businessName : '';
   $('composeBody').value = '';
   openModal('composeModalWrap');
 }
-function openComposeByContact(crmId, index){
-  const record = crmRecords.find(r => r.crmId === crmId);
-  if (!record) return;
-  const c = record.contacts[index];
-  $('composeTo').value = c.email || '';
-  $('composeSubject').value = 'Quick note from ' + record.businessName;
-  $('composeBody').value = '';
-  openModal('composeModalWrap');
-}
 function copyComposeDraft(){
-  const draft = ['To: ' + compact($('composeTo').value), 'Subject: ' + compact($('composeSubject').value), '', compact($('composeBody').value)].join('
-');
+  const draft = 'To: ' + compact($('composeTo').value) + '\nSubject: ' + compact($('composeSubject').value) + '\n\n' + compact($('composeBody').value);
   copyText(draft, 'Success!', 'Email draft copied.');
 }
-function openPhoneModal(phone){
-  currentPhoneValue = String(phone || '');
+function openPhoneModal(encodedPhone){
+  currentPhoneValue = decodeURIComponent(encodedPhone || '');
   $('phoneModalSub').textContent = 'Choose what you want to do with ' + currentPhoneValue + '.';
   $('phoneCallLink').href = 'tel:' + currentPhoneValue;
   $('phoneTextLink').href = 'sms:' + currentPhoneValue;
   openModal('phoneModalWrap');
 }
 function copyPhoneNumber(){ copyText(currentPhoneValue, 'Success!', 'Phone number copied.'); }
+
 function fieldPromptLabel(kind){ return { company_email:'company email', business_phone:'business phone', primary_contact_name:'primary contact', website:'website' }[kind] || kind; }
 function openPromptBuilder(crmId, kind){
   const record = crmRecords.find(r => r.crmId === crmId);
@@ -1885,12 +820,38 @@ function openPromptBuilder(crmId, kind){
     'Only use public information.',
     'Do not guess.',
     'If a field cannot be found, leave it blank.'
-  ].join('
-');
+  ].join('\n');
   $('promptBuilderText').value = prompt;
   openModal('promptModalWrap');
 }
 function copyPromptText(){ copyText($('promptBuilderText').value, 'Success!', 'AI research prompt copied.'); }
+
+function openContactsByRecord(crmId){
+  const record = crmRecords.find(r => r.crmId === crmId);
+  if (!record) return;
+  $('contactsTitle').textContent = 'Contacts';
+  $('contactsList').innerHTML = (record.contacts || []).map((c, idx) => {
+    const taskRows = c.tasks && c.tasks.length ? c.tasks.map(t => '<div class="task-row"><div style="font-weight:700">' + esc(t.title || '') + '</div><div class="crm-mini">' + esc((t.type || '').replace(/_/g,' ')) + ' Â· ' + esc(t.dueDate || '') + ' ' + esc(t.dueTime || '') + '</div><div class="crm-mini">' + esc(t.notes || '') + '</div></div>').join('') : '<div class="task-row">No tasks yet</div>';
+    return '<div class="contact-row">' +
+      '<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;"><div><div style="font-weight:700">' + esc(c.name || 'Unnamed') + '</div><div style="font-size:12px;color:#fb923c;margin-top:4px">' + esc(c.title || '') + '</div></div><div class="crm-actions">' +
+      (c.email ? '<button class="bsm" onclick="openComposeByContact(\'' + record.crmId + '\',' + idx + ')">Email</button>' : '<button class="bsm" onclick="openPromptBuilder(\'' + record.crmId + '\', \'company_email\')">Find Email</button>') +
+      (c.phone ? '<button class="bsm" onclick="openPhoneModal(\'' + encodeURIComponent(c.phone) + '\')">Phone</button>' : '<button class="bsm" onclick="openPromptBuilder(\'' + record.crmId + '\', \'business_phone\')">Find Phone</button>') +
+      '<button class="bsm" onclick="setPrimaryContact(\'' + record.crmId + '\',' + idx + ')">Set Primary</button><button class="bsm ok" onclick="openTaskModal(\'' + record.crmId + '\',' + idx + ')">Create Task</button></div></div>' +
+      '<div style="font-size:12px;color:#cdd6e6;margin-top:8px">' + esc(c.email || '') + '</div><div style="font-size:12px;color:#8fa3c0;margin-top:4px">' + esc(c.phone || '') + '</div>' +
+      '<div style="margin-top:10px;"><label class="flabel">Contact Notes</label><textarea class="crm-textarea" id="contactNotes_' + record.crmId + '_' + idx + '">' + esc(c.notes || '') + '</textarea><div class="action-row" style="margin-top:8px;"><button class="bsm" onclick="saveContactNotes(\'' + record.crmId + '\',' + idx + ')">Save Notes</button></div></div>' +
+      '<div class="divider-title">Tasks</div><div class="tasks-list">' + taskRows + '</div></div>';
+  }).join('');
+  openModal('contactsModalWrap');
+}
+function openComposeByContact(crmId, index){
+  const record = crmRecords.find(r => r.crmId === crmId);
+  if (!record) return;
+  const c = record.contacts[index];
+  $('composeTo').value = c.email || '';
+  $('composeSubject').value = 'Quick note from ' + record.businessName;
+  $('composeBody').value = '';
+  openModal('composeModalWrap');
+}
 function saveContactNotes(crmId, index){
   const record = crmRecords.find(r => r.crmId === crmId);
   if (!record) return;
@@ -1916,6 +877,7 @@ function setPrimaryContact(crmId, index){
   renderCrm();
   showToast('Success!', 'Primary contact updated.');
 }
+
 function openTaskModal(crmId, index){
   const record = crmRecords.find(r => r.crmId === crmId);
   if (!record) return;
@@ -1952,21 +914,19 @@ function saveContactTask(){
   saveCrm();
   closeModal('taskModalWrap');
   closeModal('contactsModalWrap');
-  openContacts(taskContext.crmId, true);
+  openContactsByRecord(record.crmId);
   showToast('Success!', 'Follow up task created.');
 }
 
 function updateDashboardSummary(){
   const last = searchHistory[0];
-  const lastWrap = $('stationLeadsLast');
   if (last) {
-    lastWrap.innerHTML = `<div class="label">Last search</div><div class="value">${esc(fmtDateTime(last.at))}<br>${esc(last.type)} Â· ${esc(last.city)} Â· ${esc(String(last.count))} results</div>`;
-    $('heroPill').textContent = `${last.type} Â· ${last.city}`;
+    $('stationLeadsLast').innerHTML = '<div class="label">Last search</div><div class="value">' + esc(fmtDateTime(last.at)) + '<br>' + esc(last.type) + ' Â· ' + esc(last.city) + ' Â· ' + esc(String(last.count)) + ' results</div>';
+    $('heroPill').textContent = last.type + ' Â· ' + last.city;
   } else {
-    lastWrap.innerHTML = `<div class="label">Last search</div><div class="value">No searches yet</div>`;
+    $('stationLeadsLast').innerHTML = '<div class="label">Last search</div><div class="value">No searches yet</div>';
     $('heroPill').textContent = 'Breakout AI internal ops';
   }
-
   const visible = visibleLeads();
   $('stationLeadsCount').textContent = String(visible.length || 0);
   $('stationLeadsAi').textContent = String(visible.filter(x => x.enrichmentSource === 'openai').length || 0);
@@ -1977,13 +937,12 @@ function updateDashboardSummary(){
     new: crmRecords.filter(r => r.status === 'new').length,
     emailed: crmRecords.filter(r => r.status === 'emailed').length,
     called_or_texted: crmRecords.filter(r => r.status === 'called_or_texted').length,
-    interested: crmRecords.filter(r => r.status === 'interested').length,
+    interested: crmRecords.filter(r => r.status === 'interested').length
   };
   $('stationCrmNew').textContent = String(counts.new);
   $('stationCrmEmailed').textContent = String(counts.emailed);
   $('stationCrmCalled').textContent = String(counts.called_or_texted);
   $('stationCrmInterested').textContent = String(counts.interested);
-
   $('metricNew').textContent = String(counts.new);
   $('metricEmailed').textContent = String(counts.emailed);
   $('metricCalled').textContent = String(counts.called_or_texted);
@@ -1998,16 +957,7 @@ function logSearch(entry){
   updateDashboardSummary();
 }
 function openSearchHistory(){
-  $('searchHistoryList').innerHTML = searchHistory.length
-    ? searchHistory.map(x => `
-      <div class="search-history-row">
-        <div style="font-weight:700">${esc(fmtDateTime(x.at))}</div>
-        <div class="crm-mini">${esc(x.type)} Â· ${esc(x.city)}</div>
-        <div class="crm-mini">Min rating ${esc(x.minRating || 'Any')} Â· Max ${esc(String(x.limit))} Â· Returned ${esc(String(x.count))}</div>
-        ${x.centers ? `<div class="crm-mini">Custom cities: ${esc(x.centers)}</div>` : ''}
-      </div>
-    `).join('')
-    : '<div class="search-history-row">No search history yet</div>';
+  $('searchHistoryList').innerHTML = searchHistory.length ? searchHistory.map(x => '<div class="search-history-row"><div style="font-weight:700">' + esc(fmtDateTime(x.at)) + '</div><div class="crm-mini">' + esc(x.type) + ' Â· ' + esc(x.city) + '</div><div class="crm-mini">Min rating ' + esc(x.minRating || 'Any') + ' Â· Max ' + esc(String(x.limit)) + ' Â· Returned ' + esc(String(x.count)) + '</div>' + (x.centers ? '<div class="crm-mini">Custom cities: ' + esc(x.centers) + '</div>' : '') + '</div>').join('') : '<div class="search-history-row">No search history yet</div>';
   openModal('searchHistoryModalWrap');
 }
 
@@ -2017,12 +967,7 @@ async function runSearch(){
   const minRating = $('searchRating').value;
   const limit = $('searchLimit').value;
   const centers = compact($('searchCenters').value);
-
-  if (!type || !city) {
-    $('errorBar').textContent = 'Enter a business type and city.';
-    $('errorBar').style.display = 'block';
-    return;
-  }
+  if (!type || !city) { $('errorBar').textContent = 'Enter a business type and city.'; $('errorBar').style.display = 'block'; return; }
 
   $('searchBtn').disabled = true;
   $('resultsGrid').innerHTML = '';
@@ -2042,16 +987,7 @@ async function runSearch(){
     markLeadHandledStates();
     finishProgress(true);
     renderLeads();
-
-    logSearch({
-      at: nowIso(),
-      type,
-      city,
-      minRating: minRating || 'Any',
-      limit: Number(limit || 20),
-      centers,
-      count: leads.length,
-    });
+    logSearch({ at: nowIso(), type, city, minRating: minRating || 'Any', limit: Number(limit || 20), centers, count: leads.length });
   } catch (err) {
     finishProgress(false);
     $('errorBar').textContent = 'Search failed: ' + (err && err.message ? err.message : String(err));
@@ -2065,99 +1001,5 @@ loadState();
 updateDashboardSummary();
 showView('home');
 </script>
-
-<div class="modal-backdrop" id="composeModalWrap">
-  <div class="modal">
-    <h3>Compose Email</h3>
-    <div class="modal-sub">Draft inside the app. You can copy it or use it in your email workflow.</div>
-    <div class="row2">
-      <div><label class="flabel">To</label><input class="edit-input" id="composeTo"></div>
-      <div><label class="flabel">Subject</label><input class="edit-input" id="composeSubject"></div>
-    </div>
-    <div>
-      <label class="flabel">Message</label>
-      <textarea class="crm-textarea" id="composeBody"></textarea>
-    </div>
-    <div class="action-row" style="margin-top:12px;">
-      <button class="bsm" onclick="closeModal('composeModalWrap')">Close</button>
-      <button class="bsm ok" onclick="copyComposeDraft()">Copy Draft</button>
-    </div>
-  </div>
-</div>
-
-<div class="modal-backdrop" id="phoneModalWrap">
-  <div class="modal">
-    <h3>Phone Actions</h3>
-    <div class="modal-sub" id="phoneModalSub">Choose what you want to do with this number.</div>
-    <div class="action-row" style="margin-top:8px;">
-      <a class="bsm ok" id="phoneCallLink" href="#">Call</a>
-      <a class="bsm ora" id="phoneTextLink" href="#">Text</a>
-      <button class="bsm" onclick="copyPhoneNumber()">Copy Number</button>
-      <button class="bsm" onclick="closeModal('phoneModalWrap')">Close</button>
-    </div>
-  </div>
-</div>
-
-<div class="modal-backdrop" id="promptModalWrap">
-  <div class="modal">
-    <h3>AI Research Prompt</h3>
-    <div class="modal-sub">Copy this prompt into ChatGPT or another AI tool and paste the result back into CRM.</div>
-    <div>
-      <label class="flabel">Prompt</label>
-      <textarea class="crm-textarea" id="promptBuilderText"></textarea>
-    </div>
-    <div class="action-row" style="margin-top:12px;">
-      <button class="bsm" onclick="closeModal('promptModalWrap')">Close</button>
-      <button class="bsm ok" onclick="copyPromptText()">Copy Prompt</button>
-    </div>
-  </div>
-</div>
-
-<div class="modal-backdrop" id="taskModalWrap">
-  <div class="modal">
-    <h3>Create Task</h3>
-    <div class="modal-sub" id="taskModalSub">Create a follow up task for this contact.</div>
-    <div class="row2">
-      <div><label class="flabel">Task Title</label><input class="edit-input" id="taskTitle"></div>
-      <div><label class="flabel">Task Type</label>
-        <select class="crm-select" id="taskType">
-          <option value="follow_up">Follow Up</option>
-          <option value="call">Call</option>
-          <option value="text">Text</option>
-          <option value="email">Email</option>
-          <option value="research">Research</option>
-          <option value="meeting_prep">Meeting Prep</option>
-          <option value="custom">Custom</option>
-        </select>
-      </div>
-    </div>
-    <div class="row2">
-      <div><label class="flabel">Due Date</label><input class="edit-input" id="taskDueDate" type="date"></div>
-      <div><label class="flabel">Due Time</label><input class="edit-input" id="taskDueTime" type="time"></div>
-    </div>
-    <div class="row2">
-      <div><label class="flabel">Owner</label><input class="edit-input" id="taskOwner" placeholder="Dave, Celine"></div>
-      <div><label class="flabel">Priority</label>
-        <select class="crm-select" id="taskPriority">
-          <option value="">None</option>
-          <option value="high">High</option>
-          <option value="medium">Medium</option>
-          <option value="low">Low</option>
-        </select>
-      </div>
-    </div>
-    <div>
-      <label class="flabel">Notes</label>
-      <textarea class="crm-textarea" id="taskNotes"></textarea>
-    </div>
-    <div class="action-row" style="margin-top:12px;">
-      <button class="bsm" onclick="closeModal('taskModalWrap')">Close</button>
-      <button class="bsm ok" onclick="saveContactTask()">Create Task</button>
-    </div>
-  </div>
-</div>
-
-<div class="toast-wrap" id="toastWrap"></div>
-
 </body>
 </html>
