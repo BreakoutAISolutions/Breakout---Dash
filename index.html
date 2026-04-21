@@ -1091,13 +1091,149 @@ function formatAiFieldName(key){
 }
 function formatEnhanceDate(iso){ if (!iso) return ''; try { return new Date(iso).toLocaleString([], { month:'short', day:'numeric', hour:'numeric', minute:'2-digit' }); } catch { return iso; } }
 function needsAiHelp(lead){ return !compact(lead.website) || !compact(lead.companyEmail) || !compact(lead.primaryContactName) || !compact(lead.primaryContactEmail) || !compact(lead.primaryContactPhone); }
-function fieldBlockClass(lead, key){ return lead && Array.isArray(lead.aiEnhancedFields) && lead.aiEnhancedFields.includes(key) ? 'block ai-field-highlight' : 'block'; }
-function fieldLabelClass(lead, key){ return lead && Array.isArray(lead.aiEnhancedFields) && lead.aiEnhancedFields.includes(key) ? 'block-label ai-field-label' : 'block-label'; }
-function valueClass(lead, key){ return lead && Array.isArray(lead.aiEnhancedFields) && lead.aiEnhancedFields.includes(key) ? 'ai-list-value' : ''; }
-function findLeadIndexByRecord(record){ return leads.findIndex(lead => (record.placeId && lead.placeId && record.placeId === lead.placeId) || (record.domain && lead.domain && record.domain === lead.domain) || (digitsOnly(record.phone || record.businessPhone) && digitsOnly(lead.phone) && digitsOnly(record.phone || record.businessPhone) === digitsOnly(lead.phone)) || (normalizeName(record.name || record.businessName) && normalizeName(lead.name) && normalizeName(record.name || record.businessName) === normalizeName(lead.name) && compact(record.city).toLowerCase() === compact(lead.city).toLowerCase())); }
-function mergeEnhancedLead(index, record){ const before = leads[index]; const normalized = normalizeLead(record); const merged = { ...before, ...normalized }; const watched = ['website','companyEmail','primaryContactName','primaryContactTitle','primaryContactPhone','primaryContactEmail','industry','employees','revenue']; const newlyFound = watched.filter(key => !compact(before[key]) && compact(merged[key])); merged.aiEnhancedFields = Array.from(new Set([...(before.aiEnhancedFields || []), ...newlyFound])); if (newlyFound.length) merged.enrichmentSource = 'openai'; merged.aiLastEnhancedAt = nowIso(); merged.aiEnhanceCount = Number(before.aiEnhanceCount || 0) + 1; leads[index] = merged; return newlyFound; }
-async function updateEnhanceProgress(done, total, label){ $('progressWrap').style.display = 'block'; $('progressStage').textContent = 'Web Scraping and AI Enhancing'; $('progressPct').textContent = Math.round((done / Math.max(total, 1)) * 100) + '%'; $('progressSub').textContent = label || ('Processing ' + done + ' of ' + total + ' leads'); $('progressFill').style.width = Math.round((done / Math.max(total, 1)) * 100) + '%'; }
-async function requestAiEnhance(leadsToEnhance, opts={}){ if (!Array.isArray(leadsToEnhance) || !leadsToEnhance.length) { showToast('Heads up', 'No leads selected for AI Enhance.'); return; } const mode = opts.mode || 'batch'; const missingOnly = opts.missingOnly !== false; const chunks = []; for (let i = 0; i < leadsToEnhance.length; i += 10) chunks.push(leadsToEnhance.slice(i, i + 10)); let processed = 0; let singleName = ''; let singleFields = []; try { updateEnhanceProgress(0, leadsToEnhance.length, 'Web scraping websites and collecting contact details'); for (const chunk of chunks) { const res = await fetch(API + '/api/places/enrich', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ leads: chunk, industry: compact($('searchType') ? $('searchType').value : ''), missingOnly }) }); if (!res.ok) { let msg = 'AI Enhance failed.'; try { const errData = await res.json(); if (errData && errData.error) msg = errData.error; } catch {} throw new Error(msg); } const data = await res.json(); const chunkTouched = new Set(); (Array.isArray(data.results) ? data.results : []).forEach(record => { const index = findLeadIndexByRecord(record); if (index < 0) return; const found = mergeEnhancedLead(index, record); chunkTouched.add(index); if (mode === 'single') { singleName = leads[index].name || record.name || record.businessName || 'Lead'; singleFields = found; } }); chunk.forEach(sourceLead => { const index = findLeadIndexByRecord(sourceLead); if (index < 0 || chunkTouched.has(index)) return; leads[index].aiLastEnhancedAt = nowIso(); leads[index].aiEnhanceCount = Number(leads[index].aiEnhanceCount || 0) + 1; leads[index].aiEnhancedFields = Array.isArray(leads[index].aiEnhancedFields) ? leads[index].aiEnhancedFields : []; chunkTouched.add(index); if (mode === 'single') { singleName = leads[index].name || sourceLead.name || sourceLead.businessName || 'Lead'; singleFields = []; } }); processed += chunk.length; updateEnhanceProgress(processed, leadsToEnhance.length, 'Finishing AI enhancement for ' + processed + ' of ' + leadsToEnhance.length + ' leads'); } markLeadHandledStates(); saveCurrentLeadsState(); renderLeads(); $('progressStage').textContent = 'Web Scraping and AI Enhancing'; $('progressSub').textContent = 'Web scrape and AI enhancement complete'; $('progressPct').textContent = '100%'; $('progressFill').style.width = '100%'; setTimeout(() => { $('progressWrap').style.display = 'none'; }, 2000); if (mode === 'single') { const body = singleFields.length ? (singleName + ': ' + singleFields.map(formatAiFieldName).join(', ')) : (singleName + ': No additional data found.'); showToast('Success!', body); } else { showToast('Success!', 'AI enhancement finished for ' + leadsToEnhance.length + ' leads.'); } } catch (err) { $('progressWrap').style.display = 'none'; showToast('Heads up', err && err.message ? err.message : 'AI Enhance failed.'); } }
+function fieldSourceType(lead, key){
+  if (lead && lead.fieldSources && lead.fieldSources[key] === 'scrape') return 'scrape';
+  if (lead && lead.fieldSources && lead.fieldSources[key] === 'ai') return 'ai';
+  if (lead && Array.isArray(lead.scrapedEnhancedFields) && lead.scrapedEnhancedFields.includes(key)) return 'scrape';
+  if (lead && Array.isArray(lead.aiEnhancedFields) && lead.aiEnhancedFields.includes(key)) return 'ai';
+  return '';
+}
+function fieldBlockClass(lead, key){
+  const source = fieldSourceType(lead, key);
+  return source === 'scrape' ? 'block scrape-field-highlight' : source === 'ai' ? 'block ai-field-highlight' : 'block';
+}
+function fieldLabelClass(lead, key){
+  const source = fieldSourceType(lead, key);
+  return source === 'scrape' ? 'block-label scrape-label-highlight' : source === 'ai' ? 'block-label ai-label-highlight' : 'block-label';
+}
+function valueClass(lead, key){
+  const source = fieldSourceType(lead, key);
+  return source === 'scrape' ? 'scrape-label-highlight' : source === 'ai' ? 'ai-list-value' : '';
+}
+function findLeadIndexByRecord(record){
+  const placeId = compact(record && (record.placeId || record.id));
+  const domain = compact(record && record.domain).toLowerCase();
+  const phone = digitsOnly(record && (record.phone || record.businessPhone || record.primaryContactPhone || ''));
+  const name = normalizeName(record && (record.name || record.businessName));
+  const city = compact(record && record.city).toLowerCase();
+  return leads.findIndex(lead =>
+    (placeId && lead.placeId && placeId === lead.placeId) ||
+    (domain && lead.domain && domain === lead.domain) ||
+    (phone && digitsOnly(lead.phone || '') && phone === digitsOnly(lead.phone || '')) ||
+    (name && normalizeName(lead.name) === name && city && compact(lead.city).toLowerCase() === city)
+  );
+}
+function mergeEnhancedLead(index, record){
+  const before = leads[index];
+  const normalized = normalizeLead(record);
+  const merged = { ...before, ...normalized };
+  const watched = ['website','companyEmail','primaryContactName','primaryContactTitle','primaryContactPhone','primaryContactEmail','industry','employees','revenue'];
+  const fieldSources = (record && record.fieldSources && typeof record.fieldSources === 'object') ? { ...(before.fieldSources || {}), ...record.fieldSources } : { ...(before.fieldSources || {}) };
+  const newlyFound = [];
+  const aiSet = new Set(before.aiEnhancedFields || []);
+  const scrapeSet = new Set(before.scrapedEnhancedFields || []);
+  watched.forEach(key => {
+    const beforeVal = compact(before[key]);
+    const afterVal = compact(merged[key]);
+    if (!afterVal) return;
+    const source = fieldSources[key] || '';
+    if (!beforeVal && afterVal) {
+      newlyFound.push(key);
+      if (source === 'scrape') scrapeSet.add(key);
+      else aiSet.add(key);
+    } else if (source === 'scrape') {
+      scrapeSet.add(key);
+    } else if (source === 'ai') {
+      aiSet.add(key);
+    }
+  });
+  merged.aiEnhancedFields = Array.from(aiSet);
+  merged.scrapedEnhancedFields = Array.from(scrapeSet);
+  merged.fieldSources = fieldSources;
+  if (newlyFound.length) merged.enrichmentSource = 'openai';
+  merged.aiLastEnhancedAt = nowIso();
+  merged.aiEnhanceCount = Number(before.aiEnhanceCount || 0) + 1;
+  leads[index] = merged;
+  return newlyFound;
+}
+
+async function requestAiEnhance(leadsToEnhance, opts={}){
+  if (!Array.isArray(leadsToEnhance) || !leadsToEnhance.length) { showToast('Heads up', 'No leads selected for AI Enhance.'); return; }
+  const mode = opts.mode || 'batch';
+  const missingOnly = opts.missingOnly !== false;
+  const chunks = [];
+  for (let i = 0; i < leadsToEnhance.length; i += 10) chunks.push(leadsToEnhance.slice(i, i + 10));
+  let processed = 0;
+  let singleName = '';
+  let singleFields = [];
+  let totalAiFields = 0;
+  let totalScrapeFields = 0;
+  try {
+    updateEnhanceProgress(0, leadsToEnhance.length, 'Starting AI enhancement');
+    for (const chunk of chunks) {
+      const res = await fetch(API + '/api/places/enrich', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ leads: chunk, industry: compact($('searchType') ? $('searchType').value : ''), missingOnly }) });
+      if (!res.ok) {
+        let msg = 'AI Enhance failed.';
+        try { const errData = await res.json(); if (errData && errData.error) msg = errData.error; } catch {}
+        throw new Error(msg);
+      }
+      const data = await res.json();
+      if (typeof data.aiFieldsCount === 'number') totalAiFields += data.aiFieldsCount;
+      if (typeof data.scrapeFieldsCount === 'number') totalScrapeFields += data.scrapeFieldsCount;
+      const chunkTouched = new Set();
+      (Array.isArray(data.results) ? data.results : []).forEach(record => {
+        const index = findLeadIndexByRecord(record);
+        if (index < 0) return;
+        const found = mergeEnhancedLead(index, record);
+        if (typeof data.aiFieldsCount !== 'number' && typeof data.scrapeFieldsCount !== 'number') {
+          found.forEach(key => {
+            const source = record && record.fieldSources && record.fieldSources[key] ? record.fieldSources[key] : 'ai';
+            if (source === 'scrape') totalScrapeFields += 1;
+            else totalAiFields += 1;
+          });
+        }
+        chunkTouched.add(index);
+        if (mode === 'single') {
+          singleName = leads[index].name || record.name || record.businessName || 'Lead';
+          singleFields = found;
+        }
+      });
+      chunk.forEach(sourceLead => {
+        const index = findLeadIndexByRecord(sourceLead);
+        if (index < 0 || chunkTouched.has(index)) return;
+        leads[index].aiLastEnhancedAt = nowIso();
+        leads[index].aiEnhanceCount = Number(leads[index].aiEnhanceCount || 0) + 1;
+        leads[index].aiEnhancedFields = Array.isArray(leads[index].aiEnhancedFields) ? leads[index].aiEnhancedFields : [];
+        leads[index].scrapedEnhancedFields = Array.isArray(leads[index].scrapedEnhancedFields) ? leads[index].scrapedEnhancedFields : [];
+        leads[index].fieldSources = leads[index].fieldSources && typeof leads[index].fieldSources === 'object' ? leads[index].fieldSources : {};
+        chunkTouched.add(index);
+        if (mode === 'single') {
+          singleName = leads[index].name || sourceLead.name || sourceLead.businessName || 'Lead';
+          singleFields = [];
+        }
+      });
+      processed += chunk.length;
+      updateEnhanceProgress(processed, leadsToEnhance.length, 'Enhancing ' + processed + ' of ' + leadsToEnhance.length + ' leads');
+    }
+    markLeadHandledStates();
+    saveCurrentLeadsState();
+    renderLeads();
+    $('progressSub').textContent = 'AI enhancement complete';
+    $('progressPct').textContent = '100%';
+    $('progressFill').style.width = '100%';
+    setTimeout(() => { $('progressWrap').style.display = 'none'; }, 2000);
+    if (mode === 'single') {
+      const body = singleFields.length ? (singleName + ': ' + singleFields.map(formatAiFieldName).join(', ')) : (singleName + ': No additional data found.');
+      showToast('Success!', body);
+    } else {
+      showToast('Success!', 'AI enhanced ' + totalAiFields + ' fields. Web scrape enhanced ' + totalScrapeFields + ' fields.');
+    }
+  } catch (err) {
+    $('progressWrap').style.display = 'none';
+    showToast('Heads up', err && err.message ? err.message : 'AI Enhance failed.');
+  }
+}
+
 function enhanceSingleLead(index){ const lead = leads[index]; if (!lead) return; requestAiEnhance([lead], { mode:'single', missingOnly:true }); }
 function enhanceSelectedLeads(){ const selected = visibleLeads().filter(lead => isLeadSelected(lead)).slice(0, 50); if (!selected.length) { showToast('Heads up', 'Select one or more leads first.'); return; } requestAiEnhance(selected, { mode:'selected', missingOnly:true }); }
 function enhanceTop5Leads(){ const targets = visibleLeads().slice(0, 5); if (!targets.length) { showToast('Heads up', 'No visible leads to enhance.'); return; } requestAiEnhance(targets, { mode:'top5', missingOnly:true }); }
@@ -1148,9 +1284,6 @@ function buildCrmCandidate(lead){
     contacts: Array.isArray(lead.contacts) ? lead.contacts.map(c => ({ name: c.name || '', title: c.title || '', email: c.email || '', phone: c.phone || '', notes: '', tasks: [] })) : [],
     employees: lead.employees || '',
     revenue: lead.revenue || '',
-    aiEnhancedFields: Array.isArray(lead.aiEnhancedFields) ? [...lead.aiEnhancedFields] : [],
-    aiLastEnhancedAt: lead.aiLastEnhancedAt || '',
-    aiEnhanceCount: Number(lead.aiEnhanceCount || 0),
     status: 'new',
     importedAt: nowIso(),
     updatedAt: nowIso(),
@@ -1162,7 +1295,12 @@ function buildCrmCandidate(lead){
     estimatedDealSize: '',
     serviceInterest: '',
     notes: '',
-    history: [crmHistoryEntry('imported', 'Imported from Find Leads')]
+    history: [crmHistoryEntry('imported', 'Imported from Find Leads')],
+    aiEnhancedFields: Array.isArray(lead.aiEnhancedFields) ? [...lead.aiEnhancedFields] : [],
+    scrapedEnhancedFields: Array.isArray(lead.scrapedEnhancedFields) ? [...lead.scrapedEnhancedFields] : [],
+    fieldSources: lead.fieldSources && typeof lead.fieldSources === 'object' ? { ...lead.fieldSources } : {},
+    aiLastEnhancedAt: lead.aiLastEnhancedAt || '',
+    aiEnhanceCount: Number(lead.aiEnhanceCount || 0)
   };
 }
 function findDuplicate(candidate){
@@ -1288,7 +1426,8 @@ function buildCrmMirrorCard(r){
     '<div class="' + fieldBlockClass(r, 'primaryContactEmail') + '"><div class="' + fieldLabelClass(r, 'primaryContactEmail') + '">' + missingLabel('Primary Contact Email', r.primaryContactEmail) + '</div><div class="block-value ' + valueClass(r, 'primaryContactEmail') + '">' + (r.primaryContactEmail ? renderPrimaryContactEmailAction(r) : '<span class="missing-value">Not found</span>') + '</div></div>' +
     '</div></div>' +
     '<div class="secondary-row">' + contactsPill + '<div class="secondary-pill"><div class="block-label">Employees</div><div class="block-value">' + esc(r.employees || 'Optional') + '</div></div><div class="secondary-pill"><div class="block-label">Revenue</div><div class="block-value">' + esc(r.revenue || 'Optional') + '</div></div></div>' +
-    '<div class="action-row"><button class="bsm edit-strong" onclick="openCrmRecord(\'' + r.crmId + '\')">Edit Lead</button><button class="bsm" onclick="openContactsByRecord(\'' + r.crmId + '\')">Contacts</button><button class="bsm ai" onclick="openAiEnhancePlaceholder(' + "'crm'" + ')">AI Enhance</button>' + aiMeta + '</div>' +
+    '<div class="action-row"><button class="bsm edit-strong" onclick="openCrmRecord(\'' + r.crmId + '\')">Edit Lead</button><button class="bsm" onclick="openContactsByRecord(\'' + r.crmId + '\')">Contacts</button><button class="bsm ai" onclick="openAiEnhancePlaceholder(' + "'crm'" + ')">AI Enhance</button></div>' +
+    aiMeta +
     '<div class="mini-enhance-note">Fast Google results first. AI enhance runs on demand.</div>' +
     '</div>';
 }
@@ -1323,16 +1462,16 @@ function updateCrmQuickFilterCounts(){
     won: crmRecords.filter(r => r.status === 'closed_won').length,
     lost: crmRecords.filter(r => r.status === 'closed_lost').length
   };
-  if ($('crmCountAll')) $('crmCountAll').textContent = '(' + String(counts.all) + ')';
-  if ($('crmCountNew')) $('crmCountNew').textContent = '(' + String(counts.new) + ')';
-  if ($('crmCountEmailed')) $('crmCountEmailed').textContent = '(' + String(counts.emailed) + ')';
-  if ($('crmCountCalled')) $('crmCountCalled').textContent = '(' + String(counts.called) + ')';
-  if ($('crmCountInterested')) $('crmCountInterested').textContent = '(' + String(counts.interested) + ')';
-  if ($('crmCountMeeting')) $('crmCountMeeting').textContent = '(' + String(counts.meeting) + ')';
-  if ($('crmCountProposal')) $('crmCountProposal').textContent = '(' + String(counts.proposal) + ')';
-  if ($('crmCountNegotiating')) $('crmCountNegotiating').textContent = '(' + String(counts.negotiating) + ')';
-  if ($('crmCountWon')) $('crmCountWon').textContent = '(' + String(counts.won) + ')';
-  if ($('crmCountLost')) $('crmCountLost').textContent = '(' + String(counts.lost) + ')';
+  if ($('crmCountAll')) $('crmCountAll').textContent = String(counts.all);
+  if ($('crmCountNew')) $('crmCountNew').textContent = String(counts.new);
+  if ($('crmCountEmailed')) $('crmCountEmailed').textContent = String(counts.emailed);
+  if ($('crmCountCalled')) $('crmCountCalled').textContent = String(counts.called);
+  if ($('crmCountInterested')) $('crmCountInterested').textContent = String(counts.interested);
+  if ($('crmCountMeeting')) $('crmCountMeeting').textContent = String(counts.meeting);
+  if ($('crmCountProposal')) $('crmCountProposal').textContent = String(counts.proposal);
+  if ($('crmCountNegotiating')) $('crmCountNegotiating').textContent = String(counts.negotiating);
+  if ($('crmCountWon')) $('crmCountWon').textContent = String(counts.won);
+  if ($('crmCountLost')) $('crmCountLost').textContent = String(counts.lost);
 }
 function filteredCrmRecords(){
   const status = $('crmStatusFilter').value;
