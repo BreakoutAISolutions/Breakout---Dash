@@ -416,10 +416,7 @@ a { color: inherit; text-decoration: none; }
       <div id="crmStationPanel" class="station-panel centered-mode">
       <div class="back-row">
         <div class="back-link" onclick="showView('home')">&larr; Back to overview</div>
-        <div class="controls">
-          <button class="bsm" onclick="setCrmView('list')">List View</button>
-          <button class="bsm" onclick="setCrmView('cards')">Card View</button>
-        </div>
+        <div class="controls"></div>
       </div>
 
       <div class="section-wrap">
@@ -462,6 +459,13 @@ a { color: inherit; text-decoration: none; }
       </div>
 
       <div id="crmThumbStrip" class="crm-thumb-strip"></div>
+      <div class="back-row" style="margin-top:6px;">
+        <div></div>
+        <div class="controls">
+          <button class="bsm" id="crmListViewBtn" onclick="setCrmView('list')">List View</button>
+          <button class="bsm" id="crmCardViewBtn" onclick="setCrmView('cards')">Card View</button>
+        </div>
+      </div>
       <div id="crmListWrap" class="list-wrap hidden"></div>
       <div id="crmCardsWrap" class="results-grid"></div>
       </div>
@@ -872,7 +876,7 @@ function showView(view){
   $('topMarketing').classList.toggle('active', view === 'marketing');
   updateShellLayout();
   if (view === 'leads') { updateLeadControlButtons(); updateLeadSummaryFilterButtons(); renderLeads(); }
-  if (view === 'crm') renderCrm();
+  if (view === 'crm') { updateCrmViewButtons(); renderCrm(); }
   if (view === 'marketing') renderMarketing();
 }
 function enterStation(name){ showView(name); }
@@ -1519,7 +1523,13 @@ function buildCrmMirrorCard(r){
     '<div class="card-footer-row"><div class="mini-enhance-note">Fast Google results first. AI enhance runs on demand.</div><div class="badges"><span class="badge ora">Google Places</span></div></div>' +
     '</div>';
 }
-function setCrmView(next){ crmView = next; updateShellLayout(); renderCrm(); }
+function updateCrmViewButtons(){
+  const listBtn = $('crmListViewBtn');
+  const cardBtn = $('crmCardViewBtn');
+  if (listBtn) listBtn.className = crmView === 'list' ? 'bsm ora' : 'bsm';
+  if (cardBtn) cardBtn.className = crmView === 'cards' ? 'bsm ora' : 'bsm';
+}
+function setCrmView(next){ crmView = next; updateShellLayout(); updateCrmViewButtons(); renderCrm(); }
 function setQuickCrmFilter(value){
   activeQuickFilter = value;
   updateQuickFilterPills();
