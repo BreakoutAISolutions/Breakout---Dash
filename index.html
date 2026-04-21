@@ -152,6 +152,9 @@ a { color: inherit; text-decoration: none; }
 .title-check { display:inline-flex; align-items:center; justify-content:center; width:18px; height:18px; border-radius:999px; margin-left:8px; font-size:11px; font-weight:700; color:#34d399; border:1px solid rgba(52,211,153,0.35); background:rgba(52,211,153,0.08); vertical-align:middle; }
 .ai-inline-meta { display:inline-flex; align-items:center; gap:6px; color:#fde68a; font-size:11px; font-weight:700; }
 .ai-list-value { color:#fde68a; font-weight:700; }
+.scrape-field-highlight { border-color: rgba(245,158,11,0.5); background: rgba(245,158,11,0.16); }
+.scrape-field-highlight .block-value, .scrape-field-highlight .block-value a, .scrape-field-highlight .crm-mini { color: #fbbf24 !important; font-weight: 700; }
+.scrape-label-highlight { color: #fbbf24 !important; font-weight: 700; }
 
 .progress-wrap { display:none; margin-bottom: 14px; background:#0f1623; border:1px solid rgba(249,115,22,0.2); border-radius: 14px; padding: 14px; }
 .progress-head { display:flex; justify-content:space-between; gap:12px; font-size:12px; color:#fb923c; margin-bottom:8px; }
@@ -340,10 +343,7 @@ a { color: inherit; text-decoration: none; }
       <div class="back-row">
         <div class="back-link" onclick="showView('home')">&larr; Back to overview</div>
         <div class="controls">
-          <button class="bsm" onclick="setLeadView('list')">List View</button>
-          <button class="bsm" onclick="setLeadView('cards')">Card View</button>
-          <button class="bsm" onclick="openSearchHistory()">Search History</button>
-          <button class="bsm" onclick="toggleHandledResults()"><span id="handledToggleLabel">Hide imported and declined</span></button>
+          <button class="bsm" id="handledToggleBtn" onclick="toggleHandledResults()"><span id="handledToggleLabel">Show Imported and Declined</span></button>
         </div>
       </div>
 
@@ -382,6 +382,17 @@ a { color: inherit; text-decoration: none; }
         <div class="summary-box"><strong id="sumContacts">0</strong><span>Contacts</span></div>
         <div class="summary-div"></div>
         <div class="summary-box clickable" id="qualifiedImportBox" onclick="promptImportQualifiedLeads()"><strong id="sumQualified">0</strong><span>Green Check Ready</span></div>
+      </div>
+      </div>
+
+      <div class="back-row" style="margin-top:6px;">
+        <div class="controls">
+          <button class="bsm" onclick="openSearchHistory()">Search History</button>
+        </div>
+        <div class="controls">
+          <button class="bsm" onclick="setLeadView('list')">List View</button>
+          <button class="bsm" onclick="setLeadView('cards')">Card View</button>
+        </div>
       </div>
 
       <div class="list-wrap hidden" id="leadListWrap"></div>
@@ -426,16 +437,16 @@ a { color: inherit; text-decoration: none; }
       </div>
 
       <div class="quick-filter-bar" id="crmQuickFilterBar">
-        <button class="quick-filter-pill active" data-filter="" onclick="setQuickCrmFilter('')">All <span id="crmCountAll">0</span></button>
-        <button class="quick-filter-pill" data-filter="new" onclick="setQuickCrmFilter('new')">New <span id="crmCountNew">0</span></button>
-        <button class="quick-filter-pill" data-filter="emailed" onclick="setQuickCrmFilter('emailed')">Emailed <span id="crmCountEmailed">0</span></button>
-        <button class="quick-filter-pill" data-filter="called_or_texted" onclick="setQuickCrmFilter('called_or_texted')">Called or Texted <span id="crmCountCalled">0</span></button>
-        <button class="quick-filter-pill" data-filter="interested" onclick="setQuickCrmFilter('interested')">Interested <span id="crmCountInterested">0</span></button>
-        <button class="quick-filter-pill" data-filter="meeting_booked" onclick="setQuickCrmFilter('meeting_booked')">Meeting Booked <span id="crmCountMeeting">0</span></button>
-        <button class="quick-filter-pill" data-filter="proposal_sent" onclick="setQuickCrmFilter('proposal_sent')">Proposal Sent <span id="crmCountProposal">0</span></button>
-        <button class="quick-filter-pill" data-filter="negotiating" onclick="setQuickCrmFilter('negotiating')">Negotiating <span id="crmCountNegotiating">0</span></button>
-        <button class="quick-filter-pill" data-filter="closed_won" onclick="setQuickCrmFilter('closed_won')">Closed Won <span id="crmCountWon">0</span></button>
-        <button class="quick-filter-pill" data-filter="closed_lost" onclick="setQuickCrmFilter('closed_lost')">Closed Lost <span id="crmCountLost">0</span></button>
+        <button class="quick-filter-pill active" data-filter="" onclick="setQuickCrmFilter('')">All (<span id="crmCountAll">0</span>)</button>
+        <button class="quick-filter-pill" data-filter="new" onclick="setQuickCrmFilter('new')">New (<span id="crmCountNew">0</span>)</button>
+        <button class="quick-filter-pill" data-filter="emailed" onclick="setQuickCrmFilter('emailed')">Emailed (<span id="crmCountEmailed">0</span>)</button>
+        <button class="quick-filter-pill" data-filter="called_or_texted" onclick="setQuickCrmFilter('called_or_texted')">Called or Texted (<span id="crmCountCalled">0</span>)</button>
+        <button class="quick-filter-pill" data-filter="interested" onclick="setQuickCrmFilter('interested')">Interested (<span id="crmCountInterested">0</span>)</button>
+        <button class="quick-filter-pill" data-filter="meeting_booked" onclick="setQuickCrmFilter('meeting_booked')">Meeting Booked (<span id="crmCountMeeting">0</span>)</button>
+        <button class="quick-filter-pill" data-filter="proposal_sent" onclick="setQuickCrmFilter('proposal_sent')">Proposal Sent (<span id="crmCountProposal">0</span>)</button>
+        <button class="quick-filter-pill" data-filter="negotiating" onclick="setQuickCrmFilter('negotiating')">Negotiating (<span id="crmCountNegotiating">0</span>)</button>
+        <button class="quick-filter-pill" data-filter="closed_won" onclick="setQuickCrmFilter('closed_won')">Closed Won (<span id="crmCountWon">0</span>)</button>
+        <button class="quick-filter-pill" data-filter="closed_lost" onclick="setQuickCrmFilter('closed_lost')">Closed Lost (<span id="crmCountLost">0</span>)</button>
       </div>
 
       <div id="crmListWrap" class="list-wrap hidden"></div>
@@ -609,6 +620,16 @@ function closeModal(id){ const el = $(id); if (el) el.classList.remove('open'); 
 function fallbackCopy(value){ const ta = document.createElement('textarea'); ta.value = value; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); } catch {} ta.remove(); }
 function copyText(value, title, body){ const v = String(value || ''); if (!v) return; if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(v).then(() => showToast(title, body)).catch(() => { fallbackCopy(v); showToast(title, body); }); } else { fallbackCopy(v); showToast(title, body); } }
 function showToast(title, body){ const wrap = $('toastWrap'); const item = document.createElement('div'); item.className = 'toast'; item.innerHTML = '<div class="toast-title">' + esc(title) + '</div><div class="toast-body">' + esc(body) + '</div>'; wrap.appendChild(item); setTimeout(() => item.remove(), 2500); }
+function updateEnhanceProgress(done, total, stage){
+  const safeTotal = Math.max(1, Number(total || 0));
+  const safeDone = Math.min(Number(done || 0), safeTotal);
+  const pct = Math.max(0, Math.min(100, Math.round((safeDone / safeTotal) * 100)));
+  $('progressWrap').style.display = 'block';
+  $('progressStage').textContent = stage || 'AI Enhance running';
+  $('progressPct').textContent = pct + '%';
+  $('progressSub').textContent = safeDone < safeTotal ? 'Web scraping and AI enhancing ' + safeDone + ' of ' + safeTotal + ' leads' : 'Finishing AI enhancement';
+  $('progressFill').style.width = pct + '%';
+}
 
 function safeReadArray(key){
   try {
@@ -892,7 +913,14 @@ function markLeadHandledStates(){
   });
 }
 function visibleLeads(){ return handledFilterHidden ? leads.filter(l => !l.handledState) : leads.slice(); }
-function toggleHandledResults(){ handledFilterHidden = !handledFilterHidden; $('handledToggleLabel').textContent = handledFilterHidden ? 'Hide imported and declined' : 'Show imported and declined'; saveCurrentLeadsState(); renderLeads(); }
+function updateHandledToggleButton(){
+  if ($('handledToggleLabel')) $('handledToggleLabel').textContent = 'Show Imported and Declined';
+  const btn = $('handledToggleBtn');
+  if (btn) {
+    btn.classList.toggle('ora', !handledFilterHidden);
+  }
+}
+function toggleHandledResults(){ handledFilterHidden = !handledFilterHidden; updateHandledToggleButton(); saveCurrentLeadsState(); renderLeads(); }
 
 function qualifiesLeadForQuickImport(item){
   const hasWebsite = !!compact(item && item.website);
@@ -1865,7 +1893,7 @@ if (Array.isArray(leads) && leads.length) markLeadHandledStates();
 updateDashboardSummary();
 updateQuickFilterPills();
 updateCrmQuickFilterCounts();
-if ($('handledToggleLabel')) $('handledToggleLabel').textContent = handledFilterHidden ? 'Hide imported and declined' : 'Show imported and declined';
+updateHandledToggleButton();
 showView('home');
 </script>
 </body>
