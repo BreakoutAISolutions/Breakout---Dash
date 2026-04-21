@@ -139,6 +139,11 @@ a { color: inherit; text-decoration: none; }
 .missing-indicator { color: #fca5a5; font-weight: 700; margin-left: 4px; }
 .missing-value { color: #fca5a5; font-weight: 600; }
 .bsm.edit-strong { border-color: rgba(249,115,22,0.35); color: #fb923c; background: rgba(249,115,22,0.08); }
+.lead-bulk-bar { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; align-items:center; }
+.lead-bulk-meta { font-size:12px; color:#8fa3c0; margin-right:auto; }
+.lead-checkbox-wrap { display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+.lead-checkbox { width:16px; height:16px; accent-color:#f97316; cursor:pointer; }
+.mini-enhance-note { font-size:11px; color:#8fa3c0; }
 
 .progress-wrap { display:none; margin-bottom: 14px; background:#0f1623; border:1px solid rgba(249,115,22,0.2); border-radius: 14px; padding: 14px; }
 .progress-head { display:flex; justify-content:space-between; gap:12px; font-size:12px; color:#fb923c; margin-bottom:8px; }
@@ -361,6 +366,16 @@ a { color: inherit; text-decoration: none; }
         <div class="summary-box"><strong id="sumAi">0</strong><span>AI Enriched</span></div>
       </div>
 
+      <div class="lead-bulk-bar">
+        <button class="bsm" onclick="toggleSelectAllVisibleLeads()">Select Visible</button>
+        <button class="bsm" onclick="clearLeadSelections()">Clear Selected</button>
+        <button class="bsm ora" onclick="openAiEnhancePlaceholder('selected')">AI Enhance Selected</button>
+        <button class="bsm ora" onclick="openAiEnhancePlaceholder('top5')">Enhance Top 5</button>
+        <button class="bsm ora" onclick="openAiEnhancePlaceholder('top10')">Enhance Top 10</button>
+        <button class="bsm ora" onclick="openAiEnhancePlaceholder('missing')">Enhance Missing Only</button>
+        <div class="lead-bulk-meta"><span id="selectedLeadCount">0</span> selected</div>
+      </div>
+
       <div class="list-wrap hidden" id="leadListWrap"></div>
       <div class="results-grid" id="resultsGrid"></div>
       </div>
@@ -526,6 +541,7 @@ let activeComposeCrmId = '';
 let activePhoneCrmId = '';
 let activePromptCrmId = '';
 let activeQuickFilter = '';
+let selectedLeadIds = [];
 
 const marketingModules = [
   {
@@ -717,6 +733,7 @@ function saveCurrentLeadsState(){
       leads,
       handledFilterHidden,
       leadView,
+      selectedLeadIds,
       searchType: $('searchType') ? $('searchType').value : '',
       searchCity: $('searchCity') ? $('searchCity').value : '',
       searchRating: $('searchRating') ? $('searchRating').value : '',
@@ -739,6 +756,7 @@ function restoreCurrentLeadsState(){
     if (Array.isArray(payload.leads)) leads = payload.leads;
     if (typeof payload.handledFilterHidden === 'boolean') handledFilterHidden = payload.handledFilterHidden;
     if (payload.leadView === 'list' || payload.leadView === 'cards') leadView = payload.leadView;
+    if (Array.isArray(payload.selectedLeadIds)) selectedLeadIds = payload.selectedLeadIds;
   } catch {}
 }
 function missingLabel(label, value){
@@ -863,8 +881,9 @@ function summaryCounts(arr){
 }
 function buildLeadListRow(lead, realIndex){
   const contactsLink = lead.contacts.length > 1 ? '<button class="bsm" onclick="openContactsFromLead(' + realIndex + ')">More Contacts</button>' : '';
+  const checked = isLeadSelected(lead) ? ' checked' : '';
   return '<tr>' +
-    '<td><div style="font-weight:700">' + esc(lead.name) + '</div><div class="crm-mini">' + esc(lead.address || [lead.city, lead.state].filter(Boolean).join(', ')) + '</div></td>' +
+    '<td><div class="lead-checkbox-wrap"><input type="checkbox" class="lead-checkbox"' + checked + ' onchange="toggleLeadSelection(' + realIndex + ')"><div><div style="font-weight:700">' + esc(lead.name) + '</div><div class="crm-mini">' + esc(lead.address || [lead.city, lead.state].filter(Boolean).join(', ')) + '</div></div></div></td>' +
     '<td>' + missingValue(lead.industry) + '</td>' +
     '<td>' + (lead.website ? '<a href="' + esc(lead.website) + '" target="_blank" class="link-btn">' + esc(lead.domain || lead.website) + '</a>' : '<span class="missing-value">Not found</span>') + '</td>' +
     '<td>' + missingValue(lead.phone) + '</td>' +
@@ -874,7 +893,7 @@ function buildLeadListRow(lead, realIndex){
     '<td>' + missingValue(lead.primaryContactEmail) + '</td>' +
     '<td>' + esc(lead.employees || 'Optional') + '</td>' +
     '<td>' + esc(lead.revenue || 'Optional') + '</td>' +
-    '<td><div class="crm-actions"><button class="bsm edit-strong" onclick="openEdit(' + realIndex + ')">Edit Lead</button><button class="bsm ok" onclick="importLead(' + realIndex + ')">Import</button><button class="bsm red" onclick="declineLead(' + realIndex + ')">Decline</button>' + contactsLink + '</div></td>' +
+    '<td><div class="crm-actions"><button class="bsm edit-strong" onclick="openEdit(' + realIndex + ')">Edit Lead</button><button class="bsm ok" onclick="importLead(' + realIndex + ')">Import</button><button class="bsm red" onclick="declineLead(' + realIndex + ')">Decline</button><button class="bsm ora" onclick="openAiEnhancePlaceholder(' + "'one'" + ')">AI Enhance</button>' + contactsLink + '</div></td>' +
     '</tr>';
 }
 function renderLeads(){
@@ -889,9 +908,10 @@ function renderLeads(){
       const realIndex = leads.indexOf(lead);
       const contactsLink = lead.contacts.length > 1 ? '<button class="bsm" onclick="openContactsFromLead(' + realIndex + ')">More Contacts (' + lead.contacts.length + ')</button>' : '';
       const handledBadge = lead.handledState === 'in_crm' ? '<span class="badge ok">Already in CRM</span>' : lead.handledState === 'declined' ? '<span class="badge red">Previously Declined</span>' : '';
+      const checked = isLeadSelected(lead) ? ' checked' : '';
       const card = document.createElement('div');
       card.className = 'lead-card';
-      card.innerHTML = '<div class="lead-head"><div><div class="lead-title">' + esc(lead.name) + '</div><div class="lead-sub">' + esc(lead.address || [lead.city, lead.state].filter(Boolean).join(', ')) + '</div></div><div class="badges">' + (lead.rating ? '<span class="badge">&#9733; ' + esc(lead.rating) + '</span>' : '') + (lead.enrichmentSource === 'openai' ? '<span class="badge ok">AI Enriched</span>' : '<span class="badge ora">Google Places</span>') + handledBadge + '</div></div>' +
+      card.innerHTML = '<div class="lead-head"><div><div class="lead-checkbox-wrap"><input type="checkbox" class="lead-checkbox"' + checked + ' onchange="toggleLeadSelection(' + realIndex + ')"><div><div class="lead-title">' + esc(lead.name) + '</div><div class="lead-sub">' + esc(lead.address || [lead.city, lead.state].filter(Boolean).join(', ')) + '</div></div></div></div><div class="badges">' + (lead.rating ? '<span class="badge">&#9733; ' + esc(lead.rating) + '</span>' : '') + (lead.enrichmentSource === 'openai' ? '<span class="badge ok">AI Enriched</span>' : '<span class="badge ora">Google Places</span>') + handledBadge + '</div></div>' +
         '<div class="card-columns"><div class="column-stack">' +
         '<div class="block"><div class="block-label">Industry</div><div class="block-value">' + esc(lead.industry || 'Not found') + '</div></div>' +
         '<div class="block"><div class="block-label">Website</div><div class="block-value">' + (lead.website ? '<a href="' + esc(lead.website) + '" target="_blank" style="color:#fb923c;text-decoration:none">' + esc(lead.domain || lead.website) + '</a>' : 'Not found') + '</div></div>' +
@@ -903,13 +923,14 @@ function renderLeads(){
         '<div class="block"><div class="block-label">Primary Contact Email</div><div class="block-value">' + esc(lead.primaryContactEmail || 'Not found') + '</div></div>' +
         '</div></div>' +
         '<div class="secondary-row"><div class="secondary-pill"><div class="block-label">Employees</div><div class="block-value">' + esc(lead.employees || 'Optional') + '</div></div><div class="secondary-pill"><div class="block-label">Revenue</div><div class="block-value">' + esc(lead.revenue || 'Optional') + '</div></div></div>' +
-        '<div class="action-row"><button class="bsm edit-strong" onclick="openEdit(' + realIndex + ')">Edit Lead</button><button class="bsm ok" onclick="importLead(' + realIndex + ')">Import</button><button class="bsm red" onclick="declineLead(' + realIndex + ')">Decline</button>' + contactsLink + '</div>';
+        '<div class="action-row"><button class="bsm edit-strong" onclick="openEdit(' + realIndex + ')">Edit Lead</button><button class="bsm ok" onclick="importLead(' + realIndex + ')">Import</button><button class="bsm red" onclick="declineLead(' + realIndex + ')">Decline</button><button class="bsm ora" onclick="openAiEnhancePlaceholder(' + "'one'" + ')">AI Enhance</button>' + contactsLink + '</div><div class="mini-enhance-note">Fast Google results first. AI enhance runs on demand.</div>';
       grid.appendChild(card);
     });
   } else {
     listWrap.innerHTML = '<table class="crm-table"><thead><tr><th>Business</th><th>Industry</th><th>Website</th><th>Business Phone</th><th>Company Email</th><th>Primary Contact</th><th>Primary Contact Phone</th><th>Primary Contact Email</th><th>Employees</th><th>Revenue</th><th>Actions</th></tr></thead><tbody>' + shown.map(lead => buildLeadListRow(lead, leads.indexOf(lead))).join('') + '</tbody></table>';
   }
   summaryCounts(shown);
+  if ($('selectedLeadCount')) $('selectedLeadCount').textContent = String(selectedVisibleLeadCount());
   updateDashboardSummary();
   saveCurrentLeadsState();
 }
@@ -949,6 +970,51 @@ function previewMarketingFlow(kind){
   showToast('Success!', title + ' preview flow is ready for backend wiring next.');
 }
 
+function leadSelectionId(lead){
+  return compact(lead.placeId || lead.id || lead.domain || (normalizeName(lead.name) + '|' + compact(lead.city).toLowerCase()));
+}
+function isLeadSelected(lead){
+  return selectedLeadIds.includes(leadSelectionId(lead));
+}
+function toggleLeadSelection(index){
+  const lead = leads[index];
+  if (!lead) return;
+  const id = leadSelectionId(lead);
+  if (!id) return;
+  if (selectedLeadIds.includes(id)) selectedLeadIds = selectedLeadIds.filter(x => x !== id);
+  else selectedLeadIds = [...selectedLeadIds, id];
+  saveCurrentLeadsState();
+  renderLeads();
+}
+function toggleSelectAllVisibleLeads(){
+  const visibleIds = visibleLeads().map(leadSelectionId).filter(Boolean);
+  const allSelected = visibleIds.length && visibleIds.every(id => selectedLeadIds.includes(id));
+  if (allSelected) selectedLeadIds = selectedLeadIds.filter(id => !visibleIds.includes(id));
+  else selectedLeadIds = Array.from(new Set([...selectedLeadIds, ...visibleIds]));
+  saveCurrentLeadsState();
+  renderLeads();
+}
+function clearLeadSelections(){
+  selectedLeadIds = [];
+  saveCurrentLeadsState();
+  renderLeads();
+}
+function selectedVisibleLeadCount(){
+  const visibleIds = new Set(visibleLeads().map(leadSelectionId).filter(Boolean));
+  return selectedLeadIds.filter(id => visibleIds.has(id)).length;
+}
+function openAiEnhancePlaceholder(mode){
+  const count = selectedVisibleLeadCount();
+  const messages = {
+    one: 'AI Enhance for a single lead is front end ready. Backend bulk and single enrich routes come next.',
+    selected: count ? 'AI Enhance Selected is front end ready for ' + count + ' selected leads. Backend wiring comes next.' : 'Select one or more leads first.',
+    top5: 'AI Enhance Top 5 is front end ready. Backend wiring comes next.',
+    top10: 'AI Enhance Top 10 is front end ready. Backend wiring comes next.',
+    missing: 'Enhance Missing Fields Only is front end ready. Backend wiring comes next.',
+    crm: 'CRM side AI Enhance is queued as a light targeted action after lead queue enrichment is live.'
+  };
+  showToast('Success!', messages[mode] || 'AI Enhance placeholder ready.');
+}
 function openEdit(index){
   activeEditIndex = index;
   const lead = leads[index];
@@ -1117,7 +1183,7 @@ function buildCrmMirrorCard(r){
     '<div class="block"><div class="block-label">Primary Contact Email</div><div class="block-value">' + renderPrimaryContactEmailAction(r) + '</div></div>' +
     '</div></div>' +
     '<div class="secondary-row"><div class="secondary-pill"><div class="block-label">Employees</div><div class="block-value">' + esc(r.employees || 'Optional') + '</div></div><div class="secondary-pill"><div class="block-label">Revenue</div><div class="block-value">' + esc(r.revenue || 'Optional') + '</div></div></div>' +
-    '<div class="action-row"><button class="bsm" onclick="openContactsByRecord(\'' + r.crmId + '\')">Contacts</button></div>' +
+    '<div class="action-row"><button class="bsm" onclick="openContactsByRecord(\'' + r.crmId + '\')">Contacts</button><button class="bsm ora" onclick="openAiEnhancePlaceholder(' + "'crm'" + ')">AI</button></div>' +
     '</div>';
 }
 function setCrmView(next){ crmView = next; updateShellLayout(); renderCrm(); }
