@@ -379,11 +379,11 @@ a { color: inherit; text-decoration: none; }
       <div class="summary" id="summaryBar">
         <div class="summary-box"><strong id="sumTotal">0</strong><span>Visible</span></div>
         <div class="summary-div"></div>
-        <div class="summary-box"><strong id="sumWebsite">0</strong><span>Website</span></div>
+        <div class="summary-box clickable" id="summaryWebsiteBox" onclick="setLeadSummaryFilter('website')"><strong id="sumWebsite">0</strong><span>Website</span></div>
         <div class="summary-div"></div>
-        <div class="summary-box"><strong id="sumEmail">0</strong><span>Company Email</span></div>
+        <div class="summary-box clickable" id="summaryEmailBox" onclick="setLeadSummaryFilter('companyEmail')"><strong id="sumEmail">0</strong><span>Company Email</span></div>
         <div class="summary-div"></div>
-        <div class="summary-box"><strong id="sumContacts">0</strong><span>Contacts</span></div>
+        <div class="summary-box clickable" id="summaryContactsBox" onclick="setLeadSummaryFilter('contacts')"><strong id="sumContacts">0</strong><span>Contacts</span></div>
         <div class="summary-div"></div>
         <div class="summary-box clickable" id="qualifiedImportBox" onclick="promptImportQualifiedLeads()"><strong id="sumQualified">0</strong><span>Green Check Ready</span></div>
       </div>
@@ -571,6 +571,7 @@ let activePromptCrmId = '';
 let activeQuickFilter = '';
 let selectedLeadIds = [];
 let pendingQualifiedImportIndexes = [];
+let activeLeadSummaryFilter = '';
 
 const marketingModules = [
   {
@@ -862,12 +863,40 @@ function showView(view){
   $('topCrm').classList.toggle('active', view === 'crm');
   $('topMarketing').classList.toggle('active', view === 'marketing');
   updateShellLayout();
-  if (view === 'leads') { updateLeadControlButtons(); renderLeads(); }
+  if (view === 'leads') { updateLeadControlButtons(); updateLeadSummaryFilterButtons(); renderLeads(); }
   if (view === 'crm') renderCrm();
   if (view === 'marketing') renderMarketing();
 }
 function enterStation(name){ showView(name); }
 function setLeadView(next){ leadView = next; updateShellLayout(); updateLeadControlButtons(); renderLeads(); }
+function setLeadSummaryFilter(next){
+  activeLeadSummaryFilter = activeLeadSummaryFilter === next ? '' : next;
+  updateLeadSummaryFilterButtons();
+  renderLeads();
+}
+function passesLeadSummaryFilter(lead){
+  if (!activeLeadSummaryFilter) return true;
+  if (activeLeadSummaryFilter === 'website') return !!compact(lead.website);
+  if (activeLeadSummaryFilter === 'companyEmail') return !!compact(lead.companyEmail);
+  if (activeLeadSummaryFilter === 'contacts') return Array.isArray(lead.contacts) && lead.contacts.length > 0;
+  return true;
+}
+function updateLeadSummaryFilterButtons(){
+  const websiteBox = $('summaryWebsiteBox');
+  const emailBox = $('summaryEmailBox');
+  const contactsBox = $('summaryContactsBox');
+  if (websiteBox) websiteBox.className = activeLeadSummaryFilter === 'website' ? 'summary-box clickable' : 'summary-box clickable';
+  if (emailBox) emailBox.className = activeLeadSummaryFilter === 'companyEmail' ? 'summary-box clickable' : 'summary-box clickable';
+  if (contactsBox) contactsBox.className = activeLeadSummaryFilter === 'contacts' ? 'summary-box clickable' : 'summary-box clickable';
+  const activeStyle = (box, isActive) => {
+    if (!box) return;
+    box.style.background = isActive ? 'rgba(249,115,22,0.12)' : '';
+    box.style.borderColor = isActive ? 'rgba(249,115,22,0.35)' : '';
+  };
+  activeStyle(websiteBox, activeLeadSummaryFilter === 'website');
+  activeStyle(emailBox, activeLeadSummaryFilter === 'companyEmail');
+  activeStyle(contactsBox, activeLeadSummaryFilter === 'contacts');
+}
 function setMarketingView(next){ marketingView = next; updateShellLayout(); renderMarketing(); }
 
 function setProgress(pct, stage, sub){ $('progressPct').textContent = pct + '%'; $('progressStage').textContent = stage; $('progressSub').textContent = sub; $('progressFill').style.width = pct + '%'; }
@@ -936,7 +965,7 @@ function markLeadHandledStates(){
     }
   });
 }
-function visibleLeads(){ return handledFilterHidden ? leads.filter(l => !l.handledState) : leads.slice(); }
+function visibleLeads(){ const base = handledFilterHidden ? leads.filter(l => !l.handledState) : leads.slice(); return base.filter(passesLeadSummaryFilter); }
 function updateHandledToggleButton(){
   if ($('handledToggleLabel')) $('handledToggleLabel').textContent = 'Show Imported and Declined';
   const btn = $('handledToggleBtn');
@@ -1065,6 +1094,7 @@ function renderLeads(){
     listWrap.innerHTML = '<table class="crm-table"><thead><tr><th>Business</th><th>Industry</th><th>Website</th><th>Business Phone</th><th>Company Email</th><th>Primary Contact</th><th>Primary Contact Phone</th><th>Primary Contact Email</th><th>Employees</th><th>Revenue</th><th>Actions</th></tr></thead><tbody>' + shown.map(lead => buildLeadListRow(lead, leads.indexOf(lead))).join('') + '</tbody></table>';
   }
   summaryCounts(shown);
+  updateLeadSummaryFilterButtons();
   if ($('selectedLeadCount')) $('selectedLeadCount').textContent = String(selectedVisibleLeadCount());
   updateDashboardSummary();
   saveCurrentLeadsState();
