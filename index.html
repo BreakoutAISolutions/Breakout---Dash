@@ -1148,6 +1148,9 @@ function buildCrmCandidate(lead){
     contacts: Array.isArray(lead.contacts) ? lead.contacts.map(c => ({ name: c.name || '', title: c.title || '', email: c.email || '', phone: c.phone || '', notes: '', tasks: [] })) : [],
     employees: lead.employees || '',
     revenue: lead.revenue || '',
+    aiEnhancedFields: Array.isArray(lead.aiEnhancedFields) ? [...lead.aiEnhancedFields] : [],
+    aiLastEnhancedAt: lead.aiLastEnhancedAt || '',
+    aiEnhanceCount: Number(lead.aiEnhanceCount || 0),
     status: 'new',
     importedAt: nowIso(),
     updatedAt: nowIso(),
@@ -1285,8 +1288,7 @@ function buildCrmMirrorCard(r){
     '<div class="' + fieldBlockClass(r, 'primaryContactEmail') + '"><div class="' + fieldLabelClass(r, 'primaryContactEmail') + '">' + missingLabel('Primary Contact Email', r.primaryContactEmail) + '</div><div class="block-value ' + valueClass(r, 'primaryContactEmail') + '">' + (r.primaryContactEmail ? renderPrimaryContactEmailAction(r) : '<span class="missing-value">Not found</span>') + '</div></div>' +
     '</div></div>' +
     '<div class="secondary-row">' + contactsPill + '<div class="secondary-pill"><div class="block-label">Employees</div><div class="block-value">' + esc(r.employees || 'Optional') + '</div></div><div class="secondary-pill"><div class="block-label">Revenue</div><div class="block-value">' + esc(r.revenue || 'Optional') + '</div></div></div>' +
-    '<div class="action-row"><button class="bsm edit-strong" onclick="openCrmRecord(\'' + r.crmId + '\')">Edit Lead</button><button class="bsm" onclick="openContactsByRecord(\'' + r.crmId + '\')">Contacts</button><button class="bsm ai" onclick="openAiEnhancePlaceholder(' + "'crm'" + ')">AI Enhance</button></div>' +
-    aiMeta +
+    '<div class="action-row"><button class="bsm edit-strong" onclick="openCrmRecord(\'' + r.crmId + '\')">Edit Lead</button><button class="bsm" onclick="openContactsByRecord(\'' + r.crmId + '\')">Contacts</button><button class="bsm ai" onclick="openAiEnhancePlaceholder(' + "'crm'" + ')">AI Enhance</button>' + aiMeta + '</div>' +
     '<div class="mini-enhance-note">Fast Google results first. AI enhance runs on demand.</div>' +
     '</div>';
 }
@@ -1321,16 +1323,16 @@ function updateCrmQuickFilterCounts(){
     won: crmRecords.filter(r => r.status === 'closed_won').length,
     lost: crmRecords.filter(r => r.status === 'closed_lost').length
   };
-  if ($('crmCountAll')) $('crmCountAll').textContent = String(counts.all);
-  if ($('crmCountNew')) $('crmCountNew').textContent = String(counts.new);
-  if ($('crmCountEmailed')) $('crmCountEmailed').textContent = String(counts.emailed);
-  if ($('crmCountCalled')) $('crmCountCalled').textContent = String(counts.called);
-  if ($('crmCountInterested')) $('crmCountInterested').textContent = String(counts.interested);
-  if ($('crmCountMeeting')) $('crmCountMeeting').textContent = String(counts.meeting);
-  if ($('crmCountProposal')) $('crmCountProposal').textContent = String(counts.proposal);
-  if ($('crmCountNegotiating')) $('crmCountNegotiating').textContent = String(counts.negotiating);
-  if ($('crmCountWon')) $('crmCountWon').textContent = String(counts.won);
-  if ($('crmCountLost')) $('crmCountLost').textContent = String(counts.lost);
+  if ($('crmCountAll')) $('crmCountAll').textContent = '(' + String(counts.all) + ')';
+  if ($('crmCountNew')) $('crmCountNew').textContent = '(' + String(counts.new) + ')';
+  if ($('crmCountEmailed')) $('crmCountEmailed').textContent = '(' + String(counts.emailed) + ')';
+  if ($('crmCountCalled')) $('crmCountCalled').textContent = '(' + String(counts.called) + ')';
+  if ($('crmCountInterested')) $('crmCountInterested').textContent = '(' + String(counts.interested) + ')';
+  if ($('crmCountMeeting')) $('crmCountMeeting').textContent = '(' + String(counts.meeting) + ')';
+  if ($('crmCountProposal')) $('crmCountProposal').textContent = '(' + String(counts.proposal) + ')';
+  if ($('crmCountNegotiating')) $('crmCountNegotiating').textContent = '(' + String(counts.negotiating) + ')';
+  if ($('crmCountWon')) $('crmCountWon').textContent = '(' + String(counts.won) + ')';
+  if ($('crmCountLost')) $('crmCountLost').textContent = '(' + String(counts.lost) + ')';
 }
 function filteredCrmRecords(){
   const status = $('crmStatusFilter').value;
@@ -1729,4 +1731,3 @@ showView('home');
 </script>
 </body>
 </html>
-
