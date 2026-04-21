@@ -1605,16 +1605,14 @@ function crmStatusBadgeClass(status){
 function openCrmThumbnail(crmId){
   const runOpen = () => {
     const target = document.getElementById('crmCard_' + crmId);
-    if (target) {
-      target.scrollIntoView({ behavior:'smooth', block:'start' });
-      target.style.borderColor = 'rgba(249,115,22,0.45)';
-      target.style.boxShadow = '0 0 0 1px rgba(249,115,22,0.15)';
-      setTimeout(() => {
-        target.style.borderColor = '';
-        target.style.boxShadow = '';
-      }, 1800);
-    }
-    openCrmRecord(crmId);
+    if (!target) return;
+    target.scrollIntoView({ behavior:'smooth', block:'start' });
+    target.style.borderColor = 'rgba(249,115,22,0.45)';
+    target.style.boxShadow = '0 0 0 1px rgba(249,115,22,0.15)';
+    setTimeout(() => {
+      target.style.borderColor = '';
+      target.style.boxShadow = '';
+    }, 1800);
   };
   if (crmView !== 'cards') {
     setCrmView('cards');
