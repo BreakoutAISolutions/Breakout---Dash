@@ -1601,9 +1601,17 @@ function crmStatusBadgeClass(status){
 }
 function openCrmThumbnail(crmId){
   if (crmView !== 'cards') setCrmView('cards');
-  const target = document.getElementById('crmCard_' + crmId);
-  if (target) target.scrollIntoView({ behavior:'smooth', block:'start' });
-  setTimeout(() => openCrmRecord(crmId), 250);
+  setTimeout(() => {
+    const target = document.getElementById('crmCard_' + crmId);
+    if (!target) return;
+    target.scrollIntoView({ behavior:'smooth', block:'start' });
+    target.style.borderColor = 'rgba(249,115,22,0.45)';
+    target.style.boxShadow = '0 0 0 1px rgba(249,115,22,0.15)';
+    setTimeout(() => {
+      target.style.borderColor = '';
+      target.style.boxShadow = '';
+    }, 1800);
+  }, 150);
 }
 function renderCrmThumbStrip(records){
   const wrap = $('crmThumbStrip');
