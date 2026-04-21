@@ -731,10 +731,12 @@ function declineLead(index){
   );
   if (!exists) declined.unshift({ ...entry, declinedAt: nowIso() });
   saveDeclinedLeads(declined);
-  lead.handledState = 'declined';
+  removeLeadIndexesFromQueue([index]);
+  markLeadHandledStates();
   saveCurrentLeadsState();
+  updateDashboardSummary();
   renderLeads();
-  showToast('Success!', (lead.name || 'Lead') + ' declined and hidden from future searches.');
+  showToast('Success!', (lead.name || 'Lead') + ' declined and removed from the queue.');
 }
 function isDeclinedLead(lead){
   const entry = normalizeExclusionEntry(lead);
