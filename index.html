@@ -211,6 +211,10 @@ a { color: inherit; text-decoration: none; }
 .modal { width: 100%; max-width: 980px; max-height: 90vh; overflow: auto; background:#0f1623; border:1px solid rgba(249,115,22,0.22); border-radius:18px; padding:20px; }
 .modal h3 { font-family:'Syne',sans-serif; margin-bottom:6px; }
 .modal-sub { color:#8fa3c0; font-size:13px; margin-bottom:14px; }
+.modal-topbar { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:10px; position:sticky; top:0; background:#0f1623; z-index:2; padding-bottom:8px; }
+.modal-topbar .modal-headcopy { min-width:0; }
+.modal-close-x { border:none; cursor:pointer; font:inherit; background:#161e30; color:#e8edf5; border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:8px 12px; flex-shrink:0; }
+.modal-close-x:hover { border-color:rgba(249,115,22,0.35); color:#fb923c; background:rgba(249,115,22,0.08); }
 .contacts-list, .history-list, .search-history-list, .tasks-list { display:grid; gap:8px; margin-top:10px; }
 .contact-row, .history-row, .search-history-row, .dup-row, .task-row { background:#161e30; border:1px solid rgba(255,255,255,0.07); border-radius:12px; padding:10px; }
 .divider-title { font-size:11px; text-transform:uppercase; letter-spacing:1px; color:#fb923c; margin: 12px 0 8px; }
@@ -390,8 +394,9 @@ a { color: inherit; text-decoration: none; }
           <button class="bsm" onclick="openSearchHistory()">Search History</button>
         </div>
         <div class="controls">
-          <button class="bsm" onclick="setLeadView('list')">List View</button>
-          <button class="bsm" onclick="setLeadView('cards')">Card View</button>
+          <button class="bsm" id="leadListViewBtn" onclick="setLeadView('list')">List View</button>
+          <button class="bsm" id="leadCardViewBtn" onclick="setLeadView('cards')">Card View</button>
+          <button class="bsm" id="handledToggleBtn" onclick="toggleHandledResults()"><span id="handledToggleLabel">Hide imported and declined</span></button>
         </div>
       </div>
 
@@ -498,7 +503,7 @@ a { color: inherit; text-decoration: none; }
 </div></div>
 
 <div class="modal-backdrop" id="contactsModalWrap"><div class="modal"><h3 id="contactsTitle">Contacts</h3><div class="modal-sub">Contact notes and contact tasks live here.</div><div class="contacts-list" id="contactsList"></div><div class="action-row"><button class="bsm" onclick="closeModal('contactsModalWrap')">Close</button></div></div></div>
-<div class="modal-backdrop" id="searchHistoryModalWrap"><div class="modal"><h3>Search History</h3><div class="modal-sub">Searches run in the last year.</div><div class="search-history-list" id="searchHistoryList"></div><div class="action-row"><button class="bsm" onclick="closeModal('searchHistoryModalWrap')">Close</button></div></div></div>
+<div class="modal-backdrop" id="searchHistoryModalWrap"><div class="modal" style="max-width:520px;"><div class="modal-topbar"><div class="modal-headcopy"><h3>Search History</h3><div class="modal-sub">Searches run in the last year.</div></div><button class="modal-close-x" onclick="closeModal('searchHistoryModalWrap')">Close</button></div><div class="search-history-list" id="searchHistoryList"></div></div></div>
 <div class="modal-backdrop" id="duplicateModalWrap"><div class="modal"><h3>Possible Duplicate Found</h3><div class="modal-sub">Review the existing CRM record and decide what to do.</div><div class="divider-title">Existing CRM Record</div><div id="duplicateExisting"></div><div class="divider-title">Incoming Lead</div><div id="duplicateIncoming"></div><div class="action-row"><button class="bsm" onclick="closeModal('duplicateModalWrap')">Cancel</button><button class="bsm ok" onclick="resolveDuplicate('update')">Update Existing</button><button class="bsm ora" onclick="resolveDuplicate('import_anyway')">Import Anyway</button></div></div></div>
 
 <div class="modal-backdrop" id="crmRecordModalWrap"><div class="modal"><h3 id="crmRecordTitle">CRM Record</h3><div class="modal-sub">Update status, notes, follow up, and deal details.</div>
@@ -617,6 +622,15 @@ function normalizeName(name){ return String(name || '').toLowerCase().replace(/\
 function genId(){ return 'crm_' + Math.random().toString(36).slice(2) + Date.now().toString(36); }
 function openModal(id){ const el = $(id); if (el) el.classList.add('open'); }
 function closeModal(id){ const el = $(id); if (el) el.classList.remove('open'); }
+function setupModalBackdropClose(){
+  document.querySelectorAll('.modal-backdrop').forEach(backdrop => {
+    if (backdrop.dataset.backdropBound === '1') return;
+    backdrop.dataset.backdropBound = '1';
+    backdrop.addEventListener('click', (event) => {
+      if (event.target === backdrop) backdrop.classList.remove('open');
+    });
+  });
+}
 function fallbackCopy(value){ const ta = document.createElement('textarea'); ta.value = value; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); } catch {} ta.remove(); }
 function copyText(value, title, body){ const v = String(value || ''); if (!v) return; if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(v).then(() => showToast(title, body)).catch(() => { fallbackCopy(v); showToast(title, body); }); } else { fallbackCopy(v); showToast(title, body); } }
 function showToast(title, body){ const wrap = $('toastWrap'); const item = document.createElement('div'); item.className = 'toast'; item.innerHTML = '<div class="toast-title">' + esc(title) + '</div><div class="toast-body">' + esc(body) + '</div>'; wrap.appendChild(item); setTimeout(() => item.remove(), 2500); }
@@ -809,6 +823,14 @@ function missingValue(value){
   return value ? esc(value) : '<span class="missing-value">Not found</span>';
 }
 
+function updateLeadControlButtons(){
+  const listBtn = $('leadListViewBtn');
+  const cardBtn = $('leadCardViewBtn');
+  const handledBtn = $('handledToggleBtn');
+  if (listBtn) listBtn.className = leadView === 'list' ? 'bsm ora' : 'bsm';
+  if (cardBtn) cardBtn.className = leadView === 'cards' ? 'bsm ora' : 'bsm';
+  if (handledBtn) handledBtn.className = handledFilterHidden ? 'bsm' : 'bsm ora';
+}
 function updateShellLayout(){
   const shell = document.querySelector('.shell');
   const leadsPanel = $('leadsStationPanel');
@@ -840,12 +862,12 @@ function showView(view){
   $('topCrm').classList.toggle('active', view === 'crm');
   $('topMarketing').classList.toggle('active', view === 'marketing');
   updateShellLayout();
-  if (view === 'leads') renderLeads();
+  if (view === 'leads') { updateLeadControlButtons(); renderLeads(); }
   if (view === 'crm') renderCrm();
   if (view === 'marketing') renderMarketing();
 }
 function enterStation(name){ showView(name); }
-function setLeadView(next){ leadView = next; updateShellLayout(); renderLeads(); }
+function setLeadView(next){ leadView = next; updateShellLayout(); updateLeadControlButtons(); renderLeads(); }
 function setMarketingView(next){ marketingView = next; updateShellLayout(); renderMarketing(); }
 
 function setProgress(pct, stage, sub){ $('progressPct').textContent = pct + '%'; $('progressStage').textContent = stage; $('progressSub').textContent = sub; $('progressFill').style.width = pct + '%'; }
@@ -1891,6 +1913,7 @@ async function runSearch(){
 
 loadState();
 restoreCurrentLeadsState();
+setupModalBackdropClose();
 if (Array.isArray(leads) && leads.length) markLeadHandledStates();
 updateDashboardSummary();
 updateQuickFilterPills();
