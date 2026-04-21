@@ -181,10 +181,15 @@ a { color: inherit; text-decoration: none; }
 .lead-card, .crm-card { background: #0f1623; border: 1px solid rgba(255,255,255,0.07); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
 .lead-card, .crm-card { min-height: 440px; }
 .crm-card.focused-detail { width: 100%; min-height: 520px; }
-.crm-card.focused-detail .card-columns { grid-template-columns: 1fr 1fr; gap: 18px; position: relative; align-items: stretch; }
-.crm-card.focused-detail .card-columns::after { content:''; position:absolute; left:50%; top:10px; bottom:10px; width:1px; background:rgba(255,255,255,0.08); transform:translateX(-50%); }
+.crm-card.focused-detail .card-columns { grid-template-columns: 1.15fr .85fr; gap: 20px; position: relative; align-items: stretch; }
+.crm-card.focused-detail .card-columns::after { content:''; position:absolute; left:57.5%; top:10px; bottom:10px; width:1px; background:rgba(255,255,255,0.08); transform:translateX(-50%); }
 .crm-card.focused-detail .column-stack { gap: 12px; }
+.crm-card.focused-detail .focused-left-stack { padding-right: 12px; }
+.crm-card.focused-detail .focused-right-stack { padding-left: 16px; }
 .focused-status-select { width: 100%; background: #161e30; color: #e8edf5; border: 1px solid rgba(249,115,22,0.22); border-radius: 10px; padding: 10px 12px; font: inherit; outline: none; }
+.crm-workspace-box { background: rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 12px; min-height: 82px; }
+.crm-workspace-box .block-label { margin-bottom: 8px; }
+.crm-workspace-placeholder { font-size: 12px; color: #8fa3c0; line-height: 1.45; }
 .lead-head, .crm-head { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
 .lead-title, .crm-title { font-family:'Syne',sans-serif; font-size:16px; font-weight:800; color:#e8edf5; line-height:1.2; }
 .lead-sub, .crm-sub { font-size:11px; color:#8fa3c0; line-height:1.45; margin-top:4px; }
@@ -1532,37 +1537,51 @@ function buildCrmMirrorCard(r){
   const isFocused = activeCrmThumbRecordId === r.crmId;
   const contactsCount = Math.max(0, (Array.isArray(r.contacts) ? r.contacts.length : 0) - 1);
   const contactsPill = '<button class="secondary-pill secondary-pill-btn contact-pill ' + (contactsCount > 0 ? 'active' : '') + '" onclick="openContactsByRecord(\'' + r.crmId + '\')"><div class="block-label">More Contacts</div><div class="block-value">(' + contactsCount + ')</div></button>';
-  const statusBlock = isFocused
-    ? '<div class="block"><div class="block-label">Status</div><select class="focused-status-select" onchange="quickStatusUpdate(\'' + r.crmId + '\', this.value)">' +
-        '<option value="new"' + (r.status === 'new' ? ' selected' : '') + '>New</option>' +
-        '<option value="emailed"' + (r.status === 'emailed' ? ' selected' : '') + '>Emailed</option>' +
-        '<option value="called_or_texted"' + (r.status === 'called_or_texted' ? ' selected' : '') + '>Called or Texted</option>' +
-        '<option value="need_new_contact_info"' + (r.status === 'need_new_contact_info' ? ' selected' : '') + '>Need New Contact Info</option>' +
-        '<option value="replied"' + (r.status === 'replied' ? ' selected' : '') + '>Replied</option>' +
-        '<option value="interested"' + (r.status === 'interested' ? ' selected' : '') + '>Interested</option>' +
-        '<option value="follow_up_needed"' + (r.status === 'follow_up_needed' ? ' selected' : '') + '>Follow Up Needed</option>' +
-        '<option value="meeting_booked"' + (r.status === 'meeting_booked' ? ' selected' : '') + '>Meeting Booked</option>' +
-        '<option value="proposal_sent"' + (r.status === 'proposal_sent' ? ' selected' : '') + '>Proposal Sent</option>' +
-        '<option value="negotiating"' + (r.status === 'negotiating' ? ' selected' : '') + '>Negotiating</option>' +
-        '<option value="closed_won"' + (r.status === 'closed_won' ? ' selected' : '') + '>Closed Won</option>' +
-        '<option value="closed_lost"' + (r.status === 'closed_lost' ? ' selected' : '') + '>Closed Lost</option>' +
-      '</select></div>'
-    : '';
+  const focusedRightColumn = isFocused
+    ? '<div class="column-stack focused-right-stack">' +
+        '<div class="crm-workspace-box"><div class="block-label">Status</div><select class="focused-status-select" onchange="quickStatusUpdate(\'' + r.crmId + '\', this.value)">' +
+          '<option value="new"' + (r.status === 'new' ? ' selected' : '') + '>New</option>' +
+          '<option value="emailed"' + (r.status === 'emailed' ? ' selected' : '') + '>Emailed</option>' +
+          '<option value="called_or_texted"' + (r.status === 'called_or_texted' ? ' selected' : '') + '>Called or Texted</option>' +
+          '<option value="need_new_contact_info"' + (r.status === 'need_new_contact_info' ? ' selected' : '') + '>Need New Contact Info</option>' +
+          '<option value="replied"' + (r.status === 'replied' ? ' selected' : '') + '>Replied</option>' +
+          '<option value="interested"' + (r.status === 'interested' ? ' selected' : '') + '>Interested</option>' +
+          '<option value="follow_up_needed"' + (r.status === 'follow_up_needed' ? ' selected' : '') + '>Follow Up Needed</option>' +
+          '<option value="meeting_booked"' + (r.status === 'meeting_booked' ? ' selected' : '') + '>Meeting Booked</option>' +
+          '<option value="proposal_sent"' + (r.status === 'proposal_sent' ? ' selected' : '') + '>Proposal Sent</option>' +
+          '<option value="negotiating"' + (r.status === 'negotiating' ? ' selected' : '') + '>Negotiating</option>' +
+          '<option value="closed_won"' + (r.status === 'closed_won' ? ' selected' : '') + '>Closed Won</option>' +
+          '<option value="closed_lost"' + (r.status === 'closed_lost' ? ' selected' : '') + '>Closed Lost</option>' +
+        '</select></div>' +
+        '<div class="crm-workspace-box"><div class="block-label">Lead Owner</div><div class="crm-workspace-placeholder">' + esc(r.leadOwner || 'Reserved for owner assignment and responsibility tracking.') + '</div></div>' +
+        '<div class="crm-workspace-box"><div class="block-label">Service Interest</div><div class="crm-workspace-placeholder">' + esc(r.serviceInterest || 'Reserved for service fit, interest notes, and opportunity tags.') + '</div></div>' +
+        '<div class="crm-workspace-box"><div class="block-label">Follow Up Workspace</div><div class="crm-workspace-placeholder">Reserved for next action, reminders, and workflow tools.</div></div>' +
+        '<div class="crm-workspace-box"><div class="block-label">CRM Notes</div><div class="crm-workspace-placeholder">Reserved for internal notes, sales observations, and future modules.</div></div>' +
+      '</div>'
+    : '<div class="column-stack">' +
+        '<div class="' + fieldBlockClass(r, 'primaryContactName') + '"><div class="' + fieldLabelClass(r, 'primaryContactName') + '">' + missingLabel('Primary Contact', r.primaryContactName) + '</div><div class="block-value ' + valueClass(r, 'primaryContactName') + '">' + (r.primaryContactName ? renderContactNameAction(r) : '<span class="missing-value">Not found</span>') + '</div><div class="crm-sub ' + valueClass(r, 'primaryContactTitle') + '">' + esc(r.primaryContactTitle || '') + '</div></div>' +
+        '<div class="' + fieldBlockClass(r, 'primaryContactPhone') + '"><div class="' + fieldLabelClass(r, 'primaryContactPhone') + '">' + missingLabel('Primary Contact Phone', r.primaryContactPhone) + '</div><div class="block-value ' + valueClass(r, 'primaryContactPhone') + '">' + (r.primaryContactPhone ? renderPrimaryContactPhoneAction(r) : '<span class="missing-value">Not found</span>') + '</div></div>' +
+        '<div class="' + fieldBlockClass(r, 'primaryContactEmail') + '"><div class="' + fieldLabelClass(r, 'primaryContactEmail') + '">' + missingLabel('Primary Contact Email', r.primaryContactEmail) + '</div><div class="block-value ' + valueClass(r, 'primaryContactEmail') + '">' + (r.primaryContactEmail ? renderPrimaryContactEmailAction(r) : '<span class="missing-value">Not found</span>') + '</div></div>' +
+      '</div>';
+  const leftColumn = isFocused
+    ? '<div class="column-stack focused-left-stack">' +
+        '<div class="' + fieldBlockClass(r, 'industry') + '"><div class="' + fieldLabelClass(r, 'industry') + '">' + missingLabel('Industry', r.industry) + '</div><div class="block-value ' + valueClass(r, 'industry') + '">' + missingValue(r.industry) + '</div></div>' +
+        '<div class="' + fieldBlockClass(r, 'website') + '"><div class="' + fieldLabelClass(r, 'website') + '">' + missingLabel('Website', r.website) + '</div><div class="block-value ' + valueClass(r, 'website') + '">' + (r.website ? renderWebsiteLink(r.website) : '<span class="field-chip-none">None</span>') + '</div></div>' +
+        '<div class="' + fieldBlockClass(r, 'businessPhone') + '"><div class="' + fieldLabelClass(r, 'businessPhone') + '">' + missingLabel('Business Phone', r.businessPhone) + '</div><div class="block-value ' + valueClass(r, 'businessPhone') + '">' + (r.businessPhone ? renderPhoneAction(r.businessPhone, r.crmId, 'business_phone') : '<span class="missing-value">Not found</span>') + '</div></div>' +
+        '<div class="' + fieldBlockClass(r, 'companyEmail') + '"><div class="' + fieldLabelClass(r, 'companyEmail') + '">' + missingLabel('Company Email', r.companyEmail) + '</div><div class="block-value ' + valueClass(r, 'companyEmail') + '">' + (r.companyEmail ? renderEmailAction(r.companyEmail, r.crmId, 'company_email') : '<span class="field-chip-none">None</span>') + '</div></div>' +
+        '<div class="' + fieldBlockClass(r, 'primaryContactName') + '"><div class="' + fieldLabelClass(r, 'primaryContactName') + '">' + missingLabel('Primary Contact', r.primaryContactName) + '</div><div class="block-value ' + valueClass(r, 'primaryContactName') + '">' + (r.primaryContactName ? renderContactNameAction(r) : '<span class="missing-value">Not found</span>') + '</div><div class="crm-sub ' + valueClass(r, 'primaryContactTitle') + '">' + esc(r.primaryContactTitle || '') + '</div></div>' +
+        '<div class="' + fieldBlockClass(r, 'primaryContactPhone') + '"><div class="' + fieldLabelClass(r, 'primaryContactPhone') + '">' + missingLabel('Primary Contact Phone', r.primaryContactPhone) + '</div><div class="block-value ' + valueClass(r, 'primaryContactPhone') + '">' + (r.primaryContactPhone ? renderPrimaryContactPhoneAction(r) : '<span class="missing-value">Not found</span>') + '</div></div>' +
+        '<div class="' + fieldBlockClass(r, 'primaryContactEmail') + '"><div class="' + fieldLabelClass(r, 'primaryContactEmail') + '">' + missingLabel('Primary Contact Email', r.primaryContactEmail) + '</div><div class="block-value ' + valueClass(r, 'primaryContactEmail') + '">' + (r.primaryContactEmail ? renderPrimaryContactEmailAction(r) : '<span class="missing-value">Not found</span>') + '</div></div>' +
+      '</div>'
+    : '<div class="column-stack">' +
+        '<div class="' + fieldBlockClass(r, 'industry') + '"><div class="' + fieldLabelClass(r, 'industry') + '">' + missingLabel('Industry', r.industry) + '</div><div class="block-value ' + valueClass(r, 'industry') + '">' + missingValue(r.industry) + '</div></div>' +
+        '<div class="' + fieldBlockClass(r, 'website') + '"><div class="' + fieldLabelClass(r, 'website') + '">' + missingLabel('Website', r.website) + '</div><div class="block-value ' + valueClass(r, 'website') + '">' + (r.website ? renderWebsiteLink(r.website) : '<span class="field-chip-none">None</span>') + '</div></div>' +
+        '<div class="' + fieldBlockClass(r, 'businessPhone') + '"><div class="' + fieldLabelClass(r, 'businessPhone') + '">' + missingLabel('Business Phone', r.businessPhone) + '</div><div class="block-value ' + valueClass(r, 'businessPhone') + '">' + (r.businessPhone ? renderPhoneAction(r.businessPhone, r.crmId, 'business_phone') : '<span class="missing-value">Not found</span>') + '</div></div>' +
+        '<div class="' + fieldBlockClass(r, 'companyEmail') + '"><div class="' + fieldLabelClass(r, 'companyEmail') + '">' + missingLabel('Company Email', r.companyEmail) + '</div><div class="block-value ' + valueClass(r, 'companyEmail') + '">' + (r.companyEmail ? renderEmailAction(r.companyEmail, r.crmId, 'company_email') : '<span class="field-chip-none">None</span>') + '</div></div>' +
+      '</div>';
   return '<div class="crm-card' + (isFocused ? ' focused-detail' : '') + '" id="crmCard_' + r.crmId + '">' +
     '<div class="crm-head"><div><div class="crm-title"><button class="link-btn" onclick="openCrmRecord(\'' + r.crmId + '\')">' + titleWithCheck(r.businessName, r) + '</button></div><div class="crm-sub">' + esc(r.address || [r.city, r.state].filter(Boolean).join(', ')) + '</div></div><div class="badges"></div></div>' +
-    '<div class="card-columns"><div class="column-stack">' +
-    '<div class="' + fieldBlockClass(r, 'industry') + '"><div class="' + fieldLabelClass(r, 'industry') + '">' + missingLabel('Industry', r.industry) + '</div><div class="block-value ' + valueClass(r, 'industry') + '">' + missingValue(r.industry) + '</div></div>' +
-    '<div class="' + fieldBlockClass(r, 'website') + '"><div class="' + fieldLabelClass(r, 'website') + '">' + missingLabel('Website', r.website) + '</div><div class="block-value ' + valueClass(r, 'website') + '">' + (r.website ? renderWebsiteLink(r.website) : '<span class="field-chip-none">None</span>') + '</div></div>' +
-    '<div class="' + fieldBlockClass(r, 'businessPhone') + '"><div class="' + fieldLabelClass(r, 'businessPhone') + '">' + missingLabel('Business Phone', r.businessPhone) + '</div><div class="block-value ' + valueClass(r, 'businessPhone') + '">' + (r.businessPhone ? renderPhoneAction(r.businessPhone, r.crmId, 'business_phone') : '<span class="missing-value">Not found</span>') + '</div></div>' +
-    '<div class="' + fieldBlockClass(r, 'companyEmail') + '"><div class="' + fieldLabelClass(r, 'companyEmail') + '">' + missingLabel('Company Email', r.companyEmail) + '</div><div class="block-value ' + valueClass(r, 'companyEmail') + '">' + (r.companyEmail ? renderEmailAction(r.companyEmail, r.crmId, 'company_email') : '<span class="field-chip-none">None</span>') + '</div></div>' +
-    '</div><div class="column-stack">' +
-    statusBlock +
-    '<div class="' + fieldBlockClass(r, 'primaryContactName') + '"><div class="' + fieldLabelClass(r, 'primaryContactName') + '">' + missingLabel('Primary Contact', r.primaryContactName) + '</div><div class="block-value ' + valueClass(r, 'primaryContactName') + '">' + (r.primaryContactName ? renderContactNameAction(r) : '<span class="missing-value">Not found</span>') + '</div><div class="crm-sub ' + valueClass(r, 'primaryContactTitle') + '">' + esc(r.primaryContactTitle || '') + '</div></div>' +
-    '<div class="' + fieldBlockClass(r, 'primaryContactPhone') + '"><div class="' + fieldLabelClass(r, 'primaryContactPhone') + '">' + missingLabel('Primary Contact Phone', r.primaryContactPhone) + '</div><div class="block-value ' + valueClass(r, 'primaryContactPhone') + '">' + (r.primaryContactPhone ? renderPrimaryContactPhoneAction(r) : '<span class="missing-value">Not found</span>') + '</div></div>' +
-    '<div class="' + fieldBlockClass(r, 'primaryContactEmail') + '"><div class="' + fieldLabelClass(r, 'primaryContactEmail') + '">' + missingLabel('Primary Contact Email', r.primaryContactEmail) + '</div><div class="block-value ' + valueClass(r, 'primaryContactEmail') + '">' + (r.primaryContactEmail ? renderPrimaryContactEmailAction(r) : '<span class="missing-value">Not found</span>') + '</div></div>' +
-    (isFocused ? '<div class="block"><div class="block-label">Lead Owner</div><div class="block-value">' + esc(r.leadOwner || 'None') + '</div></div>' : '') +
-    (isFocused ? '<div class="block"><div class="block-label">Service Interest</div><div class="block-value">' + esc(r.serviceInterest || 'None') + '</div></div>' : '') +
-    '</div></div>' +
+    '<div class="card-columns">' + leftColumn + focusedRightColumn + '</div>' +
     '<div class="secondary-row">' + contactsPill + '<div class="secondary-pill"><div class="block-label">Employees</div><div class="block-value">' + esc(r.employees || 'Optional') + '</div></div><div class="secondary-pill"><div class="block-label">Revenue</div><div class="block-value">' + esc(r.revenue || 'Optional') + '</div></div></div>' +
     '<div class="action-row"><button class="bsm edit-strong" onclick="openCrmRecord(\'' + r.crmId + '\')">Edit Lead</button><button class="bsm" onclick="openContactsByRecord(\'' + r.crmId + '\')">Contacts</button><button class="bsm ai" onclick="openAiEnhancePlaceholder(' + "'crm'" + ')">AI Enhance</button>' + (r.aiLastEnhancedAt ? '<span class="ai-inline-meta">&#10003; ' + esc(formatEnhanceDate(r.aiLastEnhancedAt)) + '</span>' : '') + '</div>' +
     '<div class="card-footer-row"><div class="mini-enhance-note">Fast Google results first. AI enhance runs on demand.</div><div class="badges"><span class="badge ora">Google Places</span></div></div>' +
