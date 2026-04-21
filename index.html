@@ -1487,10 +1487,10 @@ function renderWebsiteLink(url){
   return url ? '<a href="' + esc(url) + '" target="_blank" class="link-btn">' + esc(url.replace(/^https?:\/\//,'').replace(/\/$/,'')) + '</a>' : '';
 }
 function renderWebsiteChip(url){
-  return url ? '<a href="' + esc(url) + '" target="_blank" class="field-chip-link">&#127760; Website</a>' : '<span class="field-chip-none">None</span>';
+  return url ? '<a href="' + esc(url) + '" target="_blank" class="field-chip-link" aria-label="Website">&#127760;</a>' : '<span class="field-chip-none">None</span>';
 }
 function renderEmailChip(email){
-  return email ? '<span class="field-chip-link">&#9993;&#65039; Email</span>' : '<span class="field-chip-none">None</span>';
+  return email ? '<span class="field-chip-link" aria-label="Email">&#9993;&#65039;</span>' : '<span class="field-chip-none">None</span>';
 }
 function renderEmailAction(email, crmId, missingField){
   if (email) {
@@ -1669,10 +1669,14 @@ function renderCrm(){
   updateCrmQuickFilterCounts();
   const thumbStrip = $('crmThumbStrip');
   const focusedBackRow = $('crmFocusedBackRow');
+  const crmSectionWrap = document.querySelector('#viewCrm .section-wrap');
+  const crmControlsRow = document.querySelector('#viewCrm .back-row[style="margin-top:6px;"]');
   if (thumbStrip) thumbStrip.classList.toggle('hidden', crmView !== 'cards' || !!activeCrmThumbRecordId);
   if (focusedBackRow) focusedBackRow.classList.toggle('hidden', !activeCrmThumbRecordId);
+  if (crmSectionWrap) crmSectionWrap.classList.toggle('hidden', !!activeCrmThumbRecordId);
+  if (crmControlsRow) crmControlsRow.classList.toggle('hidden', !!activeCrmThumbRecordId);
   renderCrmThumbStrip(activeCrmThumbRecordId ? crmRecords.filter(r => r.crmId !== activeCrmThumbRecordId) : records);
-  $('crmListWrap').classList.toggle('hidden', crmView !== 'list');
+  $('crmListWrap').classList.toggle('hidden', crmView !== 'list' || !!activeCrmThumbRecordId);
   $('crmCardsWrap').classList.toggle('hidden', crmView !== 'cards');
 
   if (crmView === 'list') {
