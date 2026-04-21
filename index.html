@@ -210,13 +210,13 @@ a { color: inherit; text-decoration: none; }
 .crm-mini { font-size:11px; color:#8fa3c0; }
 .crm-actions { display:flex; gap:8px; flex-wrap:wrap; }
 .crm-thumb-strip { display:grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap:10px; margin: 6px 0 14px; }
-.crm-thumb-card { background: rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:14px; padding:10px; cursor:pointer; }
+.crm-thumb-card { background: rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:14px; padding:12px 10px; cursor:pointer; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; text-align:center; min-height:170px; }
 .crm-thumb-card:hover { border-color: rgba(249,115,22,0.35); background: rgba(249,115,22,0.08); }
-.crm-thumb-name { font-family:'Syne',sans-serif; font-size:13px; font-weight:700; color:#e8edf5; line-height:1.2; margin-bottom:6px; }
-.crm-thumb-line { font-size:11px; color:#8fa3c0; line-height:1.35; word-break: break-word; }
-.crm-thumb-status { display:inline-flex; align-items:center; padding:3px 8px; border-radius:999px; font-size:10px; font-weight:700; margin-top:8px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); color:#cdd6e6; }
-.crm-thumb-actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
-.crm-thumb-action { display:inline-flex; align-items:center; gap:6px; color:#fb923c; font-weight:700; text-decoration:none; padding:4px 8px; border-radius:999px; border:1px solid rgba(249,115,22,0.22); background:rgba(249,115,22,0.08); }
+.crm-thumb-name { font-family:'Syne',sans-serif; font-size:13px; font-weight:700; color:#e8edf5; line-height:1.2; margin-bottom:6px; text-align:center; }
+.crm-thumb-line { font-size:11px; color:#8fa3c0; line-height:1.35; word-break: break-word; text-align:center; }
+.crm-thumb-status { display:inline-flex; align-items:center; justify-content:center; padding:3px 8px; border-radius:999px; font-size:10px; font-weight:700; margin-top:10px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); color:#cdd6e6; }
+.crm-thumb-actions { display:flex; flex-direction:column; align-items:center; gap:8px; margin-top:10px; width:100%; }
+.crm-thumb-action { display:inline-flex; align-items:center; justify-content:center; gap:6px; color:#fb923c; font-weight:700; text-decoration:none; padding:6px 10px; border-radius:999px; border:1px solid rgba(249,115,22,0.22); background:rgba(249,115,22,0.08); min-width:128px; }
 .crm-thumb-action:hover { text-decoration:none; border-color:rgba(249,115,22,0.38); background:rgba(249,115,22,0.14); }
 
 .modal-backdrop { position: fixed; inset: 0; background: rgba(8,12,24,0.86); backdrop-filter: blur(8px); display:none; align-items:center; justify-content:center; z-index:100; padding:16px; }
@@ -1603,18 +1603,22 @@ function crmStatusBadgeClass(status){
   return 'badge';
 }
 function openCrmThumbnail(crmId){
-  if (crmView !== 'cards') setCrmView('cards');
-  setTimeout(() => {
-    const target = document.getElementById('crmCard_' + crmId);
-    if (!target) return;
-    target.scrollIntoView({ behavior:'smooth', block:'start' });
-    target.style.borderColor = 'rgba(249,115,22,0.45)';
-    target.style.boxShadow = '0 0 0 1px rgba(249,115,22,0.15)';
+  if (crmView !== 'cards') {
+    setCrmView('cards');
+  }
+  requestAnimationFrame(() => {
     setTimeout(() => {
-      target.style.borderColor = '';
-      target.style.boxShadow = '';
-    }, 1800);
-  }, 150);
+      const target = document.getElementById('crmCard_' + crmId);
+      if (!target) return;
+      target.scrollIntoView({ behavior:'smooth', block:'start' });
+      target.style.borderColor = 'rgba(249,115,22,0.45)';
+      target.style.boxShadow = '0 0 0 1px rgba(249,115,22,0.15)';
+      setTimeout(() => {
+        target.style.borderColor = '';
+        target.style.boxShadow = '';
+      }, 1800);
+    }, 120);
+  });
 }
 function stopThumbClick(event){
   if (event) {
@@ -1640,8 +1644,8 @@ function renderCrmThumbStrip(records){
     '<div class="crm-thumb-line">' + esc([r.city, r.state].filter(Boolean).join(', ')) + '</div>' +
     '<div class="crm-thumb-line">' + esc(r.businessPhone || 'No phone') + '</div>' +
     '<div class="crm-thumb-actions">' +
-      (r.website ? '<a href="#" class="crm-thumb-action" onclick="openThumbWebsite(event, \'' + esc(r.website) + '\')">&#127760; Website</a>' : '<span class="field-chip-none">None</span>') +
-      (r.companyEmail ? '<a href="#" class="crm-thumb-action" onclick="openThumbEmail(event, \'' + esc(r.companyEmail) + '\')">&#9993;&#65039; Email</a>' : '<span class="field-chip-none">None</span>') +
+      (r.website ? '<button type="button" class="crm-thumb-action" onclick="openThumbWebsite(event, \'' + esc(r.website) + '\')">&#127760; Website</button>' : '<span class="field-chip-none">None</span>') +
+      (r.companyEmail ? '<button type="button" class="crm-thumb-action" onclick="openThumbEmail(event, \'' + esc(r.companyEmail) + '\')">&#9993;&#65039; Email</button>' : '<span class="field-chip-none">None</span>') +
     '</div>' +
     '<div class="' + crmStatusBadgeClass(r.status) + ' crm-thumb-status">' + esc(statusLabel(r.status || 'new')) + '</div>' +
     '</div>').join('');
