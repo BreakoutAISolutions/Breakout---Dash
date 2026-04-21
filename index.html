@@ -43,10 +43,10 @@ a { color: inherit; text-decoration: none; }
 .hero-pill::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: #34d399; box-shadow: 0 0 8px #34d399; }
 
 .metric-bar { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 0; background: #0f1623; border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; overflow: hidden; margin-bottom: 16px; }
-.metric { text-align: center; padding: 18px 10px; border-right: 1px solid rgba(255,255,255,0.06); }
+.metric { text-align: center; padding: 18px 10px; border-right: 1px solid rgba(255,255,255,0.06); min-width: 0; }
 .metric:last-child { border-right: none; }
-.metric strong { display: block; font-family: 'Syne', sans-serif; font-size: 34px; line-height: 1; margin-bottom: 6px; }
-.metric span { display: block; font-size: 11px; color: #4a6080; letter-spacing: .6px; text-transform: uppercase; }
+.metric strong { display: block; font-family: 'Syne', sans-serif; font-size: 34px; line-height: 1; margin-bottom: 6px; white-space: nowrap; }
+.metric span { display: block; font-size: 11px; color: #4a6080; letter-spacing: .6px; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 .dashboard-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 14px; }
 .station-card { background: #0f1623; border: 1px solid rgba(255,255,255,0.07); border-radius: 18px; padding: 18px; min-height: 208px; display: flex; flex-direction: column; justify-content: space-between; transition: transform .15s ease, border-color .15s ease, background .15s ease; }
@@ -252,12 +252,16 @@ a { color: inherit; text-decoration: none; }
   .dashboard-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .results-grid { grid-template-columns: 1fr; }
   .card-columns { grid-template-columns: 1fr; }
-  .metric-bar { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .metric { padding: 14px 8px; }
+  .metric strong { font-size: 28px; }
+  .metric span { font-size: 10px; letter-spacing: .4px; }
 }
 @media (max-width: 680px) {
   .dashboard-grid { grid-template-columns: 1fr; }
   .hero h1 { font-size: 30px; }
-  .metric-bar { grid-template-columns: 1fr; }
+  .metric { padding: 10px 4px; }
+  .metric strong { font-size: 22px; }
+  .metric span { font-size: 8px; letter-spacing: .2px; }
 }
 </style>
 </head>
@@ -442,7 +446,7 @@ a { color: inherit; text-decoration: none; }
         </div>
         <div class="row2">
           <div><label class="flabel">Filter by Status</label>
-            <select class="sel" id="crmStatusFilter" onchange="activeCrmThumbRecordId=''; renderCrm()">
+            <select class="sel" id="crmStatusFilter" onchange="activeCrmThumbRecordId=''; saveCurrentLeadsState(); renderCrm()">
               <option value="">All</option>
               <option value="new">New</option>
               <option value="emailed">Emailed</option>
@@ -458,7 +462,7 @@ a { color: inherit; text-decoration: none; }
               <option value="closed_lost">Closed Lost</option>
             </select>
           </div>
-          <div><label class="flabel">Search CRM</label><input class="inp" id="crmSearch" placeholder="Business, contact, email, phone" oninput="activeCrmThumbRecordId=''; renderCrm()"></div>
+          <div><label class="flabel">Search CRM</label><input class="inp" id="crmSearch" placeholder="Business, contact, email, phone" oninput="activeCrmThumbRecordId=''; saveCurrentLeadsState(); renderCrm()"></div>
         </div>
       </div>
 
@@ -584,6 +588,7 @@ const CRM_KEY = 'bai_crm_records_master';
 const SEARCH_HISTORY_KEY = 'bai_search_history_master';
 const CURRENT_LEADS_STATE_KEY = 'bai_current_leads_state';
 const DECLINED_LEADS_KEY = 'bai_declined_leads_state';
+const CURRENT_VIEW_KEY = 'bai_current_view_state';
 const LEGACY_CRM_KEYS = ['bai_crm_records_master','bai_crm_records_v4_fix','bai_crm_records_v4','bai_crm_records_v3','bai_crm_records_v2','bai_crm_records'];
 const LEGACY_HISTORY_KEYS = ['bai_search_history_master','bai_search_history_v4_fix','bai_search_history_v4','bai_search_history_v3','bai_search_history'];
 let currentView = 'home';
@@ -820,14 +825,22 @@ function saveCurrentLeadsState(){
       leads,
       handledFilterHidden,
       leadView,
+      crmView,
+      currentView,
+      activeCrmThumbRecordId,
+      activeQuickFilter,
+      activeLeadSummaryFilter,
       selectedLeadIds,
       searchType: $('searchType') ? $('searchType').value : '',
       searchCity: $('searchCity') ? $('searchCity').value : '',
       searchRating: $('searchRating') ? $('searchRating').value : '',
       searchLimit: $('searchLimit') ? $('searchLimit').value : '',
-      searchCenters: $('searchCenters') ? $('searchCenters').value : ''
+      searchCenters: $('searchCenters') ? $('searchCenters').value : '',
+      crmStatusFilter: $('crmStatusFilter') ? $('crmStatusFilter').value : '',
+      crmSearch: $('crmSearch') ? $('crmSearch').value : ''
     };
     localStorage.setItem(CURRENT_LEADS_STATE_KEY, JSON.stringify(payload));
+    localStorage.setItem(CURRENT_VIEW_KEY, currentView || 'home');
   } catch {}
 }
 function removeLeadIndexesFromQueue(indexes){
@@ -847,9 +860,16 @@ function restoreCurrentLeadsState(){
     if ($('searchRating') && typeof payload.searchRating === 'string') $('searchRating').value = payload.searchRating;
     if ($('searchLimit') && typeof payload.searchLimit === 'string') $('searchLimit').value = payload.searchLimit;
     if ($('searchCenters') && typeof payload.searchCenters === 'string') $('searchCenters').value = payload.searchCenters;
+    if ($('crmStatusFilter') && typeof payload.crmStatusFilter === 'string') $('crmStatusFilter').value = payload.crmStatusFilter;
+    if ($('crmSearch') && typeof payload.crmSearch === 'string') $('crmSearch').value = payload.crmSearch;
     if (Array.isArray(payload.leads)) leads = payload.leads;
     if (typeof payload.handledFilterHidden === 'boolean') handledFilterHidden = payload.handledFilterHidden;
     if (payload.leadView === 'list' || payload.leadView === 'cards') leadView = payload.leadView;
+    if (payload.crmView === 'list' || payload.crmView === 'cards') crmView = payload.crmView;
+    if (payload.currentView === 'home' || payload.currentView === 'leads' || payload.currentView === 'crm' || payload.currentView === 'marketing') currentView = payload.currentView;
+    if (typeof payload.activeCrmThumbRecordId === 'string') activeCrmThumbRecordId = payload.activeCrmThumbRecordId;
+    if (typeof payload.activeQuickFilter === 'string') activeQuickFilter = payload.activeQuickFilter;
+    if (typeof payload.activeLeadSummaryFilter === 'string') activeLeadSummaryFilter = payload.activeLeadSummaryFilter;
     if (Array.isArray(payload.selectedLeadIds)) selectedLeadIds = payload.selectedLeadIds;
   } catch {}
 }
@@ -890,6 +910,7 @@ function updateShellLayout(){
 }
 function showView(view){
   currentView = view;
+  try { localStorage.setItem(CURRENT_VIEW_KEY, currentView || 'home'); } catch {}
   $('viewHome').classList.toggle('hidden', view !== 'home');
   $('viewLeads').classList.toggle('hidden', view !== 'leads');
   $('viewCrm').classList.toggle('hidden', view !== 'crm');
@@ -1593,9 +1614,10 @@ function updateCrmViewButtons(){
   if (listBtn) listBtn.className = crmView === 'list' ? 'bsm ora' : 'bsm';
   if (cardBtn) cardBtn.className = crmView === 'cards' ? 'bsm ora' : 'bsm';
 }
-function setCrmView(next){ crmView = next; if (next !== 'cards') activeCrmThumbRecordId = ''; updateShellLayout(); updateCrmViewButtons(); renderCrm(); }
+function setCrmView(next){ crmView = next; if (next !== 'cards') activeCrmThumbRecordId = ''; saveCurrentLeadsState(); updateShellLayout(); updateCrmViewButtons(); renderCrm(); }
 function setQuickCrmFilter(value){
   activeQuickFilter = value;
+  saveCurrentLeadsState();
   updateQuickFilterPills();
   renderCrm();
 }
@@ -1658,6 +1680,7 @@ function crmStatusBadgeClass(status){
 function openCrmThumbnail(crmId){
   activeCrmThumbRecordId = crmId;
   if (crmView !== 'cards') crmView = 'cards';
+  saveCurrentLeadsState();
   updateShellLayout();
   updateCrmViewButtons();
   renderCrm();
@@ -1705,10 +1728,12 @@ function renderCrmThumbStrip(records){
 }
 function clearCrmThumbnailFocus(){
   activeCrmThumbRecordId = '';
+  saveCurrentLeadsState();
   renderCrm();
 }
 
 function renderCrm(){
+  saveCurrentLeadsState();
   const records = filteredCrmRecords();
   updateQuickFilterPills();
   updateCrmQuickFilterCounts();
@@ -2100,7 +2125,15 @@ updateDashboardSummary();
 updateQuickFilterPills();
 updateCrmQuickFilterCounts();
 updateHandledToggleButton();
-showView('home');
+const savedView = (() => {
+  try {
+    const v = localStorage.getItem(CURRENT_VIEW_KEY);
+    return (v === 'home' || v === 'leads' || v === 'crm' || v === 'marketing') ? v : (currentView || 'home');
+  } catch {
+    return currentView || 'home';
+  }
+})();
+showView(savedView);
 </script>
 </body>
 </html>
